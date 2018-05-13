@@ -14,9 +14,8 @@ Umbrella Architecture
 
 We illustrate Umbrella architecture as follows: 
 
-.. image:: https://github.com/umbrella-project/umbrella/blob/master/images/Umbrella.png
-    :width: 400px
-    :alt: The input image
+.. image:: /images/Umbrella.png
+   
 
 
 Getting Started
