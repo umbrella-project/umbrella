@@ -48,6 +48,13 @@ Installation
 Run a Sample Application
 ------------------------
 
+To run an SDN application that we implemented using Umbrella APIs, we can use the following commands::
+    
+     $ cd umbrella
+     $ mvn package
+     $ java -cp target/umbrella-[Version]-SNAPSHOT-jar-with-dependencies.jar apps.[Application filename]
+
+
 
 Umbrella APIs
 =============
