@@ -14,7 +14,7 @@ Umbrella Architecture
 
 We illustrate Umbrella architecture as follows: 
 
-![Figure 1](https://github.com/umbrella/blob/master/images/Umbrella.png)
+![Figure 1](https://github.com/umbrella-project/umbrella/blob/master/images/Umbrella.png)
 
 
 
