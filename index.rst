@@ -12,6 +12,9 @@ The Northbound (NB) APIs that SDN controllers provide differ in terms of archite
 Umbrella Architecture
 ---------------------
 
+We illustrate Umbrella architecture as follows: 
+
+![Figure 1](https://github.com/umbrella/blob/master/images/Umbrella.png)
 
 
 
