@@ -115,7 +115,7 @@ Suppose we would like to write an application to route traffic between all of th
 
 .. code-block:: java
 
-for(TopoHost srcHost: srchosts)
+    for(TopoHost srcHost: srchosts)
         {
             for(TopoHost dstHost: dsthosts)
             {
