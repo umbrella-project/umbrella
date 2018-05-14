@@ -1,0 +1,570 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Firewall Application &mdash; Umbrella 1.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Forwarding Application" href="forwarding.html" /> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> Umbrella
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="apis.html">Umbrella APIs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="apps.html">Sample Applications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="forwarding.html">Forwarding Application</a></li>
+<li class="toctree-l1"><a class="reference internal" href="forwarding.html#testing-the-forwarding-application-on-onos-controller">Testing the Forwarding Application on ONOS controller</a></li>
+<li class="toctree-l1"><a class="reference internal" href="forwarding.html#testing-the-forwarding-application-on-opendaylight-controller">Testing the Forwarding Application on OpenDayLight controller</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Firewall Application</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#testing-the-forwarding-application-on-onos-controller">Testing the Forwarding Application on ONOS controller</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#testing-the-forwarding-application-on-opendaylight-controller">Testing the Forwarding Application on OpenDayLight controller</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Umbrella</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Firewall Application</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/firewall.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="firewall-application">
+<h1>Firewall Application<a class="headerlink" href="#firewall-application" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li>Suppose we would like to implement a simple firewall application  to enforce the following access control policy for a network topology that all of the hosts belong to the same subnet.</li>
+</ul>
+<table border="1" class="docutils">
+<colgroup>
+<col width="17%" />
+<col width="21%" />
+<col width="21%" />
+<col width="21%" />
+<col width="21%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">&#160;</th>
+<th class="head">H1 (10.0.0.1)</th>
+<th class="head">(H2) 10.0.0.2</th>
+<th class="head">(H3) 10.0.0.3</th>
+<th class="head">H4(10.0.0.4)</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>H1(10.0.0.1)</td>
+<td>NONE</td>
+<td>DENY</td>
+<td>WEB</td>
+<td>DENY</td>
+</tr>
+<tr class="row-odd"><td>H2(10.0.0.2)</td>
+<td>DENY</td>
+<td>NONE</td>
+<td>DNEY</td>
+<td>PING</td>
+</tr>
+<tr class="row-even"><td>H3(10.0.0.3)</td>
+<td>WEB</td>
+<td>DENY</td>
+<td>NONE</td>
+<td>DENY</td>
+</tr>
+<tr class="row-odd"><td>H4(10.0.0.4)</td>
+<td>DENY</td>
+<td>DENY</td>
+<td>PING</td>
+<td>NONE</td>
+</tr>
+</tbody>
+</table>
+<ul class="simple">
+<li>To achieve that goal, we implement an application using Umbrella APIs to generate and install appropriate forwarding rules on the switches between each pair of hosts: (h1,h3) and (h2, h4). We explain step by step how to write the mentioned application:</li>
+</ul>
+<ol class="arabic simple">
+<li>First, we need to create an instance of the controller that we would like to execute our application on. We assume that the name of controller will be passed as an argument to the forwarding application.</li>
+</ol>
+<div class="highlight-java"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="o">(</span><span class="n">args</span><span class="o">.</span><span class="na">length</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="o">)</span> <span class="o">{</span>
+     <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;Arguments: onos/odl&quot;</span><span class="o">);</span>
+ <span class="o">}</span>
+
+ <span class="n">Controller</span> <span class="n">controller</span><span class="o">;</span>
+
+ <span class="k">if</span> <span class="o">(</span><span class="n">args</span><span class="o">[</span><span class="mi">0</span><span class="o">].</span><span class="na">equalsIgnoreCase</span><span class="o">(</span><span class="s">&quot;onos&quot;</span><span class="o">))</span> <span class="o">{</span>
+     <span class="n">controller</span> <span class="o">=</span> <span class="k">new</span> <span class="n">OnosController</span><span class="o">();</span>
+ <span class="o">}</span> <span class="k">else</span> <span class="k">if</span> <span class="o">(</span><span class="n">args</span><span class="o">[</span><span class="mi">0</span><span class="o">].</span><span class="na">equalsIgnoreCase</span><span class="o">(</span><span class="s">&quot;odl&quot;</span><span class="o">))</span> <span class="o">{</span>
+     <span class="n">controller</span> <span class="o">=</span> <span class="k">new</span> <span class="n">OdlController</span><span class="o">();</span>
+ <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+     <span class="k">return</span><span class="o">;</span>
+ <span class="o">}</span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="2">
+<li>Second, we need to get the list of currents hosts and find a shortest path for each pair of hosts: (h1, h3) and (h2,h4).</li>
+<li>Third, we generate appropriate match-action fields for each pair of hosts based on the type of traffic which is specified in the table above. For the pair (h1, h3), we should use source and destination TCP ports (i.e. port 80 for web traffic) to route web traffic and for the pair (h2, h4) we should use ICMP type and code match fields (i.e. type=8 (echo request), type=0 (echo reply) and code=0) to route ICMP traffic. Note that for both types of traffic, we also use source and destination MAC addresses, source and destination IP addresses, Ethernet type, and IP protocol number as the match fields.</li>
+</ol>
+<div class="highlight-java"><div class="highlight"><pre><span></span><span class="n">Set</span><span class="o">&lt;</span><span class="n">TopoHost</span><span class="o">&gt;</span> <span class="n">srchosts</span> <span class="o">=</span> <span class="n">controller</span><span class="o">.</span><span class="na">topoStore</span><span class="o">.</span><span class="na">getHosts</span><span class="o">();</span>
+
+<span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">TopoHost</span><span class="o">&gt;</span> <span class="n">hosts</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="o">&lt;&gt;(</span><span class="n">srchosts</span><span class="o">);</span>
+
+<span class="n">List</span><span class="o">&lt;</span><span class="n">TopoEdge</span><span class="o">&gt;</span> <span class="n">fwPath</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+<span class="n">List</span><span class="o">&lt;</span><span class="n">TopoEdge</span><span class="o">&gt;</span> <span class="n">rvPath</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+
+
+<span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">hosts</span><span class="o">.</span><span class="na">size</span><span class="o">();</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+    <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="o">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">hosts</span><span class="o">.</span><span class="na">size</span><span class="o">();</span> <span class="n">j</span><span class="o">++)</span> <span class="o">{</span>
+        <span class="n">TopoHost</span> <span class="n">srcHost</span> <span class="o">=</span> <span class="n">hosts</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">i</span><span class="o">);</span>
+        <span class="n">TopoHost</span> <span class="n">dstHost</span> <span class="o">=</span> <span class="n">hosts</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">j</span><span class="o">);</span>
+
+
+        <span class="n">String</span> <span class="n">srcMac</span> <span class="o">=</span> <span class="n">srcHost</span><span class="o">.</span><span class="na">getHostMac</span><span class="o">();</span>
+        <span class="n">String</span> <span class="n">dstMac</span> <span class="o">=</span> <span class="n">dstHost</span><span class="o">.</span><span class="na">getHostMac</span><span class="o">();</span>
+
+        <span class="n">String</span> <span class="n">srcIP</span> <span class="o">=</span> <span class="n">srcHost</span><span class="o">.</span><span class="na">getHostIPAddresses</span><span class="o">().</span><span class="na">get</span><span class="o">(</span><span class="mi">0</span><span class="o">);</span>
+        <span class="n">String</span> <span class="n">dstIP</span> <span class="o">=</span> <span class="n">dstHost</span><span class="o">.</span><span class="na">getHostIPAddresses</span><span class="o">().</span><span class="na">get</span><span class="o">(</span><span class="mi">0</span><span class="o">);</span>
+
+        <span class="n">fwPath</span> <span class="o">=</span> <span class="n">controller</span><span class="o">.</span><span class="na">topoStore</span><span class="o">.</span><span class="na">getShortestPath</span><span class="o">(</span><span class="n">srcHost</span><span class="o">.</span><span class="na">getHostID</span><span class="o">(),</span> <span class="n">dstHost</span><span class="o">.</span><span class="na">getHostID</span><span class="o">());</span>
+        <span class="n">rvPath</span> <span class="o">=</span> <span class="n">controller</span><span class="o">.</span><span class="na">topoStore</span><span class="o">.</span><span class="na">getShortestPath</span><span class="o">(</span><span class="n">dstHost</span><span class="o">.</span><span class="na">getHostID</span><span class="o">(),</span> <span class="n">srcHost</span><span class="o">.</span><span class="na">getHostID</span><span class="o">());</span>
+
+        <span class="k">if</span> <span class="o">((</span><span class="n">srcIP</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="s">&quot;10.0.0.1&quot;</span><span class="o">)</span> <span class="o">&amp;&amp;</span> <span class="n">dstIP</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="s">&quot;10.0.0.3&quot;</span><span class="o">))</span>
+                <span class="o">||</span> <span class="o">(</span><span class="n">srcIP</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="s">&quot;10.0.0.3&quot;</span><span class="o">)</span> <span class="o">&amp;&amp;</span> <span class="n">dstIP</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="s">&quot;10.0.0.1&quot;</span><span class="o">)))</span> <span class="o">{</span>
+
+
+            <span class="n">FlowMatch</span> <span class="n">flowMatch</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+
+            <span class="k">for</span> <span class="o">(</span><span class="n">TopoEdge</span> <span class="n">edge</span> <span class="o">:</span> <span class="n">fwPath</span><span class="o">)</span> <span class="o">{</span>
+
+                <span class="k">if</span> <span class="o">(</span><span class="n">edge</span><span class="o">.</span><span class="na">getType</span><span class="o">()</span> <span class="o">==</span> <span class="n">TopoEdgeType</span><span class="o">.</span><span class="na">HOST_SWITCH</span><span class="o">)</span> <span class="o">{</span>
+                    <span class="k">continue</span><span class="o">;</span>
+                <span class="o">}</span>
+
+                <span class="n">flowMatch</span> <span class="o">=</span> <span class="n">FlowMatch</span><span class="o">.</span><span class="na">builder</span><span class="o">()</span>
+                        <span class="o">.</span><span class="na">ethSrc</span><span class="o">(</span><span class="n">srcMac</span><span class="o">)</span>
+                        <span class="o">.</span><span class="na">ethDst</span><span class="o">(</span><span class="n">dstMac</span><span class="o">)</span>
+                        <span class="o">.</span><span class="na">ipv4Src</span><span class="o">(</span><span class="n">srcHost</span><span class="o">.</span><span class="na">getHostIPAddresses</span><span class="o">().</span><span class="na">get</span><span class="o">(</span><span class="mi">0</span><span class="o">)</span> <span class="o">+</span> <span class="s">&quot;/32&quot;</span><span class="o">)</span>
+                        <span class="o">.</span><span class="na">ipv4Dst</span><span class="o">(</span><span class="n">dstHost</span><span class="o">.</span><span class="na">getHostIPAddresses</span><span class="o">().</span><span class="na">get</span><span class="o">(</span><span class="mi">0</span><span class="o">)</span> <span class="o">+</span> <span class="s">&quot;/32&quot;</span><span class="o">)</span>
+                        <span class="o">.</span><span class="na">ethType</span><span class="o">(</span><span class="mi">2048</span><span class="o">)</span>
+                        <span class="o">.</span><span class="na">ipProto</span><span class="o">(</span><span class="mi">6</span><span class="o">)</span>
+                        <span class="o">.</span><span class="na">tcpDst</span><span class="o">(</span><span class="mi">80</span><span class="o">)</span>
+                        <span class="o">.</span><span class="na">build</span><span class="o">();</span>
+
+
+                <span class="n">FlowAction</span> <span class="n">flowAction</span> <span class="o">=</span> <span class="k">new</span> <span class="n">FlowAction</span><span class="o">(</span><span class="n">FlowActionType</span><span class="o">.</span><span class="na">OUTPUT</span><span class="o">,</span>
+                        <span class="n">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span><span class="n">edge</span><span class="o">.</span><span class="na">getSrcPort</span><span class="o">()));</span>
+
+                <span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">FlowAction</span><span class="o">&gt;</span> <span class="n">flowActions</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">FlowAction</span><span class="o">&gt;();</span>
+                <span class="n">flowActions</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">flowAction</span><span class="o">);</span>
+
+                <span class="n">Flow</span> <span class="n">flow</span> <span class="o">=</span> <span class="n">Flow</span><span class="o">.</span><span class="na">builder</span><span class="o">()</span>
+                        <span class="o">.</span><span class="na">deviceID</span><span class="o">(</span><span class="n">edge</span><span class="o">.</span><span class="na">getSrc</span><span class="o">())</span>
+                        <span class="o">.</span><span class="na">tableID</span><span class="o">(</span><span class="mi">0</span><span class="o">)</span>
+                        <span class="o">.</span><span class="na">flowMatch</span><span class="o">(</span><span class="n">flowMatch</span><span class="o">)</span>
+                        <span class="o">.</span><span class="na">flowActions</span><span class="o">(</span><span class="n">flowActions</span><span class="o">)</span>
+                        <span class="o">.</span><span class="na">priority</span><span class="o">(</span><span class="mi">100</span><span class="o">)</span>
+                        <span class="o">.</span><span class="na">appId</span><span class="o">(</span><span class="s">&quot;Firewall&quot;</span><span class="o">)</span>
+                        <span class="o">.</span><span class="na">timeOut</span><span class="o">(</span><span class="mi">100</span><span class="o">)</span>
+                        <span class="o">.</span><span class="na">build</span><span class="o">();</span>
+
+                <span class="n">controller</span><span class="o">.</span><span class="na">flowService</span><span class="o">.</span><span class="na">addFlow</span><span class="o">(</span><span class="n">flow</span><span class="o">);</span>
+
+            <span class="o">}</span>
+
+            <span class="c1">// Reverse Path</span>
+
+            <span class="k">for</span> <span class="o">(</span><span class="n">TopoEdge</span> <span class="n">edge</span> <span class="o">:</span> <span class="n">rvPath</span><span class="o">)</span> <span class="o">{</span>
+
+                <span class="k">if</span> <span class="o">(</span><span class="n">edge</span><span class="o">.</span><span class="na">getType</span><span class="o">()</span> <span class="o">==</span> <span class="n">TopoEdgeType</span><span class="o">.</span><span class="na">HOST_SWITCH</span><span class="o">)</span> <span class="o">{</span>
+                    <span class="k">continue</span><span class="o">;</span>
+                <span class="o">}</span>
+
+                <span class="n">flowMatch</span> <span class="o">=</span> <span class="n">FlowMatch</span><span class="o">.</span><span class="na">builder</span><span class="o">()</span>
+                        <span class="o">.</span><span class="na">ethSrc</span><span class="o">(</span><span class="n">dstMac</span><span class="o">)</span>
+                        <span class="o">.</span><span class="na">ethDst</span><span class="o">(</span><span class="n">srcMac</span><span class="o">)</span>
+                        <span class="o">.</span><span class="na">ipv4Src</span><span class="o">(</span><span class="n">dstHost</span><span class="o">.</span><span class="na">getHostIPAddresses</span><span class="o">().</span><span class="na">get</span><span class="o">(</span><span class="mi">0</span><span class="o">)</span> <span class="o">+</span> <span class="s">&quot;/32&quot;</span><span class="o">)</span>
+                        <span class="o">.</span><span class="na">ipv4Dst</span><span class="o">(</span><span class="n">srcHost</span><span class="o">.</span><span class="na">getHostIPAddresses</span><span class="o">().</span><span class="na">get</span><span class="o">(</span><span class="mi">0</span><span class="o">)</span> <span class="o">+</span> <span class="s">&quot;/32&quot;</span><span class="o">)</span>
+                        <span class="o">.</span><span class="na">ethType</span><span class="o">(</span><span class="mi">2048</span><span class="o">)</span>
+                        <span class="o">.</span><span class="na">ipProto</span><span class="o">(</span><span class="mi">6</span><span class="o">)</span>
+                        <span class="o">.</span><span class="na">tcpSrc</span><span class="o">(</span><span class="mi">80</span><span class="o">)</span>
+                        <span class="o">.</span><span class="na">build</span><span class="o">();</span>
+
+
+                <span class="n">FlowAction</span> <span class="n">flowAction</span> <span class="o">=</span> <span class="k">new</span> <span class="n">FlowAction</span><span class="o">(</span><span class="n">FlowActionType</span><span class="o">.</span><span class="na">OUTPUT</span><span class="o">,</span>
+                        <span class="n">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span><span class="n">edge</span><span class="o">.</span><span class="na">getSrcPort</span><span class="o">()));</span>
+
+                <span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">FlowAction</span><span class="o">&gt;</span> <span class="n">flowActions</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">FlowAction</span><span class="o">&gt;();</span>
+                <span class="n">flowActions</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">flowAction</span><span class="o">);</span>
+
+                <span class="n">Flow</span> <span class="n">flow</span> <span class="o">=</span> <span class="n">Flow</span><span class="o">.</span><span class="na">builder</span><span class="o">()</span>
+                        <span class="o">.</span><span class="na">deviceID</span><span class="o">(</span><span class="n">edge</span><span class="o">.</span><span class="na">getSrc</span><span class="o">())</span>
+                        <span class="o">.</span><span class="na">tableID</span><span class="o">(</span><span class="mi">0</span><span class="o">)</span>
+                        <span class="o">.</span><span class="na">flowMatch</span><span class="o">(</span><span class="n">flowMatch</span><span class="o">)</span>
+                        <span class="o">.</span><span class="na">flowActions</span><span class="o">(</span><span class="n">flowActions</span><span class="o">)</span>
+                        <span class="o">.</span><span class="na">priority</span><span class="o">(</span><span class="mi">100</span><span class="o">)</span>
+                        <span class="o">.</span><span class="na">appId</span><span class="o">(</span><span class="s">&quot;Firewall&quot;</span><span class="o">)</span>
+                        <span class="o">.</span><span class="na">timeOut</span><span class="o">(</span><span class="mi">100</span><span class="o">)</span>
+                        <span class="o">.</span><span class="na">build</span><span class="o">();</span>
+
+                <span class="n">controller</span><span class="o">.</span><span class="na">flowService</span><span class="o">.</span><span class="na">addFlow</span><span class="o">(</span><span class="n">flow</span><span class="o">);</span>
+
+
+            <span class="o">}</span>
+
+
+        <span class="o">}</span>
+
+        <span class="k">if</span> <span class="o">((</span><span class="n">srcIP</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="s">&quot;10.0.0.2&quot;</span><span class="o">)</span> <span class="o">&amp;&amp;</span> <span class="n">dstIP</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="s">&quot;10.0.0.4&quot;</span><span class="o">))</span>
+                <span class="o">||</span> <span class="o">(</span><span class="n">srcIP</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="s">&quot;10.0.0.4&quot;</span><span class="o">)</span> <span class="o">&amp;&amp;</span> <span class="n">dstIP</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="s">&quot;10.0.0.2&quot;</span><span class="o">)))</span> <span class="o">{</span>
+
+
+            <span class="n">FlowMatch</span> <span class="n">flowMatch</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+
+            <span class="k">for</span> <span class="o">(</span><span class="n">TopoEdge</span> <span class="n">edge</span> <span class="o">:</span> <span class="n">fwPath</span><span class="o">)</span> <span class="o">{</span>
+
+                <span class="k">if</span> <span class="o">(</span><span class="n">edge</span><span class="o">.</span><span class="na">getType</span><span class="o">()</span> <span class="o">==</span> <span class="n">TopoEdgeType</span><span class="o">.</span><span class="na">HOST_SWITCH</span><span class="o">)</span> <span class="o">{</span>
+                    <span class="k">continue</span><span class="o">;</span>
+                <span class="o">}</span>
+
+
+                <span class="n">flowMatch</span> <span class="o">=</span> <span class="n">FlowMatch</span><span class="o">.</span><span class="na">builder</span><span class="o">()</span>
+                        <span class="o">.</span><span class="na">ethSrc</span><span class="o">(</span><span class="n">srcMac</span><span class="o">)</span>
+                        <span class="o">.</span><span class="na">ethDst</span><span class="o">(</span><span class="n">dstMac</span><span class="o">)</span>
+                        <span class="o">.</span><span class="na">ipv4Src</span><span class="o">(</span><span class="n">srcHost</span><span class="o">.</span><span class="na">getHostIPAddresses</span><span class="o">().</span><span class="na">get</span><span class="o">(</span><span class="mi">0</span><span class="o">)</span> <span class="o">+</span> <span class="s">&quot;/32&quot;</span><span class="o">)</span>
+                        <span class="o">.</span><span class="na">ipv4Dst</span><span class="o">(</span><span class="n">dstHost</span><span class="o">.</span><span class="na">getHostIPAddresses</span><span class="o">().</span><span class="na">get</span><span class="o">(</span><span class="mi">0</span><span class="o">)</span> <span class="o">+</span> <span class="s">&quot;/32&quot;</span><span class="o">)</span>
+                        <span class="o">.</span><span class="na">ipProto</span><span class="o">(</span><span class="mh">0x01</span><span class="o">)</span>
+                        <span class="o">.</span><span class="na">ethType</span><span class="o">(</span><span class="mi">2048</span><span class="o">)</span>
+                        <span class="o">.</span><span class="na">icmpv4_code</span><span class="o">(</span><span class="mh">0x0</span><span class="o">)</span>
+                        <span class="o">.</span><span class="na">icmpv4_type</span><span class="o">(</span><span class="mh">0x08</span><span class="o">)</span>
+                        <span class="o">.</span><span class="na">build</span><span class="o">();</span>
+
+
+                <span class="n">FlowAction</span> <span class="n">flowAction</span> <span class="o">=</span> <span class="k">new</span> <span class="n">FlowAction</span><span class="o">(</span><span class="n">FlowActionType</span><span class="o">.</span><span class="na">OUTPUT</span><span class="o">,</span>
+                        <span class="n">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span><span class="n">edge</span><span class="o">.</span><span class="na">getSrcPort</span><span class="o">()));</span>
+
+                <span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">FlowAction</span><span class="o">&gt;</span> <span class="n">flowActions</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">FlowAction</span><span class="o">&gt;();</span>
+                <span class="n">flowActions</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">flowAction</span><span class="o">);</span>
+
+                <span class="n">Flow</span> <span class="n">flow</span> <span class="o">=</span> <span class="n">Flow</span><span class="o">.</span><span class="na">builder</span><span class="o">()</span>
+                        <span class="o">.</span><span class="na">deviceID</span><span class="o">(</span><span class="n">edge</span><span class="o">.</span><span class="na">getSrc</span><span class="o">())</span>
+                        <span class="o">.</span><span class="na">tableID</span><span class="o">(</span><span class="mi">0</span><span class="o">)</span>
+                        <span class="o">.</span><span class="na">flowMatch</span><span class="o">(</span><span class="n">flowMatch</span><span class="o">)</span>
+                        <span class="o">.</span><span class="na">flowActions</span><span class="o">(</span><span class="n">flowActions</span><span class="o">)</span>
+                        <span class="o">.</span><span class="na">priority</span><span class="o">(</span><span class="mi">100</span><span class="o">)</span>
+                        <span class="o">.</span><span class="na">appId</span><span class="o">(</span><span class="s">&quot;Firewall&quot;</span><span class="o">)</span>
+                        <span class="o">.</span><span class="na">timeOut</span><span class="o">(</span><span class="mi">100</span><span class="o">)</span>
+                        <span class="o">.</span><span class="na">build</span><span class="o">();</span>
+
+                <span class="n">controller</span><span class="o">.</span><span class="na">flowService</span><span class="o">.</span><span class="na">addFlow</span><span class="o">(</span><span class="n">flow</span><span class="o">);</span>
+
+
+            <span class="o">}</span>
+            <span class="c1">// Reverse Path</span>
+
+            <span class="k">for</span> <span class="o">(</span><span class="n">TopoEdge</span> <span class="n">edge</span> <span class="o">:</span> <span class="n">rvPath</span><span class="o">)</span> <span class="o">{</span>
+
+                <span class="k">if</span> <span class="o">(</span><span class="n">edge</span><span class="o">.</span><span class="na">getType</span><span class="o">()</span> <span class="o">==</span> <span class="n">TopoEdgeType</span><span class="o">.</span><span class="na">HOST_SWITCH</span><span class="o">)</span> <span class="o">{</span>
+                    <span class="k">continue</span><span class="o">;</span>
+                <span class="o">}</span>
+
+
+                <span class="n">flowMatch</span> <span class="o">=</span> <span class="n">FlowMatch</span><span class="o">.</span><span class="na">builder</span><span class="o">()</span>
+                        <span class="o">.</span><span class="na">ethSrc</span><span class="o">(</span><span class="n">dstMac</span><span class="o">)</span>
+                        <span class="o">.</span><span class="na">ethDst</span><span class="o">(</span><span class="n">srcMac</span><span class="o">)</span>
+                        <span class="o">.</span><span class="na">ipv4Src</span><span class="o">(</span><span class="n">dstHost</span><span class="o">.</span><span class="na">getHostIPAddresses</span><span class="o">().</span><span class="na">get</span><span class="o">(</span><span class="mi">0</span><span class="o">)</span> <span class="o">+</span> <span class="s">&quot;/32&quot;</span><span class="o">)</span>
+                        <span class="o">.</span><span class="na">ipv4Dst</span><span class="o">(</span><span class="n">srcHost</span><span class="o">.</span><span class="na">getHostIPAddresses</span><span class="o">().</span><span class="na">get</span><span class="o">(</span><span class="mi">0</span><span class="o">)</span> <span class="o">+</span> <span class="s">&quot;/32&quot;</span><span class="o">)</span>
+                        <span class="o">.</span><span class="na">ipProto</span><span class="o">(</span><span class="mh">0x01</span><span class="o">)</span>
+                        <span class="o">.</span><span class="na">ethType</span><span class="o">(</span><span class="mi">2048</span><span class="o">)</span>
+                        <span class="o">.</span><span class="na">icmpv4_code</span><span class="o">(</span><span class="mh">0x0</span><span class="o">)</span>
+                        <span class="o">.</span><span class="na">icmpv4_type</span><span class="o">(</span><span class="mh">0x0</span><span class="o">)</span>
+                        <span class="o">.</span><span class="na">build</span><span class="o">();</span>
+
+
+                <span class="n">FlowAction</span> <span class="n">flowAction</span> <span class="o">=</span> <span class="k">new</span> <span class="n">FlowAction</span><span class="o">(</span><span class="n">FlowActionType</span><span class="o">.</span><span class="na">OUTPUT</span><span class="o">,</span>
+                        <span class="n">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span><span class="n">edge</span><span class="o">.</span><span class="na">getSrcPort</span><span class="o">()));</span>
+
+                <span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">FlowAction</span><span class="o">&gt;</span> <span class="n">flowActions</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">FlowAction</span><span class="o">&gt;();</span>
+                <span class="n">flowActions</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">flowAction</span><span class="o">);</span>
+
+                <span class="n">Flow</span> <span class="n">flow</span> <span class="o">=</span> <span class="n">Flow</span><span class="o">.</span><span class="na">builder</span><span class="o">()</span>
+                        <span class="o">.</span><span class="na">deviceID</span><span class="o">(</span><span class="n">edge</span><span class="o">.</span><span class="na">getSrc</span><span class="o">())</span>
+                        <span class="o">.</span><span class="na">tableID</span><span class="o">(</span><span class="mi">0</span><span class="o">)</span>
+                        <span class="o">.</span><span class="na">flowMatch</span><span class="o">(</span><span class="n">flowMatch</span><span class="o">)</span>
+                        <span class="o">.</span><span class="na">flowActions</span><span class="o">(</span><span class="n">flowActions</span><span class="o">)</span>
+                        <span class="o">.</span><span class="na">priority</span><span class="o">(</span><span class="mi">100</span><span class="o">)</span>
+                        <span class="o">.</span><span class="na">appId</span><span class="o">(</span><span class="s">&quot;Firewall&quot;</span><span class="o">)</span>
+                        <span class="o">.</span><span class="na">timeOut</span><span class="o">(</span><span class="mi">100</span><span class="o">)</span>
+                        <span class="o">.</span><span class="na">build</span><span class="o">();</span>
+
+                <span class="n">controller</span><span class="o">.</span><span class="na">flowService</span><span class="o">.</span><span class="na">addFlow</span><span class="o">(</span><span class="n">flow</span><span class="o">);</span>
+
+
+            <span class="o">}</span>
+
+
+        <span class="o">}</span>
+
+
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+<div class="section" id="testing-the-forwarding-application-on-onos-controller">
+<h2>Testing the Forwarding Application on ONOS controller<a class="headerlink" href="#testing-the-forwarding-application-on-onos-controller" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>In this section, we explain a Mininet simulation scenario that can be used to test the forwarding application on ONOS controller:</li>
+</ul>
+<ol class="arabic">
+<li><p class="first">First, you need to install and run ONOS on your local machine using the guidelines that have been posted on ONOS website: <a class="reference external" href="https://wiki.onosproject.org/display/ONOS/Guides">ONOS GUIDES</a></p>
+</li>
+<li><p class="first">Second, you need to download and install Mininet using the guidelines that have been posted on Mininet website: <a class="reference external" href="http://mininet.org/download/">Mininet</a></p>
+</li>
+<li><p class="first">Third, execute the following commands to run a Mininet simulation scenario that simulates a leaf-spine network topology with 6 hosts:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>$ cd mininet_examples
+$ sudo python leaf_spine.py
+</pre></div>
+</div>
+</li>
+<li><p class="first">Forth, run pingall to detect all of the hosts in the network topology. ONOS runs a reactive forwarding application by default.</p>
+</li>
+</ol>
+<ol class="arabic" start="4">
+<li><p class="first">Fifth, package umbrella source codes using the following command:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>$ mvn package
+</pre></div>
+</div>
+</li>
+<li><p class="first">Finally, execute the application using the following command to install rules on network switches:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>$java -cp target/umbrella-1.0-SNAPSHOT-jar-with-dependencies.jar apps.Firewall onos
+</pre></div>
+</div>
+</li>
+</ol>
+</div>
+<div class="section" id="testing-the-forwarding-application-on-opendaylight-controller">
+<h2>Testing the Forwarding Application on OpenDayLight controller<a class="headerlink" href="#testing-the-forwarding-application-on-opendaylight-controller" title="Permalink to this headline">¶</a></h2>
+<ol class="arabic">
+<li><p class="first">First, you need to install and run ONOS on your local machine using the guidelines that have been posted on ONOS website: <a class="reference external" href="http://docs.opendaylight.org/en/stable-oxygen/getting-started-guide/installing_opendaylight.html">ODL GUIDES</a></p>
+</li>
+<li><p class="first">Second, you need to download and install Mininet using the guidelines that have been posted on Mininet website: <a class="reference external" href="http://mininet.org/download/">Mininet</a></p>
+</li>
+<li><p class="first">Third, execute the following commands to run a Mininet simulation scenario that simulates a leaf-spine network topology with 6 hosts:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>$ cd mininet_examples
+$ sudo python leaf_spine.py
+</pre></div>
+</div>
+</li>
+<li><p class="first">Forth, run pingall to detect all of the hosts in the network topology. ONOS runs a reactive forwarding application by default.</p>
+</li>
+</ol>
+<ol class="arabic" start="4">
+<li><p class="first">Fifth, package umbrella source codes using the following command:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>$ mvn package
+</pre></div>
+</div>
+</li>
+<li><p class="first">Finally, execute the application using the following command to install rules on network switches:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>$java -cp target/umbrella-1.0-SNAPSHOT-jar-with-dependencies.jar apps.Firewall odl
+</pre></div>
+</div>
+</li>
+</ol>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+      
+        <a href="forwarding.html" class="btn btn-neutral" title="Forwarding Application" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, Adib Rastegarnia.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'1.0',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

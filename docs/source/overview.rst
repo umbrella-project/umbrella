@@ -18,3 +18,4 @@ We illustrate Umbrella architecture as follows:
 
 .. image:: ../../images/Umbrella.png
    
+   

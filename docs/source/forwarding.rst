@@ -1,85 +1,5 @@
-.. toctree::
-   :maxdepth: 2
-
-Overview
-========
-
-The Northbound (NB) APIs that SDN controllers provide differ in terms of architecture, syntax, naming convention, data resources, and usage. Using NB APIs to write SDN applications makes each application dependent on the API of a specific controller. To bring NB APIs from different vendors under one umbrella and make programming of SDN applications independent of specific controllers, we designed and implemented a unified software defined development framework that we call Umbrella. The main design goals are as follows:
-
-    * Design and implement a development framework that provides a new set of abstractions for SDN applications, keeping the abstractions independent of the NB APIs used by specific SDN controllers.
-    * Design and implement a set of modules that use the proposed abstractions to provide information needed by SDN applications, such as topology, network statistics, and real time topology changes.
-    * Increase portability of SDN applications across SDN controllers, and make it easy for a programmer to evaluate a specific application on multiple SDN controllers (e.g., to compare performance).
-    * Provide a software defined network programming framework that reduces programming complexity, allows a programmer to write SDN applications without requiring a programmer to master low-level details for each SDN controller, and avoids locking an application to a specific controller.
-
-
-Umbrella Architecture
----------------------
-
-We illustrate Umbrella architecture as follows: 
-
-.. image:: ../../images/Umbrella.png
-   
-
-
-Getting Started
-===============
-
-Installation 
-------------
-
-1. First, clone umbrella repository using the following command::
-   
-   $ git clone https://github.com/umbrella-project/umbrella
-   
-   
-2. Umbrella is a Java based platform. In order to be able to compile the code, you need to install Oracle Java 1.8 and Maven using the following commands::
-
-   $ sudo apt-get install software-properties-common -y && \
-   $ sudo add-apt-repository ppa:webupd8team/java -y && \
-   $ sudo apt-get update && \
-   $ echo "oracle-java8-installer shared/accepted-oracle-license-v1-1 select true" | sudo debconf-set-selections && \
-   $ sudo apt-get install oracle-java8-installer oracle-java8-set-default -y   
-
-   
-   $sudo apt-get install maven
-   
-
-2. Finally, compile the project using the following command::
-
-   $ cd umbrella
-   $ mvn package 
-   
-
-
-Run a Sample Application
-------------------------
-
-To run an SDN application that we implemented using Umbrella APIs, we can use the following commands::
-    
-     $ cd umbrella
-     $ mvn package
-     $ java -cp target/umbrella-[Version]-SNAPSHOT-jar-with-dependencies.jar apps.[Application filename]
-
-
-
-Umbrella APIs
-=============
-
-Flow Service APIs
------------------
-
-
-Topology Service APIs
----------------------
-
-
-
-Sample Applications
-===================
-
-
 Forwarding Application 
-----------------------
+~~~~~~~~~~~~~~~~~~~~~~~
 
 Suppose we would like to write an application to route traffic between all of the hosts that belong to the same subnet. To achieve this goal, we implement an application using Umbrella APIs to generate and install appropriate forwarding rules on the switches between each two hosts. We explain step by step how to write the mentioned application:
 
@@ -172,7 +92,7 @@ Suppose we would like to write an application to route traffic between all of th
 
 
 Testing the Forwarding Application on ONOS controller
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-----------------------------------------------------
 * In this section, we explain a Mininet simulation scenario that can be used to test the forwarding application on ONOS controller:
 
 1. First, you need to install and run ONOS on your local machine using the guidelines that have been posted on ONOS website: `ONOS GUIDES`_
@@ -196,7 +116,7 @@ Testing the Forwarding Application on ONOS controller
         $java -cp target/umbrella-1.0-SNAPSHOT-jar-with-dependencies.jar apps.Forwarding onos
 
 Testing the Forwarding Application on OpenDayLight controller
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-------------------------------------------------------------
 1. First, you need to install and run ONOS on your local machine using the guidelines that have been posted on ONOS website: `ODL GUIDES`_
 
 2. Second, you need to download and install Mininet using the guidelines that have been posted on Mininet website: `Mininet`_
@@ -216,17 +136,6 @@ Testing the Forwarding Application on OpenDayLight controller
 5. Finally, execute the application using the following command to install rules on network switches::
 
         $java -cp target/umbrella-1.0-SNAPSHOT-jar-with-dependencies.jar apps.Forwarding odl
-
-
-
-Firewall Application
---------------------
-
-
-
-
-
-
 
 .. _Mininet: http://mininet.org/download/
 .. _ONOS GUIDES: https://wiki.onosproject.org/display/ONOS/Guides
