@@ -100,7 +100,7 @@ Suppose we would like to write an application to route traffic between all of th
 
 2. Second, we need to get the list of current hosts that have been detected by the controller.
 
-.. code-block::java
+.. code-block:: java
 
     Set<TopoHost> srchosts = controller.getHosts();
     Set<TopoHost> dsthosts = controller.getHosts();
@@ -113,7 +113,7 @@ Suppose we would like to write an application to route traffic between all of th
     * Finally, we install generated flow rules on determined network switches.
 
 
-.. code-block::java
+.. code-block:: java
 
 for(TopoHost srcHost: srchosts)
         {
@@ -168,8 +168,52 @@ for(TopoHost srcHost: srchosts)
         }
 
 
+Testing the Forwarding Application on ONOS controller
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+* In this section, we explain a Mininet simulation scenario that can be used to test the forwarding application on ONOS controller:
 
-4. 
+1. First, you need to install and run ONOS on your local machine using the guidelines that have been posted on ONOS website: `ONOS GUIDES`_
+
+2. Second, you need to download and install Mininet using the guidelines that have been posted on Mininet website: `Mininet`_
+
+3. Third, execute the following commands to run a Mininet simulation scenario that simulates a leaf-spine network topology with 6 hosts::
+   
+         $ cd mininet_examples
+         $ sudo python leaf_spine.py
+    
+   
+4. Forth, run pingall to detect all of the hosts in the network topology. ONOS runs a reactive forwarding application by default. 
+
+4. Fifth, package umbrella source codes using the following command::
+
+        $ mvn package
+   
+5. Finally, execute the application using the following command to install rules on network switches::
+
+        $java -cp target/umbrella-1.0-SNAPSHOT-jar-with-dependencies.jar apps.Forwarding onos
+
+Testing the Forwarding Application on OpenDayLight controller
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1. First, you need to install and run ONOS on your local machine using the guidelines that have been posted on ONOS website: `ODL GUIDES`_
+
+2. Second, you need to download and install Mininet using the guidelines that have been posted on Mininet website: `Mininet`_
+
+3. Third, execute the following commands to run a Mininet simulation scenario that simulates a leaf-spine network topology with 6 hosts::
+   
+         $ cd mininet_examples
+         $ sudo python leaf_spine.py
+    
+   
+4. Forth, run pingall to detect all of the hosts in the network topology. ONOS runs a reactive forwarding application by default. 
+
+4. Fifth, package umbrella source codes using the following command::
+
+        $ mvn package
+   
+5. Finally, execute the application using the following command to install rules on network switches::
+
+        $java -cp target/umbrella-1.0-SNAPSHOT-jar-with-dependencies.jar apps.Forwarding odl
+
 
 
 Firewall Application
@@ -181,5 +225,7 @@ Firewall Application
 
 
 
-
+.. _Mininet: http://mininet.org/download/
+.. _ONOS GUIDES: https://wiki.onosproject.org/display/ONOS/Guides
+.. _ODL GUIDES: http://docs.opendaylight.org/en/stable-oxygen/getting-started-guide/installing_opendaylight.html
 
