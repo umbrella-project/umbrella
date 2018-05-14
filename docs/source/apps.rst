@@ -1,8 +1,7 @@
 Sample Applications
 ===================
 .. toctree::
-   :maxdepth: 2
-   :caption: Contents:
+   :maxdepth: 1
 
    forwarding.rst
    firewall.rst
