@@ -1,0 +1,313 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Overview &#8212; Umbrella 1.0 documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="toctree-wrapper compound">
+</div>
+<div class="section" id="overview">
+<h1>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h1>
+<p>The Northbound (NB) APIs that SDN controllers provide differ in terms of architecture, syntax, naming convention, data resources, and usage. Using NB APIs to write SDN applications makes each application dependent on the API of a specific controller. To bring NB APIs from different vendors under one umbrella and make programming of SDN applications independent of specific controllers, we designed and implemented a unified software defined development framework that we call Umbrella. The main design goals are as follows:</p>
+<blockquote>
+<div><ul class="simple">
+<li>Design and implement a development framework that provides a new set of abstractions for SDN applications, keeping the abstractions independent of the NB APIs used by specific SDN controllers.</li>
+<li>Design and implement a set of modules that use the proposed abstractions to provide information needed by SDN applications, such as topology, network statistics, and real time topology changes.</li>
+<li>Increase portability of SDN applications across SDN controllers, and make it easy for a programmer to evaluate a specific application on multiple SDN controllers (e.g., to compare performance).</li>
+<li>Provide a software defined network programming framework that reduces programming complexity, allows a programmer to write SDN applications without requiring a programmer to master low-level details for each SDN controller, and avoids locking an application to a specific controller.</li>
+</ul>
+</div></blockquote>
+<div class="section" id="umbrella-architecture">
+<h2>Umbrella Architecture<a class="headerlink" href="#umbrella-architecture" title="Permalink to this headline">¶</a></h2>
+<p>We illustrate Umbrella architecture as follows:</p>
+<img alt="_images/Umbrella.png" src="_images/Umbrella.png" />
+</div>
+</div>
+<div class="section" id="getting-started">
+<h1>Getting Started<a class="headerlink" href="#getting-started" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="installation">
+<h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h2>
+<ol class="arabic">
+<li><p class="first">First, clone umbrella repository using the following command:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>$ git clone https://github.com/umbrella-project/umbrella
+</pre></div>
+</div>
+</li>
+<li><p class="first">Umbrella is a Java based platform. In order to be able to compile the code, you need to install Oracle Java 1.8 and Maven using the following commands:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>$ sudo apt-get install software-properties-common -y &amp;&amp; \
+$ sudo add-apt-repository ppa:webupd8team/java -y &amp;&amp; \
+$ sudo apt-get update &amp;&amp; \
+$ echo &quot;oracle-java8-installer shared/accepted-oracle-license-v1-1 select true&quot; | sudo debconf-set-selections &amp;&amp; \
+$ sudo apt-get install oracle-java8-installer oracle-java8-set-default -y
+</pre></div>
+</div>
+<p>$sudo apt-get install maven</p>
+</li>
+</ol>
+<ol class="arabic" start="2">
+<li><p class="first">Finally, compile the project using the following command:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>$ cd umbrella
+$ mvn package
+</pre></div>
+</div>
+</li>
+</ol>
+</div>
+<div class="section" id="run-a-sample-application">
+<h2>Run a Sample Application<a class="headerlink" href="#run-a-sample-application" title="Permalink to this headline">¶</a></h2>
+<p>To run an SDN application that we implemented using Umbrella APIs, we can use the following commands:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>$ cd umbrella
+$ mvn package
+$ java -cp target/umbrella-[Version]-SNAPSHOT-jar-with-dependencies.jar apps.[Application filename]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="umbrella-apis">
+<h1>Umbrella APIs<a class="headerlink" href="#umbrella-apis" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="flow-service-apis">
+<h2>Flow Service APIs<a class="headerlink" href="#flow-service-apis" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="topology-service-apis">
+<h2>Topology Service APIs<a class="headerlink" href="#topology-service-apis" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+<div class="section" id="sample-applications">
+<h1>Sample Applications<a class="headerlink" href="#sample-applications" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="forwarding-application">
+<h2>Forwarding Application<a class="headerlink" href="#forwarding-application" title="Permalink to this headline">¶</a></h2>
+<p>Suppose we would like to write an application to route traffic between all of the hosts that belong to the same subnet. To achieve this goal, we implement an application using Umbrella APIs to generate and install appropriate forwarding rules on the switches between each two hosts. We explain step by step how to write the mentioned application:</p>
+<ol class="arabic simple">
+<li>First, we need to create an instance of the controller that we would like to execute our application on. We assume that the name of controller will be passed as an argument to the forwarding application.</li>
+</ol>
+<div class="highlight-java"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="o">(</span><span class="n">args</span><span class="o">.</span><span class="na">length</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="o">)</span> <span class="o">{</span>
+           <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;Arguments: onos/odl&quot;</span><span class="o">);</span>
+       <span class="o">}</span>
+
+       <span class="n">Controller</span> <span class="n">controller</span><span class="o">;</span>
+
+       <span class="k">if</span> <span class="o">(</span><span class="n">args</span><span class="o">[</span><span class="mi">0</span><span class="o">].</span><span class="na">equalsIgnoreCase</span><span class="o">(</span><span class="s">&quot;onos&quot;</span><span class="o">))</span> <span class="o">{</span>
+           <span class="n">controller</span> <span class="o">=</span> <span class="k">new</span> <span class="n">OnosController</span><span class="o">();</span>
+       <span class="o">}</span> <span class="k">else</span> <span class="k">if</span> <span class="o">(</span><span class="n">args</span><span class="o">[</span><span class="mi">0</span><span class="o">].</span><span class="na">equalsIgnoreCase</span><span class="o">(</span><span class="s">&quot;odl&quot;</span><span class="o">))</span> <span class="o">{</span>
+           <span class="n">controller</span> <span class="o">=</span> <span class="k">new</span> <span class="n">OdlController</span><span class="o">();</span>
+       <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+           <span class="k">return</span><span class="o">;</span>
+       <span class="o">}</span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="2">
+<li>Second, we need to get the list of current hosts that have been detected by the controller.</li>
+</ol>
+<div class="highlight-java"><div class="highlight"><pre><span></span><span class="n">Set</span><span class="o">&lt;</span><span class="n">TopoHost</span><span class="o">&gt;</span> <span class="n">srchosts</span> <span class="o">=</span> <span class="n">controller</span><span class="o">.</span><span class="na">getHosts</span><span class="o">();</span>
+<span class="n">Set</span><span class="o">&lt;</span><span class="n">TopoHost</span><span class="o">&gt;</span> <span class="n">dsthosts</span> <span class="o">=</span> <span class="n">controller</span><span class="o">.</span><span class="na">getHosts</span><span class="o">();</span>
+</pre></div>
+</div>
+<ol class="arabic" start="3">
+<li><p class="first">Third, we need to do the following steps:</p>
+<blockquote>
+<div><ul class="simple">
+<li>We compute shortest path between each two hosts to determine which network switches should be configured between the given hosts.</li>
+<li>We generate flow rules based on source and destination MAC addresses, source and destination IP addresses, and Ethernet type (IPv4 in this example).</li>
+<li>Finally, we install generated flow rules on determined network switches.</li>
+</ul>
+</div></blockquote>
+</li>
+</ol>
+<div class="highlight-java"><div class="highlight"><pre><span></span><span class="k">for</span><span class="o">(</span><span class="n">TopoHost</span> <span class="n">srcHost</span><span class="o">:</span> <span class="n">srchosts</span><span class="o">)</span>
+    <span class="o">{</span>
+        <span class="k">for</span><span class="o">(</span><span class="n">TopoHost</span> <span class="n">dstHost</span><span class="o">:</span> <span class="n">dsthosts</span><span class="o">)</span>
+        <span class="o">{</span>
+            <span class="k">if</span><span class="o">(!</span><span class="n">srcHost</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="n">dstHost</span><span class="o">))</span>
+            <span class="o">{</span>
+                <span class="n">String</span> <span class="n">srcMac</span> <span class="o">=</span> <span class="n">srcHost</span><span class="o">.</span><span class="na">getHostMac</span><span class="o">();</span>
+                <span class="n">String</span> <span class="n">dstMac</span> <span class="o">=</span> <span class="n">dstHost</span><span class="o">.</span><span class="na">getHostMac</span><span class="o">();</span>
+
+
+                <span class="n">path</span> <span class="o">=</span> <span class="n">controller</span><span class="o">.</span><span class="na">getShortestPath</span><span class="o">(</span><span class="n">srcHost</span><span class="o">.</span><span class="na">getHostID</span><span class="o">(),</span>
+                                                        <span class="n">dstHost</span><span class="o">.</span><span class="na">getHostID</span><span class="o">());</span>
+                <span class="n">controller</span><span class="o">.</span><span class="na">printPath</span><span class="o">(</span><span class="n">path</span><span class="o">);</span>
+
+                <span class="k">for</span><span class="o">(</span><span class="n">TopoEdge</span> <span class="n">edge</span> <span class="o">:</span> <span class="n">path</span><span class="o">)</span> <span class="o">{</span>
+
+                    <span class="k">if</span><span class="o">(</span><span class="n">edge</span><span class="o">.</span><span class="na">getType</span><span class="o">()</span> <span class="o">==</span> <span class="n">TopoEdgeType</span><span class="o">.</span><span class="na">HOST_SWITCH</span><span class="o">)</span> <span class="o">{</span>
+                        <span class="k">continue</span><span class="o">;</span>
+                    <span class="o">}</span>
+
+                    <span class="n">FlowMatch</span> <span class="n">flowMatch</span> <span class="o">=</span> <span class="n">FlowMatch</span><span class="o">.</span><span class="na">builder</span><span class="o">()</span>
+                            <span class="o">.</span><span class="na">ethSrc</span><span class="o">(</span><span class="n">srcMac</span><span class="o">)</span>
+                            <span class="o">.</span><span class="na">ethDst</span><span class="o">(</span><span class="n">dstMac</span><span class="o">)</span>
+                            <span class="o">.</span><span class="na">ipv4Src</span><span class="o">(</span><span class="n">srcHost</span><span class="o">.</span><span class="na">getHostIPAddresses</span><span class="o">().</span><span class="na">get</span><span class="o">(</span><span class="mi">0</span><span class="o">))</span>
+                            <span class="o">.</span><span class="na">ipv4Dst</span><span class="o">(</span><span class="n">dstHost</span><span class="o">.</span><span class="na">getHostIPAddresses</span><span class="o">().</span><span class="na">get</span><span class="o">(</span><span class="mi">0</span><span class="o">))</span>
+                            <span class="o">.</span><span class="na">ethType</span><span class="o">(</span><span class="mi">2048</span><span class="o">)</span>
+                            <span class="o">.</span><span class="na">build</span><span class="o">();</span>
+
+                    <span class="n">FlowAction</span> <span class="n">flowAction</span> <span class="o">=</span> <span class="k">new</span> <span class="n">FlowAction</span><span class="o">(</span><span class="n">FlowActionType</span><span class="o">.</span><span class="na">OUTPUT</span><span class="o">,</span>
+                            <span class="n">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span><span class="n">edge</span><span class="o">.</span><span class="na">getSrcPort</span><span class="o">()));</span>
+
+                    <span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">FlowAction</span><span class="o">&gt;</span> <span class="n">flowActions</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">FlowAction</span><span class="o">&gt;();</span>
+                    <span class="n">flowActions</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">flowAction</span><span class="o">);</span>
+
+                    <span class="n">Flow</span> <span class="n">flow</span> <span class="o">=</span> <span class="n">Flow</span><span class="o">.</span><span class="na">builder</span><span class="o">()</span>
+                            <span class="o">.</span><span class="na">deviceID</span><span class="o">(</span><span class="n">edge</span><span class="o">.</span><span class="na">getSrc</span><span class="o">())</span>
+                            <span class="o">.</span><span class="na">tableID</span><span class="o">(</span><span class="mi">0</span><span class="o">)</span>
+                            <span class="o">.</span><span class="na">flowMatch</span><span class="o">(</span><span class="n">flowMatch</span><span class="o">)</span>
+                            <span class="o">.</span><span class="na">flowActions</span><span class="o">(</span><span class="n">flowActions</span><span class="o">)</span>
+                            <span class="o">.</span><span class="na">priority</span><span class="o">(</span><span class="mi">1000</span><span class="o">)</span>
+                            <span class="o">.</span><span class="na">appId</span><span class="o">(</span><span class="s">&quot;TestForwarding&quot;</span><span class="o">)</span>
+                            <span class="o">.</span><span class="na">timeOut</span><span class="o">(</span><span class="mi">300</span><span class="o">)</span>
+                            <span class="o">.</span><span class="na">build</span><span class="o">();</span>
+
+                    <span class="n">controller</span><span class="o">.</span><span class="na">flowService</span><span class="o">.</span><span class="na">addFlow</span><span class="o">(</span><span class="n">flow</span><span class="o">);</span>
+                <span class="o">}</span>
+
+
+            <span class="o">}</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+</pre></div>
+</div>
+<div class="section" id="testing-the-forwarding-application-on-onos-controller">
+<h3>Testing the Forwarding Application on ONOS controller<a class="headerlink" href="#testing-the-forwarding-application-on-onos-controller" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>In this section, we explain a Mininet simulation scenario that can be used to test the forwarding application on ONOS controller:</li>
+</ul>
+<ol class="arabic">
+<li><p class="first">First, you need to install and run ONOS on your local machine using the guidelines that have been posted on ONOS website: <a class="reference external" href="https://wiki.onosproject.org/display/ONOS/Guides">ONOS GUIDES</a></p>
+</li>
+<li><p class="first">Second, you need to download and install Mininet using the guidelines that have been posted on Mininet website: <a class="reference external" href="http://mininet.org/download/">Mininet</a></p>
+</li>
+<li><p class="first">Third, execute the following commands to run a Mininet simulation scenario that simulates a leaf-spine network topology with 6 hosts:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>$ cd mininet_examples
+$ sudo python leaf_spine.py
+</pre></div>
+</div>
+</li>
+<li><p class="first">Forth, run pingall to detect all of the hosts in the network topology. ONOS runs a reactive forwarding application by default.</p>
+</li>
+</ol>
+<ol class="arabic" start="4">
+<li><p class="first">Fifth, package umbrella source codes using the following command:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>$ mvn package
+</pre></div>
+</div>
+</li>
+<li><p class="first">Finally, execute the application using the following command to install rules on network switches:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>$java -cp target/umbrella-1.0-SNAPSHOT-jar-with-dependencies.jar apps.Forwarding onos
+</pre></div>
+</div>
+</li>
+</ol>
+</div>
+<div class="section" id="testing-the-forwarding-application-on-opendaylight-controller">
+<h3>Testing the Forwarding Application on OpenDayLight controller<a class="headerlink" href="#testing-the-forwarding-application-on-opendaylight-controller" title="Permalink to this headline">¶</a></h3>
+<ol class="arabic">
+<li><p class="first">First, you need to install and run ONOS on your local machine using the guidelines that have been posted on ONOS website: <a class="reference external" href="http://docs.opendaylight.org/en/stable-oxygen/getting-started-guide/installing_opendaylight.html">ODL GUIDES</a></p>
+</li>
+<li><p class="first">Second, you need to download and install Mininet using the guidelines that have been posted on Mininet website: <a class="reference external" href="http://mininet.org/download/">Mininet</a></p>
+</li>
+<li><p class="first">Third, execute the following commands to run a Mininet simulation scenario that simulates a leaf-spine network topology with 6 hosts:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>$ cd mininet_examples
+$ sudo python leaf_spine.py
+</pre></div>
+</div>
+</li>
+<li><p class="first">Forth, run pingall to detect all of the hosts in the network topology. ONOS runs a reactive forwarding application by default.</p>
+</li>
+</ol>
+<ol class="arabic" start="4">
+<li><p class="first">Fifth, package umbrella source codes using the following command:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>$ mvn package
+</pre></div>
+</div>
+</li>
+<li><p class="first">Finally, execute the application using the following command to install rules on network switches:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>$java -cp target/umbrella-1.0-SNAPSHOT-jar-with-dependencies.jar apps.Forwarding odl
+</pre></div>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div class="section" id="firewall-application">
+<h2>Firewall Application<a class="headerlink" href="#firewall-application" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2018, Adib Rastegarnia.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.7</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
+      
+      |
+      <a href="_sources/index2.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
