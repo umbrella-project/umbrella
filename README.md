@@ -16,7 +16,9 @@ keeping the abstractions independent of the Northbound APIs used by specific SDN
 
 # Getting Started
 
-[Getting Started](http://umbrella.readthedocs.io/en/latest/getting_started.html)
+[Installation](http://umbrella.readthedocs.io/en/latest/getting_started.html#installation)
+
+[Run a sample application](http://umbrella.readthedocs.io/en/latest/getting_started.html#run-a-sample-application)
 
 
 # Sample Applications
