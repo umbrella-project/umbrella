@@ -1,7 +1,6 @@
 # What is Umbrella? 
 
-Umbrella is a unified software defined development framework that provide  a new set of APIs for implementing of SDN applications,
-keeping the abstractions independent of the Northbound APIs used by specific SDN controllers. The main design goals are: 
+Umbrella is a unified software defined development framework that provides  a new set of APIs for implementing of SDN applications, keeping the abstractions independent of the Northbound APIs used by specific SDN controllers. The main design goals are: 
 
 * Design and implement a development framework that provides a new set of abstractions for SDN applications, keeping the abstractions independent of the NB APIs used by specific SDN controllers.
 
