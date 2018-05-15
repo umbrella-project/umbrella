@@ -13,14 +13,14 @@ Umbrella is a unified software defined development framework that provides  a ne
 #### [Umbrella Architecture](http://umbrella.readthedocs.io/en/latest/overview.html)
 
 
-# Getting Started
+## Getting Started
 
 [Installation](http://umbrella.readthedocs.io/en/latest/getting_started.html#installation)
 
 [Run a sample application](http://umbrella.readthedocs.io/en/latest/getting_started.html#run-a-sample-application)
 
 
-# Sample Applications
+## Sample Applications
 
 [Forwarding](http://umbrella.readthedocs.io/en/latest/forwarding.html)
 
@@ -33,5 +33,5 @@ Umbrella is a unified software defined development framework that provides  a ne
 
 
 
-# LICENSE 
+## LICENSE 
 Umbrella is released under the Apache Licesne Version 2.0. 
