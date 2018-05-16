@@ -16,9 +16,7 @@ Installation
    $ sudo apt-get update && \
    $ echo "oracle-java8-installer shared/accepted-oracle-license-v1-1 select true" | sudo debconf-set-selections && \
    $ sudo apt-get install oracle-java8-installer oracle-java8-set-default -y   
-
-   
-   $sudo apt-get install maven
+   $ sudo apt-get install maven
    
 
 2. Finally, compile the project using the following command::
