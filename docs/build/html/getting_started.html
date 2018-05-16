@@ -29,6 +29,7 @@
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Umbrella APIs" href="apis.html" />
     <link rel="prev" title="Overview" href="overview.html" /> 
 
   
@@ -90,6 +91,8 @@
 <li class="toctree-l2"><a class="reference internal" href="#run-a-sample-application">Run a Sample Application</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="apis.html">Umbrella APIs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="apps.html">Sample Applications</a></li>
 </ul>
 
             
@@ -164,15 +167,12 @@
 </pre></div>
 </div>
 </li>
-<li><p class="first">Umbrella is a Java based platform. In order to be able to compile the code, you need to install Oracle Java 1.8 and Maven using the following commands:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span>$ sudo apt-get install software-properties-common -y &amp;&amp; \
-$ sudo add-apt-repository ppa:webupd8team/java -y &amp;&amp; \
-$ sudo apt-get update &amp;&amp; \
-$ echo &quot;oracle-java8-installer shared/accepted-oracle-license-v1-1 select true&quot; | sudo debconf-set-selections &amp;&amp; \
-$ sudo apt-get install oracle-java8-installer oracle-java8-set-default -y
-</pre></div>
-</div>
-<p>$sudo apt-get install maven</p>
+<li><p class="first">Umbrella is a Java based platform. In order to be able to compile the code, you need to install Oracle Java 1.8 and Maven using the following commands
+..code-block:: java</p>
+<blockquote>
+<div><p>$ sudo apt-get install software-properties-common -y &amp;&amp; $ sudo add-apt-repository ppa:webupd8team/java -y &amp;&amp; $ sudo apt-get update &amp;&amp; $ echo “oracle-java8-installer shared/accepted-oracle-license-v1-1 select true” | sudo debconf-set-selections &amp;&amp; $ sudo apt-get install oracle-java8-installer oracle-java8-set-default -y
+$ sudo apt-get install maven</p>
+</div></blockquote>
 </li>
 </ol>
 <ol class="arabic" start="2">
@@ -202,6 +202,8 @@ $ java -cp target/umbrella-[Version]-SNAPSHOT-jar-with-dependencies.jar apps.[Ap
           <footer>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="apis.html" class="btn btn-neutral float-right" title="Umbrella APIs" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="overview.html" class="btn btn-neutral" title="Overview" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
