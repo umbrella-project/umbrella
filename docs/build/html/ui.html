@@ -1,0 +1,331 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Umbrella User Interfaces &mdash; Umbrella 1.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Sample Applications" href="apps.html" />
+    <link rel="prev" title="Umbrella APIs" href="apis.html" /> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> Umbrella
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="apis.html">Umbrella APIs</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Umbrella User Interfaces</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#umbrella-command-line-interface">Umbrella Command Line Interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#how-to-add-new-commands">How to add new commands?</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="apps.html">Sample Applications</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Umbrella</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Umbrella User Interfaces</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/ui.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="umbrella-user-interfaces">
+<h1>Umbrella User Interfaces<a class="headerlink" href="#umbrella-user-interfaces" title="Permalink to this headline">¶</a></h1>
+<p>We provide a short descritpion Umbrella user interfaces as follows:</p>
+<div class="section" id="umbrella-command-line-interface">
+<h2>Umbrella Command Line Interface<a class="headerlink" href="#umbrella-command-line-interface" title="Permalink to this headline">¶</a></h2>
+<p>We equipped Umbrella to a command line interface that can be executed as follows:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>$ java -cp target/umbrella-1.0-SNAPSHOT-jar-with-dependencies.jar cli.CliMain
+</pre></div>
+</div>
+<p>We illustrate Umbrella command line interface as follows:</p>
+<img alt="_images/cmd.png" src="_images/cmd.png" />
+<p>Umbrella command line interface provides a set of commands that can be used for retrieving topology information such as list of hosts, links, and network devices, set logger options, etc. Current version of Umbrella supports the following commands:</p>
+<blockquote>
+<div><dl class="docutils">
+<dt>Hosts</dt>
+<dd><dl class="first last docutils">
+<dt>DESCRIPTION</dt>
+<dd>Displays list of the current hosts in the network topology.</dd>
+<dt>SYNTAX</dt>
+<dd>hosts</dd>
+<dt>ARGUMENTS</dt>
+<dd>NONE</dd>
+<dt>OPTIONS</dt>
+<dd>NONE</dd>
+</dl>
+</dd>
+<dt>Links</dt>
+<dd><dl class="first last docutils">
+<dt>DESCRIPTION</dt>
+<dd>Displays list of the current links in the network topology.</dd>
+<dt>SYNTAX</dt>
+<dd>links</dd>
+<dt>ARGUMENTS</dt>
+<dd>NONE</dd>
+<dt>OPTIONS</dt>
+<dd>NONE</dd>
+</dl>
+</dd>
+<dt>Devices</dt>
+<dd><dl class="first last docutils">
+<dt>DESCRIPTION</dt>
+<dd>Displays list of the current network devices in the network topology.</dd>
+<dt>SYNTAX</dt>
+<dd>devices</dd>
+<dt>ARGUMENTS</dt>
+<dd>NONE</dd>
+<dt>OPTIONS</dt>
+<dd>NONE</dd>
+</dl>
+</dd>
+<dt>Topo</dt>
+<dd><dl class="first last docutils">
+<dt>DESCRIPTION</dt>
+<dd>Displays all topology information such as list of hosts, links, and network devices.</dd>
+<dt>SYNTAX</dt>
+<dd>topo</dd>
+<dt>ARGUMENTS</dt>
+<dd>NONE</dd>
+<dt>OPTIONS</dt>
+<dd>NONE</dd>
+</dl>
+</dd>
+<dt>Setlog</dt>
+<dd><dl class="first last docutils">
+<dt>DESCRIPTION</dt>
+<dd>Sets java log4j logger level (e.g. DEBUG, INFO, WARN, …)</dd>
+<dt>SYNTAX</dt>
+<dd>setlog</dd>
+<dt>ARGUMENTS</dt>
+<dd>NONE</dd>
+<dt>OPTIONS</dt>
+<dd><dl class="first last docutils">
+<dt>-l –level</dt>
+<dd>set log level</dd>
+</dl>
+</dd>
+</dl>
+</dd>
+</dl>
+</div></blockquote>
+</div>
+<div class="section" id="how-to-add-new-commands">
+<h2>How to add new commands?<a class="headerlink" href="#how-to-add-new-commands" title="Permalink to this headline">¶</a></h2>
+<p>To add a new command, we need to define a java class under <strong>cli</strong> package which implements a Runnable as follows:</p>
+<div class="highlight-java"><div class="highlight"><pre><span></span><span class="nd">@CommandLine.Command</span><span class="o">(</span><span class="n">name</span> <span class="o">=</span> <span class="s">&quot;commandName&quot;</span><span class="o">,</span> <span class="n">header</span> <span class="o">=</span> <span class="s">&quot;%n@|color Command Description|@&quot;</span><span class="o">)</span>
+  <span class="kd">class</span> <span class="nc">newCommand</span> <span class="kd">implements</span> <span class="n">Runnable</span> <span class="o">{</span>
+
+ <span class="c1">// Command Line options and arguments (For more information, please refer to http://picocli.info/)</span>
+
+
+ <span class="kd">public</span> <span class="kt">void</span> <span class="nf">run</span><span class="o">()</span> <span class="o">{</span>
+
+      <span class="c1">// Logic behind the new command.</span>
+
+  <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="apps.html" class="btn btn-neutral float-right" title="Sample Applications" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="apis.html" class="btn btn-neutral" title="Umbrella APIs" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, Adib Rastegarnia.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'1.0',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

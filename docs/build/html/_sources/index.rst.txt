@@ -15,6 +15,7 @@ Welcome to Umbrella's documentation!
    overview.rst
    getting_started.rst
    apis.rst
+   ui.rst
    apps.rst
   
 

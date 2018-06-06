@@ -9,8 +9,7 @@ Installation
    $ git clone https://github.com/umbrella-project/umbrella
    
    
-2. Umbrella is a Java based platform. In order to be able to compile the code, you need to install Oracle Java 1.8 and Maven using the following commands
-   ..code-block:: java  
+2. Umbrella is a Java based platform. In order to be able to compile the code, you need to install Oracle Java 1.8 and Maven using the following commands:: 
      $ sudo apt-get install software-properties-common -y && \
      $ sudo add-apt-repository ppa:webupd8team/java -y && \
      $ sudo apt-get update && \
