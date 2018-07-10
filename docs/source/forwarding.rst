@@ -6,13 +6,12 @@ Suppose we would like to write an application to route traffic between all of th
 1. First, we need to create an instance of the controller that we would like to execute our application on. We assume that the name of controller is stored in a config file (i.e. config.properties) and we use it to initialize the controller. 
 
 .. code-block:: java 
-        String controllerName;
-
-        Controller controller = null;
-        ConfigService configService = new ConfigService();
-        controllerName = configService.getControllerName();
-
-        controller = configService.init(controllerName);
+        
+    String controllerName;
+    Controller controller = null;
+    ConfigService configService = new ConfigService();
+    controllerName = configService.getControllerName();
+    controller = configService.init(controllerName);
 
 2. Second, we need to get the list of current hosts that have been detected by the controller.
 

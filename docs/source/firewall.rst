@@ -22,13 +22,12 @@ Firewall Application
 First, we need to create an instance of the controller that we would like to execute our application on. We assume that the name of controller is stored in a config file (i.e. config.properties) and we use it to initialize the controller. 
 
 .. code-block:: java 
-        String controllerName;
-
-        Controller controller = null;
-        ConfigService configService = new ConfigService();
-        controllerName = configService.getControllerName();
-
-        controller = configService.init(controllerName);
+        
+    String controllerName;
+    Controller controller = null;
+    ConfigService configService = new ConfigService();
+    controllerName = configService.getControllerName();
+    controller = configService.init(controllerName);
 
 
 
