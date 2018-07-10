@@ -19,24 +19,17 @@ Firewall Application
 
 * To achieve that goal, we implement an application using Umbrella APIs to generate and install appropriate forwarding rules on the switches between each pair of hosts: (h1,h3) and (h2, h4). We explain step by step how to write the mentioned application:
 
-1. First, we need to create an instance of the controller that we would like to execute our application on. We assume that the name of controller will be passed as an argument to the forwarding application. 
+First, we need to create an instance of the controller that we would like to execute our application on. We assume that the name of controller is stored in a config file (i.e. config.properties) and we use it to initialize the controller. 
 
-.. code-block:: java
+.. code-block:: java 
+        String controllerName;
 
-       if (args.length < 1) {
-            System.out.println("Arguments: onos/odl");
-        }
+        Controller controller = null;
+        ConfigService configService = new ConfigService();
+        controllerName = configService.getControllerName();
 
-        Controller controller;
+        controller = configService.init(controllerName);
 
-        if (args[0].equalsIgnoreCase("onos")) {
-            controller = new OnosController();
-        } else if (args[0].equalsIgnoreCase("odl")) {
-            controller = new OdlController();
-        } else {
-            return;
-        }
-         
 
 
 2. Second, we need to get the list of currents hosts and find a shortest path for each pair of hosts: (h1, h3) and (h2,h4). 
