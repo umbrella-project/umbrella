@@ -264,7 +264,7 @@ Testing the Forwarding Application on ONOS controller
    
 5. Finally, execute the application using the following command to install rules on network switches::
 
-        $java -cp target/umbrella-1.0-SNAPSHOT-jar-with-dependencies.jar apps.Firewall onos
+        $java -cp target/umbrella-1.0-SNAPSHOT-jar-with-dependencies.jar apps.Firewall
 
 Testing the Forwarding Application on OpenDayLight controller
 -------------------------------------------------------------
@@ -286,7 +286,7 @@ Testing the Forwarding Application on OpenDayLight controller
    
 5. Finally, execute the application using the following command to install rules on network switches::
 
-        $java -cp target/umbrella-1.0-SNAPSHOT-jar-with-dependencies.jar apps.Firewall odl
+        $java -cp target/umbrella-1.0-SNAPSHOT-jar-with-dependencies.jar apps.Firewall
 
 
 

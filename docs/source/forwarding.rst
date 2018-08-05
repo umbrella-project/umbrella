@@ -105,7 +105,7 @@ Testing the Forwarding Application on ONOS controller
    
 5. Finally, execute the application using the following command to install rules on network switches::
 
-        $java -cp target/umbrella-1.0-SNAPSHOT-jar-with-dependencies.jar apps.Forwarding onos
+        $java -cp target/umbrella-1.0-SNAPSHOT-jar-with-dependencies.jar apps.Forwarding
 
 Testing the Forwarding Application on OpenDayLight controller
 -------------------------------------------------------------
@@ -127,7 +127,7 @@ Testing the Forwarding Application on OpenDayLight controller
    
 5. Finally, execute the application using the following command to install rules on network switches::
 
-        $java -cp target/umbrella-1.0-SNAPSHOT-jar-with-dependencies.jar apps.Forwarding odl
+        $java -cp target/umbrella-1.0-SNAPSHOT-jar-with-dependencies.jar apps.Forwarding
 
 .. _Mininet: http://mininet.org/download/
 .. _ONOS GUIDES: https://wiki.onosproject.org/display/ONOS/Guides
