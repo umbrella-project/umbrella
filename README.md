@@ -34,25 +34,11 @@ Umbrella is a unified software defined development framework that provides  a ne
 
 Our work [Umbrella: a unified software defined development framework](https://arxiv.org/pdf/1805.09250.pdf) appears at [ANCS 2018](http://www.ancsconf.org/)
 
-## How to cite our work
+## How to cite our work?
 
-@inproceedings{Comer:2018:UUS:3230718.3233546,
- author = {Comer, Douglas and Karandikar, Rajas H. and Rastegarnia, Adib},
- title = {Umbrella: A Unified Software Defined Development Framework},
- booktitle = {Proceedings of the 2018 Symposium on Architectures for Networking and Communications Systems},
- series = {ANCS '18},
- year = {2018},
- isbn = {978-1-4503-5902-3},
- location = {Ithaca, New York},
- pages = {148--150},
- numpages = {3},
- url = {http://doi.acm.org/10.1145/3230718.3233546},
- doi = {10.1145/3230718.3233546},
- acmid = {3233546},
- publisher = {ACM},
- address = {New York, NY, USA},
- keywords = {REST API, networks programming interfaces, northbound API, software defined networking},
-} 
+If you have a plan to use our work for your research, please cite our work: [Bibtex](https://dl.acm.org/citation.cfm?id=3233546)
+
+
 
 
 
