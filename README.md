@@ -10,6 +10,8 @@ Umbrella is a unified software defined development framework that provides  a ne
     
 * Provide a software defined network programming framework that reduces programming complexity, allows a programmer to write SDN applications without requiring a programmer to master low-level details for each SDN controller, and avoids locking an application to a specific controller.
 
+* Provides a framework uses a hybrid approach that utilizes both of reactive and proactive approach for managing and programming of SDN networks that offers better scalability than a completely reactive network management. 
+
 #### [Umbrella Architecture](http://umbrella.readthedocs.io/en/latest/overview.html)
 
 
@@ -31,6 +33,26 @@ Umbrella is a unified software defined development framework that provides  a ne
 ## Publications
 
 Our work [Umbrella: a unified software defined development framework](https://arxiv.org/pdf/1805.09250.pdf) appears at [ANCS 2018](http://www.ancsconf.org/)
+
+## How to cite our work
+
+@inproceedings{Comer:2018:UUS:3230718.3233546,
+ author = {Comer, Douglas and Karandikar, Rajas H. and Rastegarnia, Adib},
+ title = {Umbrella: A Unified Software Defined Development Framework},
+ booktitle = {Proceedings of the 2018 Symposium on Architectures for Networking and Communications Systems},
+ series = {ANCS '18},
+ year = {2018},
+ isbn = {978-1-4503-5902-3},
+ location = {Ithaca, New York},
+ pages = {148--150},
+ numpages = {3},
+ url = {http://doi.acm.org/10.1145/3230718.3233546},
+ doi = {10.1145/3230718.3233546},
+ acmid = {3233546},
+ publisher = {ACM},
+ address = {New York, NY, USA},
+ keywords = {REST API, networks programming interfaces, northbound API, software defined networking},
+} 
 
 
 
