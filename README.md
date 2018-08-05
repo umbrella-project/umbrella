@@ -10,7 +10,7 @@ Umbrella is a unified software defined development framework that provides  a ne
     
 * Provide a software defined network programming framework that reduces programming complexity, allows a programmer to write SDN applications without requiring a programmer to master low-level details for each SDN controller, and avoids locking an application to a specific controller.
 
-* Provides a framework uses a hybrid approach that utilizes both of reactive and proactive approach for managing and programming of SDN networks that offers better scalability than a completely reactive network management. 
+* Provide a framework uses a hybrid approach that utilizes both of reactive and proactive approach for managing and programming of SDN networks that offers better scalability than a completely reactive network management. 
 
 #### [Umbrella Architecture](http://umbrella.readthedocs.io/en/latest/overview.html)
 

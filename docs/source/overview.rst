@@ -9,7 +9,7 @@ The Northbound (NB) APIs that SDN controllers provide differ in terms of archite
     * Design and implement a set of modules that use the proposed abstractions to provide information needed by SDN applications, such as topology, network statistics, and real time topology changes.
     * Increase portability of SDN applications across SDN controllers, and make it easy for a programmer to evaluate a specific application on multiple SDN controllers (e.g., to compare performance).
     * Provide a software defined network programming framework that reduces programming complexity, allows a programmer to write SDN applications without requiring a programmer to master low-level details for each SDN controller, and avoids locking an application to a specific controller.
-
+    * Provide a framework uses a hybrid approach that utilizes both of reactive and proactive approach for managing and programming of SDN networks that offers better scalability than a completely reactive network management.
 
 Umbrella Architecture
 ---------------------
