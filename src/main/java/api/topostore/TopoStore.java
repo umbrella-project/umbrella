@@ -23,6 +23,7 @@ import org.jgrapht.alg.interfaces.ShortestPathAlgorithm;
 import org.jgrapht.alg.shortestpath.DijkstraShortestPath;
 import org.jgrapht.graph.ClassBasedEdgeFactory;
 import org.jgrapht.graph.DirectedMultigraph;
+import org.onlab.packet.MacAddress;
 
 import java.util.HashSet;
 import java.util.List;
@@ -128,6 +129,26 @@ public abstract class TopoStore implements TopoStoreInterface {
         return this.topoHosts;
     }
 
+
+    /**
+     * Find a host based on a given Mac address.
+     * @param macAddress macAddress of given host.
+     * @return a TopoHost.
+     */
+    public TopoHost getTopoHost(MacAddress macAddress) {
+
+        for (TopoHost topoHost : topoHosts) {
+
+            if (topoHost.getHostMac().equals(macAddress.toString())) {
+                return topoHost;
+
+            }
+
+        }
+
+        return null;
+
+    }
 
     /**
      * Return topology graph.

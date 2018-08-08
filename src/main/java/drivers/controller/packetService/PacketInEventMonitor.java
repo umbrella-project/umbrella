@@ -38,12 +38,17 @@ import utility.HttpServerHelper;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.nio.ByteBuffer;
 import java.util.Arrays;
 
 public class PacketInEventMonitor extends EventMonitor implements HttpHandler, OFmessageHandler {
 
     private static Logger log = Logger.getLogger(PacketInEventMonitor.class);
     HttpServerHelper httpServerHelper;
+    byte[] dpid;
+    byte[] inPort;
+    long dpidNum;
+    int inPortNum;
 
 
     public PacketInEventMonitor(Controller controller, int port) {
@@ -52,8 +57,16 @@ public class PacketInEventMonitor extends EventMonitor implements HttpHandler, O
         httpServerHelper.create(port, this);
 
 
+
     }
 
+    public int getInPortNum() {
+        return this.inPortNum;
+    }
+
+    public long getDpidNum() {
+        return this.dpidNum;
+    }
 
     @Override
     public void handle(HttpExchange httpExchange) throws IOException {
@@ -70,14 +83,13 @@ public class PacketInEventMonitor extends EventMonitor implements HttpHandler, O
                 byte[] msg = new byte[contentLength];
                 int length = is.read(msg);
 
-                //ByteBuffer byteBuffer = ByteBuffer.wrap(msg);
-                //byteBuffer.order(ByteOrder.BIG_ENDIAN);
-
-
+                dpid = Arrays.copyOfRange(msg,0, 8);
+                inPort = Arrays.copyOfRange(msg, 8, 12);
                 byte[] ofmsg = Arrays.copyOfRange(msg, 12, msg.length);
                 OFMessage ofMessage = null;
                 OFFactory factory = OFFactories.getFactory(OFVersion.OF_13);
                 OFMessageReader<OFMessage> reader = factory.getReader();
+
 
                 ByteBuf buf = Unpooled.copiedBuffer(ofmsg);
                 try {
@@ -91,7 +103,16 @@ public class PacketInEventMonitor extends EventMonitor implements HttpHandler, O
                 switch (ofMessage.getType()) {
 
                     case PACKET_IN:
+                        log.info("PACKET IN\n");
 
+                        ByteBuffer dpidWrapped = ByteBuffer.wrap(dpid); // big-endian by default
+                        dpidNum = dpidWrapped.getLong();
+
+                        ByteBuffer portWrapped = ByteBuffer.wrap(inPort);
+                        inPortNum = portWrapped.getInt();
+
+
+                        //log.info("dpid:" + dpidNum + "," +"port:" + inPortNum + "\n");
                         packetIn = (OFPacketIn) ofMessage;
                         for (EventListener eventListener : eventListeners) {
                             eventListener.onEvent(new PacketInEvent(PacketEventType.PACKET_IN_EVENT, packetIn));
@@ -100,6 +121,7 @@ public class PacketInEventMonitor extends EventMonitor implements HttpHandler, O
                         break;
 
                 }
+
 
 
                 httpExchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, contentLength);
