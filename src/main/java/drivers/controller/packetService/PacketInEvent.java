@@ -6,16 +6,40 @@ import org.onlab.packet.DeserializationException;
 import org.onlab.packet.Ethernet;
 import org.projectfloodlight.openflow.protocol.OFPacketIn;
 
+import java.nio.ByteBuffer;
+
 public class PacketInEvent extends Event {
 
     protected PacketEventType packetEventType;
     private OFPacketIn ofPacketIn;
+    byte[] dpid;
+    byte[] inPort;
 
-    public PacketInEvent(PacketEventType packetEventType, OFPacketIn ofPacketIn) {
+
+    public PacketInEvent(PacketEventType packetEventType,
+                         OFPacketIn ofPacketIn,
+                         byte[] dpid,
+                         byte[] inPort) {
         this.ofPacketIn = ofPacketIn;
         this.packetEventType = packetEventType;
+        this.dpid = dpid;
+        this.inPort = inPort;
 
     }
+    public int getInPortNum() {
+
+        ByteBuffer portWrapped = ByteBuffer.wrap(inPort);
+        int inPortNum = portWrapped.getInt();
+
+        return inPortNum;
+    }
+
+    public long getDpidNum() {
+        ByteBuffer dpidWrapped = ByteBuffer.wrap(dpid); // big-endian by default
+        long dpidNum = dpidWrapped.getLong();
+        return dpidNum;
+    }
+
 
     public PacketEventType getPacketEventType() {
         return this.packetEventType;

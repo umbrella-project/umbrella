@@ -104,15 +104,11 @@ public class ReactiveFdw {
                 con.setRequestProperty( "Content-Type", "application/octet-stream" );
 
                 OutputStream os = con.getOutputStream();
-
-
                 ByteBuf packetOutBuffer = Unpooled.buffer();
-
-
-
                 ofPacketOut.writeTo(packetOutBuffer);
 
-                log.info(packetOutBuffer.array().length);
+                //
+                // log.info(packetOutBuffer.array().length);
 
                 //os.write(packetOutBuffer.array());
 
@@ -159,7 +155,7 @@ public class ReactiveFdw {
                         {
                             log.info("ARP PACKET\n");
                             OFActionOutput output = myFactory.actions().buildOutput()
-                                    .setPort(OFPort.ofInt(packetInEventMonitor.getInPortNum()))
+                                    .setPort(OFPort.ofInt(packetInEvent.getInPortNum()))
                                     .build();
 
 
@@ -173,9 +169,9 @@ public class ReactiveFdw {
 
 
 
-                            log.info("dpid:" + packetInEventMonitor.getDpidNum());
+                            log.info("dpid:" + packetInEvent.getDpidNum() + "inport:" + packetInEvent.getInPortNum());
                             try {
-                                httpPostRequest(packetInEventMonitor.getDpidNum(), packetOut);
+                                httpPostRequest(packetInEvent.getDpidNum(), packetOut);
                             } catch (IOException e) {
                                 e.printStackTrace();
                             }

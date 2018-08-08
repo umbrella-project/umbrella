@@ -60,13 +60,7 @@ public class PacketInEventMonitor extends EventMonitor implements HttpHandler, O
 
     }
 
-    public int getInPortNum() {
-        return this.inPortNum;
-    }
 
-    public long getDpidNum() {
-        return this.dpidNum;
-    }
 
     @Override
     public void handle(HttpExchange httpExchange) throws IOException {
@@ -105,8 +99,7 @@ public class PacketInEventMonitor extends EventMonitor implements HttpHandler, O
                     case PACKET_IN:
                         log.info("PACKET IN\n");
 
-                        ByteBuffer dpidWrapped = ByteBuffer.wrap(dpid); // big-endian by default
-                        dpidNum = dpidWrapped.getLong();
+
 
                         ByteBuffer portWrapped = ByteBuffer.wrap(inPort);
                         inPortNum = portWrapped.getInt();
@@ -115,7 +108,10 @@ public class PacketInEventMonitor extends EventMonitor implements HttpHandler, O
                         //log.info("dpid:" + dpidNum + "," +"port:" + inPortNum + "\n");
                         packetIn = (OFPacketIn) ofMessage;
                         for (EventListener eventListener : eventListeners) {
-                            eventListener.onEvent(new PacketInEvent(PacketEventType.PACKET_IN_EVENT, packetIn));
+                            eventListener.onEvent(new PacketInEvent(PacketEventType.PACKET_IN_EVENT,
+                                    packetIn,
+                                    dpid,
+                                    inPort));
                         }
 
                         break;
