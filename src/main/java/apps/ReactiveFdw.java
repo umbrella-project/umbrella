@@ -116,6 +116,8 @@ public class ReactiveFdw {
 
                 os.write(packetOutBuffer.array());
 
+                int responseCode = con.getResponseCode();
+                log.info("POST Response Code :: " + responseCode + "\n");
 
 
                 /*BufferedReader in = new BufferedReader(
@@ -126,6 +128,7 @@ public class ReactiveFdw {
                 while ((inputLine = in.readLine()) != null) {
                     response.append(inputLine);
                 }*/
+
 
 
                 //print result
@@ -182,7 +185,7 @@ public class ReactiveFdw {
 
 
 
-                            log.info("dpid:" + packetInEvent.getDpidNum() + "inport:" + packetInEvent.getInPortNum() + "\n");
+                            log.info("dpid:" + packetInEvent.getDpidNum() + " " +"inport:" + packetInEvent.getInPortNum() + "\n");
                             try {
                                 httpPostRequest(packetInEvent.getDpidNum(), packetOut);
                             } catch (IOException e) {
