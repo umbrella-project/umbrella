@@ -33,8 +33,10 @@ import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import org.apache.log4j.Logger;
 import org.jboss.netty.buffer.ChannelBuffer;
+import org.onlab.packet.ARP;
 import org.onlab.packet.Ethernet;
 import org.onlab.packet.IPv4;
+import org.onlab.packet.Ip4Address;
 import org.projectfloodlight.openflow.protocol.OFFactories;
 import org.projectfloodlight.openflow.protocol.OFFactory;
 import org.projectfloodlight.openflow.protocol.OFMessage;
@@ -89,7 +91,7 @@ public class ReactiveFdw {
             {
                 URL url = null;
                 try {
-                    url = new URL("http://127.0.0.1:8000/packet/" + dpid);
+                    url = new URL("http://127.0.0.1:8005/oftee/" + dpid);
                 } catch (MalformedURLException e) {
                     e.printStackTrace();
                 }
@@ -99,7 +101,9 @@ public class ReactiveFdw {
                 con = (HttpURLConnection) url.openConnection();
 
 
+
                 con.setDoOutput(true);
+                con.setDoInput(true);
                 con.setRequestMethod("POST");
                 con.setRequestProperty( "Content-Type", "application/octet-stream" );
 
@@ -108,23 +112,25 @@ public class ReactiveFdw {
                 ofPacketOut.writeTo(packetOutBuffer);
 
                 //
-                // log.info(packetOutBuffer.array().length);
+                log.info(packetOutBuffer.array().length);
 
-                //os.write(packetOutBuffer.array());
+                os.write(packetOutBuffer.array());
 
 
-                BufferedReader in = new BufferedReader(
+
+                /*BufferedReader in = new BufferedReader(
                         new InputStreamReader(con.getInputStream()));
                 String inputLine;
                 StringBuffer response = new StringBuffer();
 
                 while ((inputLine = in.readLine()) != null) {
                     response.append(inputLine);
-                }
+                }*/
 
 
                 //print result
-                log.info(response.toString());
+                log.info("Print results\n");
+                //log.info(response.toString());
             }
 
 
@@ -148,20 +154,27 @@ public class ReactiveFdw {
                             return;
                         }
 
-                        short type = eth.getEtherType();
+                        long type = eth.getEtherType();
 
 
                         if(type == Ethernet.TYPE_ARP)
                         {
+                            ARP arpPacket = (ARP) eth.getPayload();
+                            Ip4Address targetIpAddress = Ip4Address
+                                    .valueOf(arpPacket.getTargetProtocolAddress());
+
                             log.info("ARP PACKET\n");
                             OFActionOutput output = myFactory.actions().buildOutput()
                                     .setPort(OFPort.ofInt(packetInEvent.getInPortNum()))
                                     .build();
 
+                            Ethernet ethReply = ARP.buildArpReply(targetIpAddress,
+                                    eth.getDestinationMAC(),
+                                    eth);
 
 
                             OFPacketOut packetOut = myFactory.buildPacketOut()
-                                    .setData(eth.serialize())
+                                    .setData(ethReply.serialize())
                                     .setBufferId(OFBufferId.NO_BUFFER)
                                     .setInPort(OFPort.ANY)
                                     .setActions(Collections.singletonList((OFAction) output))
@@ -169,7 +182,7 @@ public class ReactiveFdw {
 
 
 
-                            log.info("dpid:" + packetInEvent.getDpidNum() + "inport:" + packetInEvent.getInPortNum());
+                            log.info("dpid:" + packetInEvent.getDpidNum() + "inport:" + packetInEvent.getInPortNum() + "\n");
                             try {
                                 httpPostRequest(packetInEvent.getDpidNum(), packetOut);
                             } catch (IOException e) {
@@ -177,22 +190,19 @@ public class ReactiveFdw {
                             }
 
 
-
-
-
-
                         }
-                        log.info("type:" + type);
+                        //log.info("type:" + String.format("0x%08X", type) + "\n");
 
-                        /*if(type == Ethernet.TYPE_LLDP)
+
+                        if(type == Ethernet.TYPE_LLDP)
                         {
                             log.info("LLDP\n");
                             return;
 
-                        }*/
+                        }
 
-                        if(type == Ethernet.TYPE_IPV4) {
-                            log.info("IP Packet\n");
+                        /*if(type == Ethernet.TYPE_IPV4) {
+                            //log.info("IP Packet\n");
 
                             IPv4 IPv4packet = (IPv4) eth.getPayload();
 
@@ -285,7 +295,7 @@ public class ReactiveFdw {
                                 finalController.flowService.addFlow(flow);
                             }
 
-                        }
+                        }*/
 
 
                 }
