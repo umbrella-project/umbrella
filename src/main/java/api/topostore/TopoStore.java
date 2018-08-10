@@ -152,6 +152,31 @@ public abstract class TopoStore implements TopoStoreInterface {
 
     }
 
+    public boolean checkHostExistence(Ip4Address ip4Address)
+    {
+        for(TopoHost topoHost: topoHosts)
+        {
+
+            ArrayList<String> hostIpAddresses =  topoHost.getHostIPAddresses();
+
+            for(String IpAddress: hostIpAddresses)
+            {
+
+
+                if(IpAddress.equals(ip4Address.getIp4Address().toString()))
+                {
+                    return true;
+                }
+
+            }
+
+
+        }
+
+        return false;
+
+    }
+
     public TopoHost getTopoHostByIP(Ip4Address ipAddress)
     {
         for (TopoHost topoHost : topoHosts) {

@@ -77,17 +77,12 @@ public class ReactiveFdw {
 
 
         String controllerName;
-
         Controller controller = null;
         ConfigService configService = new ConfigService();
         controllerName = configService.getControllerName();
-
         controller = configService.init(controllerName);
         PacketInEventMonitor packetInEventMonitor = new PacketInEventMonitor(controller, Integer.parseInt(args[0]));
-
         Controller finalController = controller;
-
-
         Set<TopoSwitch> topoSwitches = finalController.topoStore.getSwitches();
 
         for(TopoSwitch topoSwitch: topoSwitches)
@@ -159,6 +154,12 @@ public class ReactiveFdw {
                                     .build();
 
 
+
+                            if(!finalController.topoStore.checkHostExistence(targetIpAddress))
+                            {
+                                return;
+                            }
+
                             String dstMac = finalController.topoStore.getTopoHostByIP(targetIpAddress).getHostMac();
 
                             if(dstMac ==null)
@@ -192,15 +193,7 @@ public class ReactiveFdw {
 
 
                         }
-                        //log.info("type:" + String.format("0x%08X", type) + "\n");
 
-
-                        if(type == Ethernet.TYPE_LLDP)
-                        {
-                            log.info("LLDP\n");
-                            return;
-
-                        }
 
                         if(type == Ethernet.TYPE_IPV4) {
                             log.info("IP Packet\n");
@@ -297,8 +290,6 @@ public class ReactiveFdw {
                             }
 
                         }
-
-
                 }
 
             }

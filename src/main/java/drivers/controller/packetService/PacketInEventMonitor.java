@@ -91,6 +91,11 @@ public class PacketInEventMonitor extends EventMonitor implements HttpHandler, O
                 }
 
 
+                if(ofMessage == null)
+                {
+                    return;
+                }
+
                 OFPacketIn packetIn = null;
                 switch (ofMessage.getType()) {
 
