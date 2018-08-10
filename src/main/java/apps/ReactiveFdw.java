@@ -37,6 +37,7 @@ import org.onlab.packet.ARP;
 import org.onlab.packet.Ethernet;
 import org.onlab.packet.IPv4;
 import org.onlab.packet.Ip4Address;
+import org.onlab.packet.MacAddress;
 import org.projectfloodlight.openflow.protocol.OFFactories;
 import org.projectfloodlight.openflow.protocol.OFFactory;
 import org.projectfloodlight.openflow.protocol.OFMessage;
@@ -91,7 +92,7 @@ public class ReactiveFdw {
             {
                 URL url = null;
                 try {
-                    url = new URL("http://127.0.0.1:8005/oftee/" + dpid);
+                    url = new URL("http://127.0.0.1:8005/oftee/" +  String.format("0x%016X", dpid));
                 } catch (MalformedURLException e) {
                     e.printStackTrace();
                 }
@@ -111,8 +112,7 @@ public class ReactiveFdw {
                 ByteBuf packetOutBuffer = Unpooled.buffer();
                 ofPacketOut.writeTo(packetOutBuffer);
 
-                //
-                log.info(packetOutBuffer.array().length);
+
 
                 os.write(packetOutBuffer.array());
 
@@ -120,20 +120,6 @@ public class ReactiveFdw {
                 log.info("POST Response Code :: " + responseCode + "\n");
 
 
-                /*BufferedReader in = new BufferedReader(
-                        new InputStreamReader(con.getInputStream()));
-                String inputLine;
-                StringBuffer response = new StringBuffer();
-
-                while ((inputLine = in.readLine()) != null) {
-                    response.append(inputLine);
-                }*/
-
-
-
-                //print result
-                log.info("Print results\n");
-                //log.info(response.toString());
             }
 
 
@@ -171,8 +157,17 @@ public class ReactiveFdw {
                                     .setPort(OFPort.ofInt(packetInEvent.getInPortNum()))
                                     .build();
 
+
+                            String dstMac = finalController.topoStore.getTopoHostByIP(targetIpAddress).getHostMac();
+
+                            if(dstMac ==null)
+                            {
+                                return;
+                            }
+
+                            //log.info("dst mac:" + dstMac + "\n");
                             Ethernet ethReply = ARP.buildArpReply(targetIpAddress,
-                                    eth.getDestinationMAC(),
+                                    MacAddress.valueOf(dstMac),
                                     eth);
 
 
@@ -192,6 +187,8 @@ public class ReactiveFdw {
                                 e.printStackTrace();
                             }
 
+                            return;
+
 
                         }
                         //log.info("type:" + String.format("0x%08X", type) + "\n");
@@ -204,14 +201,14 @@ public class ReactiveFdw {
 
                         }
 
-                        /*if(type == Ethernet.TYPE_IPV4) {
-                            //log.info("IP Packet\n");
+                        if(type == Ethernet.TYPE_IPV4) {
+                            log.info("IP Packet\n");
 
                             IPv4 IPv4packet = (IPv4) eth.getPayload();
 
 
-                            TopoHost srcHost = finalController.topoStore.getTopoHost(eth.getSourceMAC());
-                            TopoHost dstHost = finalController.topoStore.getTopoHost(eth.getDestinationMAC());
+                            TopoHost srcHost = finalController.topoStore.getTopoHostByMac(eth.getSourceMAC());
+                            TopoHost dstHost = finalController.topoStore.getTopoHostByMac(eth.getDestinationMAC());
 
                             if(srcHost == null || dstHost == null)
                             {
@@ -298,7 +295,7 @@ public class ReactiveFdw {
                                 finalController.flowService.addFlow(flow);
                             }
 
-                        }*/
+                        }
 
 
                 }
