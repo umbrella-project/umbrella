@@ -197,8 +197,19 @@ public class OnosFlowService extends FlowService {
         JSONObject jsonResult = new JSONObject();
 
         jsonResult.put("priority", priority.toString());
-        jsonResult.put("timeout", flow.getTimeOut());
-        jsonResult.put("isPermanent", false);
+        if(!flow.isPermanent())
+        {
+            jsonResult.put("timeout", flow.getTimeOut());
+            jsonResult.put("isPermanent", false);
+
+        }
+
+        else if(flow.isPermanent())
+        {
+
+            jsonResult.put("isPermanent", true);
+        }
+
         jsonResult.put("deviceId", flow.getDeviceID());
 
 
@@ -330,6 +341,14 @@ public class OnosFlowService extends FlowService {
                     actionArrays.add(actionObjects[actionCounter]);
                     actionCounter++;
                     break;
+
+                case CONTROLLER:
+                    actionObjects[actionCounter].put("port", "CONTROLLER");
+                    actionObjects[actionCounter].put("type", "OUTPUT");
+                    actionArrays.add(actionObjects[actionCounter]);
+                    actionCounter++;
+                    break;
+
 
                 case DROP:
                     break;

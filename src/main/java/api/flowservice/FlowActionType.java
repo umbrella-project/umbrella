@@ -22,4 +22,5 @@ package api.flowservice;
 public enum FlowActionType {
     DROP,
     OUTPUT,
+    CONTROLLER;
 }

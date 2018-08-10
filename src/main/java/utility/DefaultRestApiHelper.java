@@ -16,6 +16,9 @@
 
 package utility;
 
+import apps.TestPacketIn;
+import io.netty.buffer.ByteBuf;
+import io.netty.buffer.Unpooled;
 import org.apache.http.HttpResponse;
 import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.UsernamePasswordCredentials;
@@ -27,15 +30,24 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.BasicCredentialsProvider;
 import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.log4j.Logger;
+import org.projectfloodlight.openflow.protocol.OFPacketOut;
+import sun.net.www.protocol.http.HttpURLConnection;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 /**
  * REST API helper functions.
  */
 public class DefaultRestApiHelper extends RestApiHelper {
+
+
+    private static Logger log = Logger.getLogger(DefaultRestApiHelper.class);
 
     /**
      * Create an HTTP client to connect to REST API server.
@@ -101,6 +113,39 @@ public class DefaultRestApiHelper extends RestApiHelper {
      * @param httpClient an instance of HTTP client.
      */
     public static void httpClientShutDown(HttpClient httpClient) {
+
+    }
+
+    public void httpPostRequest(int port, long dpid, OFPacketOut ofPacketOut) throws IOException
+    {
+        URL url = null;
+        try {
+            url = new URL("http://127.0.0.1:" + port + "/oftee/" +  String.format("0x%016X", dpid));
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+
+
+        HttpURLConnection con = null;
+        con = (HttpURLConnection) url.openConnection();
+
+
+
+        con.setDoOutput(true);
+        con.setDoInput(true);
+        con.setRequestMethod("POST");
+        con.setRequestProperty( "Content-Type", "application/octet-stream" );
+
+        OutputStream os = con.getOutputStream();
+        ByteBuf packetOutBuffer = Unpooled.buffer();
+        ofPacketOut.writeTo(packetOutBuffer);
+
+
+        os.write(packetOutBuffer.array());
+
+        int responseCode = con.getResponseCode();
+        log.info("POST Response Code :: " + responseCode + "\n");
+
 
     }
 

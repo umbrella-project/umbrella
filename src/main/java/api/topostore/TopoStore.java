@@ -161,7 +161,7 @@ public abstract class TopoStore implements TopoStoreInterface {
              for(String IpAddress: hostIpAddresses)
              {
 
-                 log.info("ip address" + ipAddress.getIp4Address().toString() + IpAddress);
+
                  if(IpAddress.equals(ipAddress.getIp4Address().toString()))
                  {
                      return topoHost;

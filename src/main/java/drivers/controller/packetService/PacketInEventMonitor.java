@@ -56,8 +56,6 @@ public class PacketInEventMonitor extends EventMonitor implements HttpHandler, O
         httpServerHelper = new HttpServerHelper();
         httpServerHelper.create(port, this);
 
-
-
     }
 
 

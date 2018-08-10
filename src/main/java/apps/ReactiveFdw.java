@@ -25,6 +25,7 @@ import api.notificationservice.EventListener;
 import api.topostore.TopoEdge;
 import api.topostore.TopoEdgeType;
 import api.topostore.TopoHost;
+import api.topostore.TopoSwitch;
 import config.ConfigService;
 import drivers.controller.Controller;
 import drivers.controller.packetService.PacketInEvent;
@@ -50,6 +51,7 @@ import org.projectfloodlight.openflow.protocol.action.OFActionOutput;
 import org.projectfloodlight.openflow.types.OFBufferId;
 import org.projectfloodlight.openflow.types.OFPort;
 import sun.net.www.protocol.http.HttpURLConnection;
+import utility.DefaultRestApiHelper;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -83,44 +85,43 @@ public class ReactiveFdw {
         controller = configService.init(controllerName);
         PacketInEventMonitor packetInEventMonitor = new PacketInEventMonitor(controller, Integer.parseInt(args[0]));
 
-
         Controller finalController = controller;
+
+
+        Set<TopoSwitch> topoSwitches = finalController.topoStore.getSwitches();
+
+        for(TopoSwitch topoSwitch: topoSwitches)
+        {
+            FlowMatch flowMatch = FlowMatch.builder()
+
+                    .ethType(2048)
+                    .build();
+
+            FlowAction flowAction = new FlowAction(FlowActionType.CONTROLLER,
+                    0);
+
+            ArrayList<FlowAction> flowActions = new ArrayList<FlowAction>();
+            flowActions.add(flowAction);
+
+            Flow flow = Flow.builder()
+                    .deviceID(topoSwitch.getSwitchID())
+                    .tableID(0)
+                    .flowMatch(flowMatch)
+                    .flowActions(flowActions)
+                    .priority(1000)
+                    .appId("TestForwarding")
+                    .isPermanent(true)
+                    .build();
+
+            finalController.flowService.addFlow(flow);
+
+        }
+
+
 
         class PacketInEventListener extends EventListener {
 
-            public void httpPostRequest(long dpid, OFPacketOut ofPacketOut) throws IOException
-            {
-                URL url = null;
-                try {
-                    url = new URL("http://127.0.0.1:8005/oftee/" +  String.format("0x%016X", dpid));
-                } catch (MalformedURLException e) {
-                    e.printStackTrace();
-                }
-
-
-                HttpURLConnection con = null;
-                con = (HttpURLConnection) url.openConnection();
-
-
-
-                con.setDoOutput(true);
-                con.setDoInput(true);
-                con.setRequestMethod("POST");
-                con.setRequestProperty( "Content-Type", "application/octet-stream" );
-
-                OutputStream os = con.getOutputStream();
-                ByteBuf packetOutBuffer = Unpooled.buffer();
-                ofPacketOut.writeTo(packetOutBuffer);
-
-
-
-                os.write(packetOutBuffer.array());
-
-                int responseCode = con.getResponseCode();
-                log.info("POST Response Code :: " + responseCode + "\n");
-
-
-            }
+           DefaultRestApiHelper restApiHelper = new DefaultRestApiHelper();
 
 
             @Override
@@ -182,7 +183,7 @@ public class ReactiveFdw {
 
                             log.info("dpid:" + packetInEvent.getDpidNum() + " " +"inport:" + packetInEvent.getInPortNum() + "\n");
                             try {
-                                httpPostRequest(packetInEvent.getDpidNum(), packetOut);
+                                restApiHelper.httpPostRequest(8005, packetInEvent.getDpidNum(), packetOut);
                             } catch (IOException e) {
                                 e.printStackTrace();
                             }
