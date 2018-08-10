@@ -103,7 +103,7 @@ public class ReactiveFdw {
                     .tableID(0)
                     .flowMatch(flowMatch)
                     .flowActions(flowActions)
-                    .priority(1000)
+                    .priority(100)
                     .appId("TestForwarding")
                     .isPermanent(true)
                     .build();
@@ -182,7 +182,7 @@ public class ReactiveFdw {
 
 
 
-                            log.info("dpid:" + packetInEvent.getDpidNum() + " " +"inport:" + packetInEvent.getInPortNum() + "\n");
+                            //log.info("dpid:" + packetInEvent.getDpidNum() + " " +"inport:" + packetInEvent.getInPortNum() + "\n");
                             try {
                                 restApiHelper.httpPostRequest(8005, packetInEvent.getDpidNum(), packetOut);
                             } catch (IOException e) {
@@ -201,15 +201,25 @@ public class ReactiveFdw {
                             IPv4 IPv4packet = (IPv4) eth.getPayload();
 
 
+                            if(!finalController.topoStore.checkHostExistence(eth.getSourceMAC())
+                                 || !finalController.topoStore.checkHostExistence(eth.getDestinationMAC()) )
+                            {
+                                return;
+
+                            }
+
+
+
                             TopoHost srcHost = finalController.topoStore.getTopoHostByMac(eth.getSourceMAC());
                             TopoHost dstHost = finalController.topoStore.getTopoHostByMac(eth.getDestinationMAC());
 
+                            log.info(srcHost.getHostID() + ":" + dstHost.getHostID() + "\n");
                             if(srcHost == null || dstHost == null)
                             {
                                 return;
                             }
 
-                            //log.info(srcHost.getHostID() + ":" + dstHost.getHostID() + "\n");
+
                             List<TopoEdge> path = null;
 
 

@@ -26,6 +26,7 @@ import org.jgrapht.graph.DirectedMultigraph;
 import org.onlab.packet.Ip4Address;
 import org.onlab.packet.MacAddress;
 
+import javax.crypto.Mac;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -141,6 +142,7 @@ public abstract class TopoStore implements TopoStoreInterface {
 
         for (TopoHost topoHost : topoHosts) {
 
+
             if (topoHost.getHostMac().equals(macAddress.toString())) {
                 return topoHost;
 
@@ -168,6 +170,25 @@ public abstract class TopoStore implements TopoStoreInterface {
                     return true;
                 }
 
+            }
+
+
+        }
+
+        return false;
+
+    }
+
+    public boolean checkHostExistence(MacAddress macAddress)
+    {
+        for(TopoHost topoHost: topoHosts)
+        {
+
+            String hostMacAddress = topoHost.getHostMac();
+
+            if(hostMacAddress.equals(macAddress.toString()))
+            {
+                return true;
             }
 
 
