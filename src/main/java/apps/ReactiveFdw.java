@@ -154,11 +154,14 @@ public class ReactiveFdw {
                                     .build();
 
 
+                            log.info(finalController.topoStore.checkHostExistenceWithIP(targetIpAddress));
 
-                            if(!finalController.topoStore.checkHostExistence(targetIpAddress))
+                            if(!finalController.topoStore.checkHostExistenceWithIP(targetIpAddress))
                             {
                                 return;
                             }
+
+                            //log.info("Target IP address exists\n");
 
                             String dstMac = finalController.topoStore.getTopoHostByIP(targetIpAddress).getHostMac();
 
@@ -196,13 +199,13 @@ public class ReactiveFdw {
 
 
                         if(type == Ethernet.TYPE_IPV4) {
-                            log.info("IP Packet\n");
 
+                            log.info("IP Packet\n");
                             IPv4 IPv4packet = (IPv4) eth.getPayload();
 
 
-                            if(!finalController.topoStore.checkHostExistence(eth.getSourceMAC())
-                                 || !finalController.topoStore.checkHostExistence(eth.getDestinationMAC()) )
+                            if(!finalController.topoStore.checkHostExistenceWithMac(eth.getSourceMAC())
+                                 || !finalController.topoStore.checkHostExistenceWithMac(eth.getDestinationMAC()) )
                             {
                                 return;
 

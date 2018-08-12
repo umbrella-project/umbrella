@@ -19,6 +19,9 @@ package utility;
 import apps.TestPacketIn;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
+import org.apache.commons.httpclient.methods.PostMethod;
+import org.apache.commons.httpclient.methods.RequestEntity;
+import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.UsernamePasswordCredentials;
@@ -27,9 +30,12 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.methods.HttpUriRequest;
+import org.apache.http.entity.ByteArrayEntity;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.BasicCredentialsProvider;
 import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.http.util.EntityUtils;
 import org.apache.log4j.Logger;
 import org.projectfloodlight.openflow.protocol.OFPacketOut;
 import sun.net.www.protocol.http.HttpURLConnection;
@@ -62,6 +68,7 @@ public class DefaultRestApiHelper extends RestApiHelper {
         CredentialsProvider credentialsProvider = new BasicCredentialsProvider();
         UsernamePasswordCredentials usernamePasswordCredentials = new UsernamePasswordCredentials(username, password);
         credentialsProvider.setCredentials(AuthScope.ANY, usernamePasswordCredentials);
+
 
         HttpClient httpClient = HttpClientBuilder.create()
                 .setDefaultCredentialsProvider(credentialsProvider)
@@ -116,8 +123,13 @@ public class DefaultRestApiHelper extends RestApiHelper {
 
     }
 
+
+
+
+
     public void httpPostRequest(int port, long dpid, OFPacketOut ofPacketOut) throws IOException
     {
+        log.info("post request\n");
         URL url = null;
         try {
             url = new URL("http://127.0.0.1:" + port + "/oftee/" +  String.format("0x%016X", dpid));
@@ -125,9 +137,35 @@ public class DefaultRestApiHelper extends RestApiHelper {
             e.printStackTrace();
         }
 
+        String urlString = "http://127.0.0.1:" + port + "/oftee/" +  String.format("0x%016X", dpid);
 
-        HttpURLConnection con = null;
+        HttpClient client = HttpClientBuilder.create().build();
+        HttpPost post = new HttpPost("http://127.0.0.1:" + port + "/oftee/" +  String.format("0x%016X", dpid));
+
+        ByteBuf packetOutBuffer = Unpooled.buffer();
+        ofPacketOut.writeTo(packetOutBuffer);
+        post.setEntity(new ByteArrayEntity(packetOutBuffer.array()));
+        post.setHeader("Content-type", "application/octet-stream");
+        HttpResponse response = client.execute((HttpUriRequest) post);
+
+        if(response == null)
+        {
+            log.info(" response is null\n");
+        }
+
+        HttpEntity entity = response.getEntity();
+
+        if (entity != null) {
+            log.info("response is not null\n");
+            log.info(EntityUtils.toString(entity));
+        }
+
+
+        /*HttpURLConnection con = null;
         con = (HttpURLConnection) url.openConnection();
+
+
+
 
 
 
@@ -143,8 +181,10 @@ public class DefaultRestApiHelper extends RestApiHelper {
 
         os.write(packetOutBuffer.array());
 
+
         int responseCode = con.getResponseCode();
-        log.info("POST Response Code :: " + responseCode + "\n");
+        log.info("POST Response Code :: " + responseCode + "\n");*/
+
 
 
     }

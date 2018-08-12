@@ -154,7 +154,7 @@ public abstract class TopoStore implements TopoStoreInterface {
 
     }
 
-    public boolean checkHostExistence(Ip4Address ip4Address)
+    public boolean checkHostExistenceWithIP(Ip4Address ip4Address)
     {
         for(TopoHost topoHost: topoHosts)
         {
@@ -164,6 +164,7 @@ public abstract class TopoStore implements TopoStoreInterface {
             for(String IpAddress: hostIpAddresses)
             {
 
+                //log.info(IpAddress + " " + ip4Address.getIp4Address().toString() + "\n");
 
                 if(IpAddress.equals(ip4Address.getIp4Address().toString()))
                 {
@@ -179,7 +180,7 @@ public abstract class TopoStore implements TopoStoreInterface {
 
     }
 
-    public boolean checkHostExistence(MacAddress macAddress)
+    public boolean checkHostExistenceWithMac(MacAddress macAddress)
     {
         for(TopoHost topoHost: topoHosts)
         {
