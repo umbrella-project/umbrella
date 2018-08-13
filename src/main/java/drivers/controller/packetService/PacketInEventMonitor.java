@@ -96,6 +96,10 @@ public class PacketInEventMonitor extends EventMonitor implements HttpHandler, O
                     return;
                 }
 
+                httpExchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, 0);
+                OutputStream os = httpExchange.getResponseBody();
+                httpExchange.close();
+
                 OFPacketIn packetIn = null;
                 switch (ofMessage.getType()) {
 
@@ -120,14 +124,6 @@ public class PacketInEventMonitor extends EventMonitor implements HttpHandler, O
                         break;
 
                 }
-
-
-
-                httpExchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, contentLength);
-                OutputStream os = httpExchange.getResponseBody();
-                os.write(msg);
-                httpExchange.close();
-
 
             } catch (Exception e) {
                 e.printStackTrace();

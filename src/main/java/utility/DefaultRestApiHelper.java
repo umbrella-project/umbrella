@@ -32,6 +32,7 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.entity.ByteArrayEntity;
+import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.BasicCredentialsProvider;
 import org.apache.http.impl.client.HttpClientBuilder;
@@ -129,6 +130,7 @@ public class DefaultRestApiHelper extends RestApiHelper {
 
     public void httpPostRequest(int port, long dpid, OFPacketOut ofPacketOut) throws IOException
     {
+
         log.info("post request\n");
         URL url = null;
         try {
@@ -144,8 +146,10 @@ public class DefaultRestApiHelper extends RestApiHelper {
 
         ByteBuf packetOutBuffer = Unpooled.buffer();
         ofPacketOut.writeTo(packetOutBuffer);
-        post.setEntity(new ByteArrayEntity(packetOutBuffer.array()));
-        post.setHeader("Content-type", "application/octet-stream");
+	byte packetOutBytes[] = new byte [packetOutBuffer.readableBytes()];
+	packetOutBuffer.readBytes(packetOutBytes);
+
+        post.setEntity(new ByteArrayEntity(packetOutBytes, ContentType.APPLICATION_OCTET_STREAM));
         HttpResponse response = client.execute((HttpUriRequest) post);
 
         if(response == null)
@@ -157,11 +161,13 @@ public class DefaultRestApiHelper extends RestApiHelper {
 
         if (entity != null) {
             log.info("response is not null\n");
+	    System.out.println(response.getStatusLine());
             log.info(EntityUtils.toString(entity));
         }
 
 
-        /*HttpURLConnection con = null;
+	/*
+        HttpURLConnection con = null;
         con = (HttpURLConnection) url.openConnection();
 
 
@@ -183,8 +189,8 @@ public class DefaultRestApiHelper extends RestApiHelper {
 
 
         int responseCode = con.getResponseCode();
-        log.info("POST Response Code :: " + responseCode + "\n");*/
-
+        log.info("POST Response Code :: " + responseCode + "\n");
+	*/
 
 
     }

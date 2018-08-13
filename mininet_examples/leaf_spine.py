@@ -2,7 +2,7 @@ from mininet.net import Mininet
 from mininet.topo import Topo
 from mininet.cli import CLI
 from mininet.node import RemoteController
-from mininet.node import RemoteController, Host
+from mininet.node import RemoteController, Host, OVSKernelSwitch
 
 
 class IpHost(Host):
@@ -42,11 +42,11 @@ class LeafAndSpine(Topo):
 
                 self.addLink(host, leafSwitch, **linkopts)
 
-
+topos = { 'leaf_spine' : ( lambda: LeafAndSpine(2,2,1) ) }
 if __name__ == '__main__':
     topo = LeafAndSpine(2, 2, 1)
-    net = Mininet(topo, autoSetMacs=True, xterms=False, controller=RemoteController)
-    net.addController('c', ip='127.0.0.1', port=6654)  # localhost:127.0.0.1 vm-to-mac:10.0.2.2 server-to-mac:128.112.93.28
+    net = Mininet(topo, autoSetMacs=True, xterms=False, controller=RemoteController, switch=OVSKernelSwitch)
+    net.addController('c', ip='127.0.0.1', port=6680)  # localhost:127.0.0.1 vm-to-mac:10.0.2.2 server-to-mac:128.112.93.28
     print "\nHosts configured with IPs, switches pointing to OpenVirteX at 128.112.93.28 port 6633\n"
     
     net.start()

@@ -187,7 +187,7 @@ public class ReactiveFdw {
 
                             //log.info("dpid:" + packetInEvent.getDpidNum() + " " +"inport:" + packetInEvent.getInPortNum() + "\n");
                             try {
-                                restApiHelper.httpPostRequest(8005, packetInEvent.getDpidNum(), packetOut);
+                                restApiHelper.httpPostRequest(8006, packetInEvent.getDpidNum(), packetOut);
                             } catch (IOException e) {
                                 e.printStackTrace();
                             }
