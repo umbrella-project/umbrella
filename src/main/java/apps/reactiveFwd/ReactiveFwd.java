@@ -195,6 +195,7 @@ public class ReactiveFwd {
                             List<TopoEdge> path = null;
                             // Forward Path
                             path = finalController.topoStore.getShortestPath(srcHost.getHostID(), dstHost.getHostID());
+                            TopoEdge firstEdge = path.get(1);
                             for (TopoEdge edge : path) {
 
                                 if (edge.getType() == TopoEdgeType.HOST_SWITCH) {
@@ -237,7 +238,6 @@ public class ReactiveFwd {
                             // Reverse Path
                             path = finalController.topoStore.getShortestPath(dstHost.getHostID(), srcHost.getHostID());
 
-
                             for (TopoEdge edge : path) {
 
                                 if (edge.getType() == TopoEdgeType.HOST_SWITCH) {
@@ -271,8 +271,10 @@ public class ReactiveFwd {
                                 finalController.flowService.addFlow(flow);
                             }
 
+                            int packetOutPort = Integer.parseInt(firstEdge.getSrcPort());
+
                             OFActionOutput output = myFactory.actions().buildOutput()
-                                    .setPort(OFPort.ofInt(packetInEvent.getInPortNum()))
+                                    .setPort(OFPort.ofInt(packetOutPort))
                                     .build();
                             OFPacketOut packetOut = myFactory.buildPacketOut()
                                     .setData(eth.serialize())
@@ -280,6 +282,8 @@ public class ReactiveFwd {
                                     .setInPort(OFPort.ANY)
                                     .setActions(Collections.singletonList((OFAction) output))
                                     .build();
+
+
 
 
                             try {
