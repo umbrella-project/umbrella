@@ -14,22 +14,28 @@
  *    limitations under the License.
  */
 
-package apps;
+package apps.tests;
 
 import api.notificationservice.Event;
 import api.notificationservice.EventListener;
+import api.topostore.TopoHost;
 import config.ConfigService;
 import drivers.controller.Controller;
 import drivers.controller.packetService.PacketInEvent;
 import drivers.controller.packetService.PacketInEventMonitor;
 import org.apache.log4j.Logger;
 import org.onlab.packet.Ethernet;
-import org.onlab.packet.IPacket;
 import org.onlab.packet.IPv4;
+import org.projectfloodlight.openflow.protocol.OFFactories;
+import org.projectfloodlight.openflow.protocol.OFFactory;
+import org.projectfloodlight.openflow.protocol.OFPacketIn;
 
-public class TestPacketIn {
+import java.util.Set;
+
+public class TestPacketInOftee {
 
     private static Logger log = Logger.getLogger(TestPacketIn.class);
+
 
     public static void main(String[] args) {
 
@@ -41,34 +47,48 @@ public class TestPacketIn {
         controllerName = configService.getControllerName();
 
         controller = configService.init(controllerName);
+        PacketInEventMonitor packetInEventMonitor = new PacketInEventMonitor(controller, Integer.parseInt(args[0]));
 
 
-        PacketInEventMonitor packetInEventMonitor = new PacketInEventMonitor(controller, 8000);
-
+        Controller finalController = controller;
 
         class PacketInEventListener extends EventListener {
+
 
             @Override
             public void onEvent(Event event) {
 
                 PacketInEvent packetInEvent = (PacketInEvent) event;
 
+                Set<TopoHost> topoHosts = finalController.topoStore.getHosts();
+
                 switch (packetInEvent.getPacketEventType()) {
                     case PACKET_IN_EVENT:
+
+                        OFPacketIn ofPacketIn = packetInEvent.getOfPacketIn();
+                        OFFactory myFactory = OFFactories.getFactory(ofPacketIn.getVersion());
+
                         Ethernet eth = packetInEvent.parsed();
-                        log.info("EthDst:" + eth.getDestinationMAC().toString() + "," + "EthSrc" + ":" + eth.getSourceMAC().toString() + "\n");
+
+                        if (eth == null) {
+                            return;
+                        }
+
+                        long type = eth.getEtherType();
+
+                        log.info("type:" + String.format("0x%08X", type) + "\n");
 
                         IPv4 IPv4packet = (IPv4) eth.getPayload();
-                        log.info("src IP:" + IPv4packet.getSourceAddress()  + "\n");
+
+
                 }
 
             }
         }
 
         PacketInEventListener packetInEventListener = new PacketInEventListener();
-
         packetInEventMonitor.addEventListener(packetInEventListener);
-
-
     }
 }
+
+

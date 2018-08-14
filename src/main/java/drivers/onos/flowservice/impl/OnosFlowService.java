@@ -197,15 +197,11 @@ public class OnosFlowService extends FlowService {
         JSONObject jsonResult = new JSONObject();
 
         jsonResult.put("priority", priority.toString());
-        if(!flow.isPermanent())
-        {
+        if (!flow.isPermanent()) {
             jsonResult.put("timeout", flow.getTimeOut());
             jsonResult.put("isPermanent", false);
 
-        }
-
-        else if(flow.isPermanent())
-        {
+        } else if (flow.isPermanent()) {
 
             jsonResult.put("isPermanent", true);
         }

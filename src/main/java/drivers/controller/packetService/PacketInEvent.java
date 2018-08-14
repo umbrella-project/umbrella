@@ -11,9 +11,9 @@ import java.nio.ByteBuffer;
 public class PacketInEvent extends Event {
 
     protected PacketEventType packetEventType;
-    private OFPacketIn ofPacketIn;
     byte[] dpid;
     byte[] inPort;
+    private OFPacketIn ofPacketIn;
 
 
     public PacketInEvent(PacketEventType packetEventType,
@@ -26,6 +26,7 @@ public class PacketInEvent extends Event {
         this.inPort = inPort;
 
     }
+
     public int getInPortNum() {
 
         ByteBuffer portWrapped = ByteBuffer.wrap(inPort);

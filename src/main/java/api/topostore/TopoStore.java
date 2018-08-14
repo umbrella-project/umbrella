@@ -26,7 +26,6 @@ import org.jgrapht.graph.DirectedMultigraph;
 import org.onlab.packet.Ip4Address;
 import org.onlab.packet.MacAddress;
 
-import javax.crypto.Mac;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -135,6 +134,7 @@ public abstract class TopoStore implements TopoStoreInterface {
 
     /**
      * Find a host based on a given Mac address.
+     *
      * @param macAddress macAddress of given host.
      * @return a TopoHost.
      */
@@ -154,20 +154,16 @@ public abstract class TopoStore implements TopoStoreInterface {
 
     }
 
-    public boolean checkHostExistenceWithIP(Ip4Address ip4Address)
-    {
-        for(TopoHost topoHost: topoHosts)
-        {
+    public boolean checkHostExistenceWithIP(Ip4Address ip4Address) {
+        for (TopoHost topoHost : topoHosts) {
 
-            ArrayList<String> hostIpAddresses =  topoHost.getHostIPAddresses();
+            ArrayList<String> hostIpAddresses = topoHost.getHostIPAddresses();
 
-            for(String IpAddress: hostIpAddresses)
-            {
+            for (String IpAddress : hostIpAddresses) {
 
                 //log.info(IpAddress + " " + ip4Address.getIp4Address().toString() + "\n");
 
-                if(IpAddress.equals(ip4Address.getIp4Address().toString()))
-                {
+                if (IpAddress.equals(ip4Address.getIp4Address().toString())) {
                     return true;
                 }
 
@@ -180,15 +176,12 @@ public abstract class TopoStore implements TopoStoreInterface {
 
     }
 
-    public boolean checkHostExistenceWithMac(MacAddress macAddress)
-    {
-        for(TopoHost topoHost: topoHosts)
-        {
+    public boolean checkHostExistenceWithMac(MacAddress macAddress) {
+        for (TopoHost topoHost : topoHosts) {
 
             String hostMacAddress = topoHost.getHostMac();
 
-            if(hostMacAddress.equals(macAddress.toString()))
-            {
+            if (hostMacAddress.equals(macAddress.toString())) {
                 return true;
             }
 
@@ -199,22 +192,19 @@ public abstract class TopoStore implements TopoStoreInterface {
 
     }
 
-    public TopoHost getTopoHostByIP(Ip4Address ipAddress)
-    {
+    public TopoHost getTopoHostByIP(Ip4Address ipAddress) {
         for (TopoHost topoHost : topoHosts) {
 
-             ArrayList<String> hostIpAddresses =  topoHost.getHostIPAddresses();
+            ArrayList<String> hostIpAddresses = topoHost.getHostIPAddresses();
 
-             for(String IpAddress: hostIpAddresses)
-             {
+            for (String IpAddress : hostIpAddresses) {
 
 
-                 if(IpAddress.equals(ipAddress.getIp4Address().toString()))
-                 {
-                     return topoHost;
-                 }
+                if (IpAddress.equals(ipAddress.getIp4Address().toString())) {
+                    return topoHost;
+                }
 
-             }
+            }
 
         }
         return null;

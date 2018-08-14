@@ -16,11 +16,8 @@
 
 package utility;
 
-import apps.TestPacketIn;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
-import org.apache.commons.httpclient.methods.PostMethod;
-import org.apache.commons.httpclient.methods.RequestEntity;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.auth.AuthScope;
@@ -39,12 +36,10 @@ import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.util.EntityUtils;
 import org.apache.log4j.Logger;
 import org.projectfloodlight.openflow.protocol.OFPacketOut;
-import sun.net.www.protocol.http.HttpURLConnection;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 
@@ -121,77 +116,6 @@ public class DefaultRestApiHelper extends RestApiHelper {
      * @param httpClient an instance of HTTP client.
      */
     public static void httpClientShutDown(HttpClient httpClient) {
-
-    }
-
-
-
-
-
-    public void httpPostRequest(int port, long dpid, OFPacketOut ofPacketOut) throws IOException
-    {
-
-        log.info("post request\n");
-        URL url = null;
-        try {
-            url = new URL("http://127.0.0.1:" + port + "/oftee/" +  String.format("0x%016X", dpid));
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
-
-        String urlString = "http://127.0.0.1:" + port + "/oftee/" +  String.format("0x%016X", dpid);
-
-        HttpClient client = HttpClientBuilder.create().build();
-        HttpPost post = new HttpPost("http://127.0.0.1:" + port + "/oftee/" +  String.format("0x%016X", dpid));
-
-        ByteBuf packetOutBuffer = Unpooled.buffer();
-        ofPacketOut.writeTo(packetOutBuffer);
-	byte packetOutBytes[] = new byte [packetOutBuffer.readableBytes()];
-	packetOutBuffer.readBytes(packetOutBytes);
-
-        post.setEntity(new ByteArrayEntity(packetOutBytes, ContentType.APPLICATION_OCTET_STREAM));
-        HttpResponse response = client.execute((HttpUriRequest) post);
-
-        if(response == null)
-        {
-            log.info(" response is null\n");
-        }
-
-        HttpEntity entity = response.getEntity();
-
-        if (entity != null) {
-            log.info("response is not null\n");
-	    System.out.println(response.getStatusLine());
-            log.info(EntityUtils.toString(entity));
-        }
-
-
-	/*
-        HttpURLConnection con = null;
-        con = (HttpURLConnection) url.openConnection();
-
-
-
-
-
-
-        con.setDoOutput(true);
-        con.setDoInput(true);
-        con.setRequestMethod("POST");
-        con.setRequestProperty( "Content-Type", "application/octet-stream" );
-
-        OutputStream os = con.getOutputStream();
-        ByteBuf packetOutBuffer = Unpooled.buffer();
-        ofPacketOut.writeTo(packetOutBuffer);
-
-
-        os.write(packetOutBuffer.array());
-
-
-        int responseCode = con.getResponseCode();
-        log.info("POST Response Code :: " + responseCode + "\n");
-	*/
-
 
     }
 
@@ -292,7 +216,6 @@ public class DefaultRestApiHelper extends RestApiHelper {
 
     }
 
-
     public static void httpDelRequest(HttpClient httpClient,
                                       String uri) {
 
@@ -308,6 +231,44 @@ public class DefaultRestApiHelper extends RestApiHelper {
         if (response.getStatusLine().getStatusCode() != 204) {
             throw new RuntimeException("Failed : HTTP error code : "
                     + response.getStatusLine().getStatusCode());
+        }
+
+
+    }
+
+    public void httpPostRequest(int port, long dpid, OFPacketOut ofPacketOut) throws IOException {
+
+
+        URL url = null;
+        try {
+            url = new URL("http://127.0.0.1:" + port + "/oftee/" + String.format("0x%016X", dpid));
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+
+        String urlString = "http://127.0.0.1:" + port + "/oftee/" + String.format("0x%016X", dpid);
+
+        HttpClient client = HttpClientBuilder.create().build();
+        HttpPost post = new HttpPost("http://127.0.0.1:" + port + "/oftee/" + String.format("0x%016X", dpid));
+
+        ByteBuf packetOutBuffer = Unpooled.buffer();
+        ofPacketOut.writeTo(packetOutBuffer);
+        byte packetOutBytes[] = new byte[packetOutBuffer.readableBytes()];
+        packetOutBuffer.readBytes(packetOutBytes);
+
+        post.setEntity(new ByteArrayEntity(packetOutBytes, ContentType.APPLICATION_OCTET_STREAM));
+        HttpResponse response = client.execute((HttpUriRequest) post);
+
+        if (response == null) {
+            log.info(" response is null\n");
+        }
+
+        HttpEntity entity = response.getEntity();
+
+        if (entity != null) {
+            log.info("response is not null\n");
+            System.out.println(response.getStatusLine());
+            log.info(EntityUtils.toString(entity));
         }
 
 

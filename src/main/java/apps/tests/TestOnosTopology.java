@@ -14,7 +14,7 @@
  *    limitations under the License.
  */
 
-package apps;
+package apps.tests;
 
 import drivers.onos.OnosController;
 

@@ -59,7 +59,6 @@ public class PacketInEventMonitor extends EventMonitor implements HttpHandler, O
     }
 
 
-
     @Override
     public void handle(HttpExchange httpExchange) throws IOException {
 
@@ -75,7 +74,7 @@ public class PacketInEventMonitor extends EventMonitor implements HttpHandler, O
                 byte[] msg = new byte[contentLength];
                 int length = is.read(msg);
 
-                dpid = Arrays.copyOfRange(msg,0, 8);
+                dpid = Arrays.copyOfRange(msg, 0, 8);
                 inPort = Arrays.copyOfRange(msg, 8, 12);
                 byte[] ofmsg = Arrays.copyOfRange(msg, 12, msg.length);
                 OFMessage ofMessage = null;
@@ -91,8 +90,7 @@ public class PacketInEventMonitor extends EventMonitor implements HttpHandler, O
                 }
 
 
-                if(ofMessage == null)
-                {
+                if (ofMessage == null) {
                     return;
                 }
 
@@ -105,7 +103,6 @@ public class PacketInEventMonitor extends EventMonitor implements HttpHandler, O
 
                     case PACKET_IN:
                         log.info("PACKET IN\n");
-
 
 
                         ByteBuffer portWrapped = ByteBuffer.wrap(inPort);

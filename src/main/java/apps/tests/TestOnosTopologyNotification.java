@@ -1,25 +1,25 @@
-package apps;
+package apps.tests;
 
 import api.notificationservice.Event;
 import api.notificationservice.EventListener;
+import drivers.controller.Controller;
 import drivers.controller.notificationservice.TopologyEvent;
-import drivers.odl.OdlController;
-import drivers.odl.notificationService.OdlWSTopologyEventMonitor;
+import drivers.controller.notificationservice.TopologyEventMonitor;
+import drivers.onos.OnosController;
 
-public class TestOdlTopologyNotification {
+public class TestOnosTopologyNotification {
 
     public static void main(String[] args) {
 
-        OdlController odlController = new OdlController();
+        OnosController onosController = new OnosController();
 
-        odlController.printTopology();
+        onosController.printTopology();
 
-        //TopologyEventMonitor topologyEventMonitor = new TopologyEventMonitor((Controller)odlController);
-        OdlWSTopologyEventMonitor topologyEventMonitor = new OdlWSTopologyEventMonitor(odlController);
+        TopologyEventMonitor topologyEventMonitor = new TopologyEventMonitor((Controller) onosController);
 
-        class OdlTopologyEventListener extends EventListener {
+        class OnosTopologyEventListener extends EventListener {
             public void onEvent(Event event) {
-                System.out.println("ODL Topology Event");
+                System.out.println("ONOS Topology Event");
                 TopologyEvent topologyEvent = (TopologyEvent) event;
 
                 switch (topologyEvent.getTopologyEventType()) {
@@ -42,7 +42,7 @@ public class TestOdlTopologyNotification {
             }
         }
 
-        OdlTopologyEventListener eventListener = new OdlTopologyEventListener();
+        OnosTopologyEventListener eventListener = new OnosTopologyEventListener();
 
         topologyEventMonitor.addEventListener(eventListener);
 

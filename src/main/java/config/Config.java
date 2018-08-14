@@ -18,17 +18,28 @@ package config;
 
 public class Config {
     private String controllerName;
+    private String API_ON;
 
 
     public Config() {
 
     }
 
-    public String getControllerName() {
+    public String getControllerName()
+    {
         return this.controllerName;
     }
 
-    public void setControllerName(String controllerName) {
+    public void setControllerName(String controllerName)
+    {
         this.controllerName = controllerName;
+    }
+
+    public String getAPI_ON() {
+        return this.API_ON;
+    }
+
+    public void setAPI_ON(String API_ON) {
+        this.API_ON = API_ON;
     }
 }
