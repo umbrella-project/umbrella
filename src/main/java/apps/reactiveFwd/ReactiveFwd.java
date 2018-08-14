@@ -94,6 +94,21 @@ public class ReactiveFwd {
 
             finalController.flowService.addFlow(flow);
 
+	    flowMatch = FlowMatch.builder()
+		    .ethType(0x0806)
+		    .build();
+
+            flow = Flow.builder()
+                    .deviceID(topoSwitch.getSwitchID())
+                    .tableID(0)
+                    .flowMatch(flowMatch)
+                    .flowActions(flowActions)
+                    .priority(100)
+                    .appId("ReactiveFwd")
+                    .isPermanent(true)
+                    .build();
+
+	    finalController.flowService.addFlow(flow);
         }
 
 
@@ -179,6 +194,7 @@ public class ReactiveFwd {
 
                             if (!finalController.topoStore.checkHostExistenceWithMac(eth.getSourceMAC())
                                     || !finalController.topoStore.checkHostExistenceWithMac(eth.getDestinationMAC())) {
+				    System.out.println("Either source or dest not found");
                                 return;
 
                             }
@@ -186,6 +202,7 @@ public class ReactiveFwd {
                             TopoHost srcHost = finalController.topoStore.getTopoHostByMac(eth.getSourceMAC());
                             TopoHost dstHost = finalController.topoStore.getTopoHostByMac(eth.getDestinationMAC());
 
+			    System.out.println("src host dst host " + srcHost + " " + dstHost);
 
                             if (srcHost == null || dstHost == null) {
                                 return;

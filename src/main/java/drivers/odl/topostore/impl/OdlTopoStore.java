@@ -72,7 +72,15 @@ public class OdlTopoStore extends TopoStore {
 
             JSONArray nodes = (JSONArray) ((JSONObject) topologies.get(0)).get("node");
 
+	    if(nodes == null) {
+		    nodes = new JSONArray();
+	    }
+
             JSONArray links = (JSONArray) (JSONArray) ((JSONObject) topologies.get(0)).get("link");
+
+	    if(links == null) {
+		    links = new JSONArray();
+	    }
 
             for (Object node : nodes) {
                 String nodeId = (String) ((JSONObject) node).get("node-id");

@@ -34,12 +34,14 @@ public class TestOdlFlow {
         OdlController odlController = new OdlController();
 
         FlowMatch flowMatch = FlowMatch.builder()
-                .ethSrc("00:00:00:00:00:00")
-                .ethDst("88:11:11:11:11:11")
+                .ethSrc("72:46:b5:a7:5d:4f")
+                .ethDst("52:ba:4b:56:2a:fd")
                 .ethType(2048)
+		.ipv4Src("10.0.0.1/32")
+		.ipv4Dst("10.0.0.2/32")
                 .build();
 
-        FlowAction flowAction = new FlowAction(FlowActionType.OUTPUT, 2);
+        FlowAction flowAction = new FlowAction(FlowActionType.CONTROLLER);
 
         ArrayList<FlowAction> flowActions = new ArrayList<>();
         flowActions.add(flowAction);
@@ -49,12 +51,14 @@ public class TestOdlFlow {
                 .tableID(0)
                 .flowMatch(flowMatch)
                 .flowActions(flowActions)
+		.priority(1000)
+		.timeOut(50)
                 .build();
 
         String flowId = odlController.flowService.addFlow(flow);
 
         log.debug("Flow installation status : " + flowId + "\n");
 
-        odlController.flowService.deleteFlow("openflow:1", flowId);
+        //odlController.flowService.deleteFlow("openflow:1", flowId);
     }
 }

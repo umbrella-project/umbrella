@@ -143,7 +143,7 @@ public abstract class TopoStore implements TopoStoreInterface {
         for (TopoHost topoHost : topoHosts) {
 
 
-            if (topoHost.getHostMac().equals(macAddress.toString())) {
+            if (topoHost.getHostMac().equalsIgnoreCase(macAddress.toString())) {
                 return topoHost;
 
             }
@@ -163,7 +163,7 @@ public abstract class TopoStore implements TopoStoreInterface {
 
                 //log.info(IpAddress + " " + ip4Address.getIp4Address().toString() + "\n");
 
-                if (IpAddress.equals(ip4Address.getIp4Address().toString())) {
+                if (IpAddress.equalsIgnoreCase(ip4Address.getIp4Address().toString())) {
                     return true;
                 }
 
@@ -181,7 +181,7 @@ public abstract class TopoStore implements TopoStoreInterface {
 
             String hostMacAddress = topoHost.getHostMac();
 
-            if (hostMacAddress.equals(macAddress.toString())) {
+            if (hostMacAddress.equalsIgnoreCase(macAddress.toString())) {
                 return true;
             }
 

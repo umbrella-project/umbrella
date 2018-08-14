@@ -249,11 +249,11 @@ public class OdlFlowService extends FlowService {
         String ipv4Dst = flowMatch.getIPv4_DST();
 
         if (ipv4Src != null) {
-            jsonMatch.put("ipv4-source", ipv4Src + "/32");
+            jsonMatch.put("ipv4-source", ipv4Src);
         }
 
         if (ipv4Dst != null) {
-            jsonMatch.put("ipv4-destination", ipv4Dst + "/32");
+            jsonMatch.put("ipv4-destination", ipv4Dst);
         }
 
         Integer tcpSrcPort = flowMatch.getTCP_SRC();
@@ -309,6 +309,16 @@ public class OdlFlowService extends FlowService {
                     jsonAction.put("drop-action", new JSONObject());
                     jsonAction.put("order", 0);
                     break;
+
+		case CONTROLLER:
+		    JSONObject maxLength = new JSONObject();
+		    maxLength.put("max-length", 65535);
+		    JSONObject jsonControllerOutput = new JSONObject();
+		    jsonControllerOutput.put("output-node-connector", "-3");
+		    jsonControllerOutput.put("max-length", "65535");
+		    jsonAction.put("output-action", jsonControllerOutput);
+		    jsonAction.put("order", 0);
+		    break;
             }
 
             jsonActions.add(jsonAction);
