@@ -169,6 +169,8 @@ public class OnosFlowService extends FlowService {
             tableID = new Integer(0);
         }
 
+
+
         Integer priority = flow.getPriority();
         if (priority == null) {
             priority = new Integer(100);
@@ -197,6 +199,7 @@ public class OnosFlowService extends FlowService {
         JSONObject jsonResult = new JSONObject();
 
         jsonResult.put("priority", priority.toString());
+	jsonResult.put("tableId", tableID);
         if (!flow.isPermanent()) {
             jsonResult.put("timeout", flow.getTimeOut());
             jsonResult.put("isPermanent", false);

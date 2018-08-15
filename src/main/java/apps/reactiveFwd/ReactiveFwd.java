@@ -59,6 +59,8 @@ public class ReactiveFwd {
     private static Logger log = Logger.getLogger(TestPacketIn.class);
     ConfigService configService = new ConfigService();
 
+    private static int TABLE_ID = 100;
+    private static int TABLE_ID_CTRL_PACKETS = 200;
     public static void main(String[] args) {
 
 
@@ -84,7 +86,7 @@ public class ReactiveFwd {
 
             Flow flow = Flow.builder()
                     .deviceID(topoSwitch.getSwitchID())
-                    .tableID(0)
+                    .tableID(TABLE_ID_CTRL_PACKETS)
                     .flowMatch(flowMatch)
                     .flowActions(flowActions)
                     .priority(100)
@@ -100,7 +102,7 @@ public class ReactiveFwd {
 
             flow = Flow.builder()
                     .deviceID(topoSwitch.getSwitchID())
-                    .tableID(0)
+                    .tableID(TABLE_ID_CTRL_PACKETS)
                     .flowMatch(flowMatch)
                     .flowActions(flowActions)
                     .priority(100)
@@ -161,6 +163,7 @@ public class ReactiveFwd {
                             String dstMac = finalController.topoStore.getTopoHostByIP(targetIpAddress).getHostMac();
 
                             if (dstMac == null) {
+				log.info("dst mac is null\n");
                                 return;
                             }
 
@@ -202,7 +205,7 @@ public class ReactiveFwd {
                             TopoHost srcHost = finalController.topoStore.getTopoHostByMac(eth.getSourceMAC());
                             TopoHost dstHost = finalController.topoStore.getTopoHostByMac(eth.getDestinationMAC());
 
-			    System.out.println("src host dst host " + srcHost + " " + dstHost);
+			    //System.out.println("src host dst host " + srcHost + " " + dstHost);
 
                             if (srcHost == null || dstHost == null) {
                                 return;
@@ -235,7 +238,7 @@ public class ReactiveFwd {
 
                                 Flow flow = Flow.builder()
                                         .deviceID(edge.getSrc())
-                                        .tableID(0)
+                                        .tableID(TABLE_ID)
                                         .flowMatch(flowMatch)
                                         .flowActions(flowActions)
                                         .priority(1000)
@@ -277,7 +280,7 @@ public class ReactiveFwd {
 
                                 Flow flow = Flow.builder()
                                         .deviceID(edge.getSrc())
-                                        .tableID(0)
+                                        .tableID(TABLE_ID)
                                         .flowMatch(flowMatch)
                                         .flowActions(flowActions)
                                         .priority(1000)
