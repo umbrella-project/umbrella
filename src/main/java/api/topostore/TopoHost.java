@@ -38,7 +38,7 @@ public class TopoHost extends TopoVertex implements TopoHostInterface {
     }
 
     /**
-     * Return host IP addresses.
+     * Returns host IP addresses.
      *
      * @return List of IP addresses.
      */
@@ -47,7 +47,7 @@ public class TopoHost extends TopoVertex implements TopoHostInterface {
     }
 
     /**
-     * Set host IP addresses.
+     * Sets host IP addresses.
      *
      * @param hostIPAddresses Host IP address.
      */
@@ -56,7 +56,7 @@ public class TopoHost extends TopoVertex implements TopoHostInterface {
     }
 
     /**
-     * Return host ID.
+     * Returns host ID.
      *
      * @return host ID.
      */
@@ -65,7 +65,7 @@ public class TopoHost extends TopoVertex implements TopoHostInterface {
     }
 
     /**
-     * Set host ID.
+     * Sets host ID.
      *
      * @param hostID host ID.
      */
@@ -74,7 +74,7 @@ public class TopoHost extends TopoVertex implements TopoHostInterface {
     }
 
     /**
-     * Return the MAC address of a host.
+     * Returns the MAC address of a host.
      *
      * @return MAC address.
      */
@@ -83,7 +83,7 @@ public class TopoHost extends TopoVertex implements TopoHostInterface {
     }
 
     /**
-     * Set the MAC address of a host.
+     * Sets the MAC address of a host.
      *
      * @param hostMac host MAC address.
      */
@@ -94,7 +94,7 @@ public class TopoHost extends TopoVertex implements TopoHostInterface {
     }
 
     /**
-     * Return the VLAN that a host belongs to it.
+     * Returns the VLAN that a host belongs to it.
      *
      * @return VLAN ID.
      */
@@ -103,7 +103,7 @@ public class TopoHost extends TopoVertex implements TopoHostInterface {
     }
 
     /**
-     * Set the VLAN that a host belongs to it.
+     * Sets the VLAN that a host belongs to it.
      *
      * @param vlan VLAN ID.
      */
@@ -112,7 +112,7 @@ public class TopoHost extends TopoVertex implements TopoHostInterface {
     }
 
     /**
-     * Return host location attachment information object.
+     * Returns host location attachment information object.
      *
      * @return HostLocation object.
      */
@@ -121,7 +121,7 @@ public class TopoHost extends TopoVertex implements TopoHostInterface {
     }
 
     /**
-     * Set host location attachment information.
+     * Sets host location attachment information.
      *
      * @param hostLocation HostLocation object.
      */
@@ -129,6 +129,11 @@ public class TopoHost extends TopoVertex implements TopoHostInterface {
         this.hostLocation = hostLocation;
     }
 
+    /**
+     * Checks equality of two TopoHost objects.
+     * @param obj TopoHost
+     * @return boolean
+     */
     @Override
     public boolean equals(Object obj) {
         if (obj == this) {

@@ -14,10 +14,7 @@
  *    limitations under the License.
  */
 
-package api.flowservice;
-
 /**
- * Flow action interface.
+ * Reactive forwarding application.
  */
-public interface FlowActionInterface {
-}
+package apps.reactiveFwd;

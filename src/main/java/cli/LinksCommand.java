@@ -22,7 +22,10 @@ import drivers.odl.OdlController;
 import drivers.onos.OnosController;
 import picocli.CommandLine;
 
-@CommandLine.Command(name = "links", header = "%n@|red Print list of links in the network topology|@")
+/**
+ * Prints list of the links in the network topology.
+ */
+@CommandLine.Command(name = "links", header = "%n@|red Prints list of the links in the network topology|@")
 class LinksCommand implements Runnable {
 
 

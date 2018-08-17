@@ -19,19 +19,53 @@ package api.flowservice;
 import java.util.List;
 
 /**
- * Represents a flow, including match fields and a list of actions
+ * Represents a flow including a list of match fields and  actions.
  */
 public class Flow implements FlowInterface {
 
+
+    /**
+     * An object of match fields.
+     */
     protected FlowMatch flowMatch;
+    /**
+     * A List of flow actions.
+     */
     protected List<FlowAction> flowActions;
+
+    /**
+     * Priority of a flow.
+     */
     protected Integer priority;
+
+    /**
+     * Flow rule table ID.
+     */
     protected Integer tableID;
+    /**
+     * Flow rule device ID.
+     */
     protected String deviceID;
+
+    /**
+     * Flow rule time out.
+     */
     protected Integer timeOut;
+    /**
+     *
+     */
     protected boolean isPermanent;
+    /**
+     * Flow rule cookie.
+     */
     protected Integer cookie;
+    /**
+     * An application ID for a flow rule.
+     */
     protected String appId;
+    /**
+     * flow rule ID.
+     */
     protected String flowID;
 
     /**
@@ -41,7 +75,7 @@ public class Flow implements FlowInterface {
     }
 
     /**
-     * Constructor based on builder
+     * Constructor based on a builder
      *
      * @param builder : Builder object to initialize the flow
      */
@@ -57,6 +91,11 @@ public class Flow implements FlowInterface {
         this.appId = builder.appId;
     }
 
+
+    /**
+     * Returns a builder object.
+     * @return Builder object.
+     */
     public static Builder builder() {
         return new Builder();
     }
@@ -71,7 +110,7 @@ public class Flow implements FlowInterface {
     }
 
     /**
-     * Return priority.
+     * Returns the priority.
      *
      * @return priority.
      */
@@ -80,20 +119,24 @@ public class Flow implements FlowInterface {
     }
 
     /**
-     * Return table ID.
-     *
+     * Returns the table ID.
      * @return table ID.
      */
     public Integer getTableID() {
         return this.tableID;
     }
 
+
+    /**
+     * Sets table ID.
+     * @param tableID flow rule table ID.
+     */
     public void setTableID(int tableID) {
         this.tableID = tableID;
     }
 
     /**
-     * Return flow time out.
+     * Returns the flow time out.
      *
      * @return time out
      */
@@ -102,7 +145,7 @@ public class Flow implements FlowInterface {
     }
 
     /**
-     * Return application ID.
+     * Returns the application ID.
      *
      * @return app ID.
      */
@@ -111,7 +154,7 @@ public class Flow implements FlowInterface {
     }
 
     /**
-     * Return device ID.
+     * Returns the device ID.
      *
      * @return device ID.
      */
@@ -120,27 +163,37 @@ public class Flow implements FlowInterface {
     }
 
     /**
-     * Return cookie.
+     * Returns the cookie.
      *
      * @return cookie.
      */
 
-
+    /**
+     * Returns flow rule ID.
+     * @return flow rule ID.
+     */
     public String getFlowID() {
         return this.flowID;
     }
 
+    /**
+     * Sets flow rule ID.
+     * @param flowID flow rule ID.
+     */
     public void setFlowID(String flowID) {
         this.flowID = flowID;
     }
 
+    /**
+     * Returns flow rule cookie.
+     * @return flow rule cookie.
+     */
     public Integer getCookie() {
         return this.cookie;
     }
 
     /**
-     * Return flow match fields object.
-     *
+     * Returns the flow match fields object.
      * @return flow match object.
      */
     public FlowMatch getFlowMatch() {
@@ -148,7 +201,7 @@ public class Flow implements FlowInterface {
     }
 
     /**
-     * Return list of flow action objects.
+     * Returns the list of flow action objects.
      *
      * @return flow action objects.
      */
@@ -157,7 +210,7 @@ public class Flow implements FlowInterface {
     }
 
     /**
-     * Add a flow match object to a flow rule.
+     * Adds a flow match object to a flow rule.
      *
      * @param match match object.
      */
@@ -166,8 +219,7 @@ public class Flow implements FlowInterface {
     }
 
     /**
-     * Add a flow action object to a flow rule.
-     *
+     * Adds a flow action object to a flow rule.
      * @param action flow action object.
      */
     public void addFlowAction(FlowAction action) {
@@ -175,8 +227,7 @@ public class Flow implements FlowInterface {
     }
 
     /**
-     * Add a list of flow actions object to a flow rule.
-     *
+     * Adds a list of flow actions object to a flow rule.
      * @param actions a list of flow action objects.
      */
     public void addFlowActions(List<FlowAction> actions) {
@@ -184,7 +235,7 @@ public class Flow implements FlowInterface {
     }
 
     /**
-     * Builder class to generate a Flow object
+     * Builder class to generate a Flow object.
      */
     public static class Builder {
 
@@ -248,9 +299,9 @@ public class Flow implements FlowInterface {
         }
 
         /**
-         * Instantiates an object of type Flow
+         * Instantiates an object of type Flow.
          *
-         * @return : Flow object
+         * @return : Flow object.
          */
         public Flow build() {
             return new Flow(this);

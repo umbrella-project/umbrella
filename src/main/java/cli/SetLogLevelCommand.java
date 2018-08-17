@@ -24,6 +24,9 @@ import picocli.CommandLine;
 
 import java.util.Enumeration;
 
+/**
+ * Sets log level (i.e. DEBUG, INFO, WARN,ERROR)
+ */
 @CommandLine.Command(name = "setlog", header = "%n@|red log configuration command|@")
 class SetLogLevelCommand implements Runnable {
 

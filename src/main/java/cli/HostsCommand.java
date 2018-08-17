@@ -22,7 +22,10 @@ import drivers.odl.OdlController;
 import drivers.onos.OnosController;
 import picocli.CommandLine;
 
-@CommandLine.Command(name = "hosts", header = "%n@|red Print list of hosts in the network topology|@")
+/**
+ * Prints list of hosts in the network topology.
+ */
+@CommandLine.Command(name = "hosts", header = "%n@|red Prints list of hosts in the network topology|@")
 class HostsCommand implements Runnable {
 
 

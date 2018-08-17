@@ -17,24 +17,39 @@
 package api.flowservice;
 
 /**
- * Class representing Flow actions.
+ * Represents Flow actions.
  */
 public class FlowAction {
 
+    /**
+     * Flow action type (e.g DROP, FORWARD, CONTROLLER, ...).
+     */
     private FlowActionType actionType;
+
+    /**
+     * Flow action data.
+     */
     private Object actionData;
 
+    /**
+     * Flow action constructor based on action type.
+     * @param type flow action type.
+     */
     public FlowAction(FlowActionType type) {
         this.actionType = type;
     }
 
+    /** Flow action constructor based on action type and data.
+     * @param type flow action type.
+     * @param data flow action data.
+     */
     public FlowAction(FlowActionType type, int data) {
         this.actionType = type;
         this.actionData = data;
     }
 
     /**
-     * Return action type.
+     * Returns action type.
      *
      * @return action type.
      */
@@ -43,7 +58,7 @@ public class FlowAction {
     }
 
     /**
-     * Return action data.
+     * Returns action data.
      *
      * @return action data object.
      */

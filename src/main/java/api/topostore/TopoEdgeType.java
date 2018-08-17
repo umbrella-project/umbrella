@@ -20,7 +20,16 @@ package api.topostore;
  * Type of each link in a topology graph.
  */
 public enum TopoEdgeType {
+    /**
+     * Switch to switch connection.
+     */
     SWITCH_SWITCH,
+    /**
+     * Switch to host connection.
+     */
     SWITCH_HOST,
+    /**
+     * Host to switch connection.
+     */
     HOST_SWITCH
 }

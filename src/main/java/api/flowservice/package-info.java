@@ -15,6 +15,9 @@
  */
 
 /**
- * Flow service API.
+ * <p>
+ * Flow service API: provides a set of high level abstractions that allows
+ * applications to generate, install, and remove flow rules. The Flow API will be based on match-action paradigm
+ * that most of current SDN controllers use to generate flow rules based on a set of match and actions fields.
  */
 package api.flowservice;

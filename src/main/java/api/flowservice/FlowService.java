@@ -16,5 +16,8 @@
 
 package api.flowservice;
 
+/**
+ * Flow service abstract class.
+ */
 public abstract class FlowService implements FlowServiceInterface {
 }

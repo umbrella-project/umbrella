@@ -16,5 +16,8 @@
 
 package api.topostore;
 
+/**
+ * Topology edge interface.
+ */
 public interface TopoEdgeInterface {
 }

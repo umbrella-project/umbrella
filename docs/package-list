@@ -10,6 +10,9 @@ api.intent.regionService
 api.notificationservice
 api.topostore
 apps
+apps.reactiveFwd
+apps.tests
+apps.trafficIsolation
 cli
 config
 drivers

@@ -17,21 +17,58 @@
 package api.flowservice;
 
 /**
- * Class representing match fields.
+ * Class representing Flow match fields.
  */
 public class FlowMatch implements FlowMatchInterface {
 
+    /**
+     * Ethernet type.
+     */
     private final Integer ETH_TYPE;
+    /**
+     * Ethernet destination MAC address.
+     */
     private final String ETH_DST;
+    /**
+     * Ethernet source MAC address.
+     */
     private final String ETH_SRC;
+    /**
+     * Incoming port.
+     */
     private final Integer IN_PORT;
+    /**
+     * IP protocol number.
+     */
     private final Integer IP_PROTO;
+    /**
+     * Source IPv4 address.
+     */
     private final String IPV4_SRC;
+    /**
+     * Destination IPv4 address.
+     */
     private final String IPV4_DST;
+    /**
+     * ICMPv4 type.
+     */
     private final Integer ICMPV4_TYPE;
+    /**
+     * ICMPv4 code.
+     */
     private final Integer ICMPV4_CODE;
+    /**
+     * TCP source port.
+     */
     private final Integer TCP_SRC;
+    /**
+     * TCP destination port.
+     */
     private final Integer TCP_DST;
+
+    /**
+     * Flow match type.
+     */
     private final String type;
 
     public FlowMatch(Integer eth_type,
@@ -78,58 +115,120 @@ public class FlowMatch implements FlowMatchInterface {
         type = null;
     }
 
+
     public static Builder builder() {
         return new Builder();
     }
 
-    public String getETH_DST() {
+    /**
+     * Returns Ethernet destination MAC address.
+     * @return Ethernet destination MAC address.
+     */
+    public String getETH_DST()
+    {
         return this.ETH_DST;
     }
 
-    public Integer getETH_TYPE() {
-        return this.ETH_TYPE;
-    }
-
+    /**
+     * Returns Ethernet source MAC address.
+     * @return Ethernet source MAC address.
+     */
     public String getETH_SRC() {
         return this.ETH_SRC;
     }
 
-    public Integer getIP_PROTO() {
+    /**
+     * Returns Ethernet type.
+     * @return Ethernet type.
+     */
+
+    public Integer getETH_TYPE()
+    {
+        return this.ETH_TYPE;
+    }
+
+
+    /**
+     * Returns IP protocol number.
+     * @return IP protocol number.
+     */
+    public Integer getIP_PROTO()
+    {
         return this.IP_PROTO;
     }
 
-    public Integer getIN_PORT() {
+    /**
+     * Returns incoming port.
+     * @return incoming port.
+     */
+
+    public Integer getIN_PORT()
+    {
         return this.IN_PORT;
     }
+
+    /**
+     * Returns source IPv4 address.
+     * @return Source IP address.
+     */
 
     public String getIPV4_SRC() {
         return this.IPV4_SRC;
     }
 
-    public String getIPv4_DST() {
+    /**
+     * Returns destination IPv4 address.
+     * @return destination IPv4 address.
+     */
+    public String getIPv4_DST()
+    {
         return this.IPV4_DST;
     }
+
+    /**
+     * Returns ICMP code.
+     * @return ICMP code.
+     */
 
     public Integer getICMPV4_CODE() {
         return this.ICMPV4_CODE;
     }
 
+    /**
+     * Returns ICMP type.
+     * @return ICMP type.
+     */
     public Integer getICMPV4_TYPE() {
         return this.ICMPV4_TYPE;
     }
 
+    /**
+     * Returns TCP destination port.
+     * @return TCP destination port.
+     */
     public Integer getTCP_DST() {
         return this.TCP_DST;
     }
 
+    /**
+     * Returns TCP source port.
+     * @return TCP source port.
+     */
     public Integer getTCP_SRC() {
         return this.TCP_SRC;
     }
 
+    /**
+     * Returns flow match type.
+     * @return flow match type.
+     */
     public String getType() {
         return this.type;
     }
 
+    /**
+     * Flow match builder.
+     */
     public static class Builder {
         private Integer ETH_TYPE;
         private String ETH_DST;

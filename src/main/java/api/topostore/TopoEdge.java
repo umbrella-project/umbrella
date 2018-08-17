@@ -24,13 +24,38 @@ import java.util.Objects;
  * Representation of network links in a network topology.
  */
 public class TopoEdge extends DefaultEdge implements TopoEdgeInterface {
+
+    /**
+     * Source network device.
+     */
     private String src;
+    /**
+     * Destination network device.
+     */
     private String dst;
+    /**
+     * Source device port.
+     */
     private String srcPort;
+    /**
+     * Destination device port.
+     */
     private String dstPort;
+    /**
+     * Topology link state.
+     */
     private String state;
+    /**
+     * Topology link type.
+     */
     private TopoEdgeType type;
+    /**
+     * Topology link weight.
+     */
     private int weight;
+    /**
+     * Topology link label.
+     */
     private String label;
 
     public TopoEdge() {
@@ -45,16 +70,16 @@ public class TopoEdge extends DefaultEdge implements TopoEdgeInterface {
     }
 
     /**
-     * Return type of a link.
+     * Returns type of a link.
      *
-     * @return
+     * @return type of a link.
      */
     public TopoEdgeType getType() {
         return this.type;
     }
 
     /**
-     * Set type of a link.
+     * Sets type of a link.
      *
      * @param type TopoEdgeType
      */
@@ -63,16 +88,16 @@ public class TopoEdge extends DefaultEdge implements TopoEdgeInterface {
     }
 
     /**
-     * Return destination attachment point in a topo edge.
+     * Returns destination attachment point in a topology link.
      *
-     * @return destination attacment point.
+     * @return destination attachment point.
      */
     public String getDst() {
         return this.dst;
     }
 
     /**
-     * Set destination attachment point in a topo edge.
+     * Sets destination attachment point in a topology link.
      *
      * @param dst destination attachment point.
      */
@@ -81,38 +106,74 @@ public class TopoEdge extends DefaultEdge implements TopoEdgeInterface {
     }
 
 
+    /**
+     * Returns link destination port.
+     * @return destination port.
+     */
     public String getDstPort() {
         return this.dstPort;
     }
 
+    /**
+     * Sets link destination port.
+     * @param dstPort destination port.
+     */
     public void setDstPort(String dstPort) {
         this.dstPort = dstPort;
     }
 
+    /**
+     * Returns source network device of a link.
+     * @return source network device ID.
+     */
     public String getSrc() {
         return this.src;
     }
 
+    /**
+     * Sets source network device of a link.
+     * @param src source network device ID.
+     */
     public void setSrc(String src) {
         this.src = src;
     }
 
+    /**
+     * Returns link source port.
+     * @return source port.
+     */
     public String getSrcPort() {
         return this.srcPort;
     }
 
+    /**
+     * Sets link source port.
+     * @param srcPort source port.
+     */
     public void setSrcPort(String srcPort) {
         this.srcPort = srcPort;
     }
 
+    /**
+     * Returns state of a link in the topology.
+     * @return state of a link.
+     */
     public String getState() {
         return this.state;
     }
 
+    /**
+     * Sets state of a link in the topology.
+     * @param state
+     */
     public void setState(String state) {
         this.state = state;
     }
 
+    /**
+     * Returns weight of a link.
+     * @return weight of a link.
+     */
     public int getWeight() {
         return this.weight;
     }

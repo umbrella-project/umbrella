@@ -26,12 +26,14 @@ import api.topostore.TopoEdge;
 import api.topostore.TopoEdgeType;
 import api.topostore.TopoHost;
 import api.topostore.TopoSwitch;
+import api.topostore.TopoVertex;
 import apps.tests.TestPacketIn;
 import config.ConfigService;
 import drivers.controller.Controller;
 import drivers.controller.packetService.PacketInEvent;
 import drivers.controller.packetService.PacketInEventMonitor;
 import org.apache.log4j.Logger;
+import org.jgrapht.alg.spanning.KruskalMinimumSpanningTree;
 import org.onlab.packet.ARP;
 import org.onlab.packet.EthType;
 import org.onlab.packet.Ethernet;
@@ -54,13 +56,17 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * Reactive Forwarding Application.
+ */
+
 public class ReactiveFwd {
 
     private static Logger log = Logger.getLogger(TestPacketIn.class);
     ConfigService configService = new ConfigService();
 
-    private static int TABLE_ID = 100;
-    private static int TABLE_ID_CTRL_PACKETS = 200;
+    private static int TABLE_ID = 0;
+    private static int TABLE_ID_CTRL_PACKETS = 0;
     public static void main(String[] args) {
 
 
@@ -118,9 +124,13 @@ public class ReactiveFwd {
 
             DefaultRestApiHelper restApiHelper = new DefaultRestApiHelper();
 
+            KruskalMinimumSpanningTree<TopoVertex,TopoEdge> spanningTree;
+
 
             @Override
             public void onEvent(Event event) {
+
+                spanningTree = new KruskalMinimumSpanningTree<>(finalController.topoStore.getGraph());
 
                 PacketInEvent packetInEvent = (PacketInEvent) event;
 
@@ -149,12 +159,14 @@ public class ReactiveFwd {
                                     .valueOf(arpPacket.getTargetProtocolAddress());
 
                             log.info("ARP PACKET\n");
-                            OFActionOutput output = myFactory.actions().buildOutput()
-                                    .setPort(OFPort.ofInt(packetInEvent.getInPortNum()))
-                                    .build();
+
 
 
                             if (!finalController.topoStore.checkHostExistenceWithIP(targetIpAddress)) {
+                                Set<TopoEdge> topoEdgeSetSpt = spanningTree.getSpanningTree().getEdges();
+
+
+
                                 return;
                             }
 
@@ -163,7 +175,9 @@ public class ReactiveFwd {
                             String dstMac = finalController.topoStore.getTopoHostByIP(targetIpAddress).getHostMac();
 
                             if (dstMac == null) {
-				log.info("dst mac is null\n");
+
+
+
                                 return;
                             }
 
@@ -171,6 +185,9 @@ public class ReactiveFwd {
                                     MacAddress.valueOf(dstMac),
                                     eth);
 
+                            OFActionOutput output = myFactory.actions().buildOutput()
+                                    .setPort(OFPort.ofInt(packetInEvent.getInPortNum()))
+                                    .build();
 
                             OFPacketOut packetOut = myFactory.buildPacketOut()
                                     .setData(ethReply.serialize())
@@ -180,7 +197,9 @@ public class ReactiveFwd {
                                     .build();
 
                             try {
-                                restApiHelper.httpPostRequest(configService.getApiOn(), packetInEvent.getDpidNum(), packetOut);
+                                restApiHelper.httpPostRequest(configService.getApiOn(),
+                                        packetInEvent.getDpidNum(),
+                                        packetOut);
                             } catch (IOException e) {
                                 e.printStackTrace();
                             }
@@ -197,7 +216,7 @@ public class ReactiveFwd {
 
                             if (!finalController.topoStore.checkHostExistenceWithMac(eth.getSourceMAC())
                                     || !finalController.topoStore.checkHostExistenceWithMac(eth.getDestinationMAC())) {
-				    System.out.println("Either source or dest not found");
+
                                 return;
 
                             }
@@ -205,7 +224,7 @@ public class ReactiveFwd {
                             TopoHost srcHost = finalController.topoStore.getTopoHostByMac(eth.getSourceMAC());
                             TopoHost dstHost = finalController.topoStore.getTopoHostByMac(eth.getDestinationMAC());
 
-			    //System.out.println("src host dst host " + srcHost + " " + dstHost);
+
 
                             if (srcHost == null || dstHost == null) {
                                 return;

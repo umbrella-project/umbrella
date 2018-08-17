@@ -22,7 +22,10 @@ import drivers.odl.OdlController;
 import drivers.onos.OnosController;
 import picocli.CommandLine;
 
-@CommandLine.Command(name = "devices", header = "%n@|red Print list of devices in the network topology|@")
+/**
+ * Prints list of devices in the network topology.
+ */
+@CommandLine.Command(name = "devices", header = "%n@|red Prints list of devices in the network topology|@")
 class DevicesCommand implements Runnable {
 
 

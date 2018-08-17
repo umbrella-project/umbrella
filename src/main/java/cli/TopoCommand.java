@@ -22,7 +22,10 @@ import drivers.odl.OdlController;
 import drivers.onos.OnosController;
 import picocli.CommandLine;
 
-@CommandLine.Command(name = "topo", header = "%n@|red Print Network Topology Information|@")
+/**
+ * Prints network topology information.
+ */
+@CommandLine.Command(name = "topo", header = "%n@|red Prints Network Topology Information|@")
 class TopoCommand implements Runnable {
 
 

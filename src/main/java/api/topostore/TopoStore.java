@@ -71,7 +71,7 @@ public abstract class TopoStore implements TopoStoreInterface {
     }
 
     /**
-     * Add a network device (i.e. a switch) to the topo store.
+     * Adda network device (i.e. a switch) to the topo store.
      *
      * @param topoSwitch a network switch
      */
@@ -81,7 +81,7 @@ public abstract class TopoStore implements TopoStoreInterface {
     }
 
     /**
-     * Add an edge to list of topology links and topology graph.
+     * Adds an edge to list of topology links and topology graph.
      *
      * @param topoEdge
      */
@@ -108,13 +108,18 @@ public abstract class TopoStore implements TopoStoreInterface {
         this.topoGraph.addEdge(srcVertex, dstVertex, topoEdge);
     }
 
+    /**
+     * Adds a host to the list of topology hosts.
+     * @param topoHost A TopoHost instance.
+     */
+
     public void addHost(TopoHost topoHost) {
         this.topoHosts.add(topoHost);
         this.topoGraph.addVertex(topoHost);
     }
 
     /**
-     * Return list of network switches in the network topology.
+     * Returns a list of network switches in the network topology.
      *
      * @return list of switches.
      */
@@ -123,7 +128,7 @@ public abstract class TopoStore implements TopoStoreInterface {
     }
 
     /**
-     * Return list of hosts in the network topology.
+     * Returns a list of hosts in the network topology.
      *
      * @return list of hosts.
      */
@@ -133,7 +138,7 @@ public abstract class TopoStore implements TopoStoreInterface {
 
 
     /**
-     * Find a host based on a given Mac address.
+     * Finds a host based on a given Mac address.
      *
      * @param macAddress macAddress of given host.
      * @return a TopoHost.
@@ -153,6 +158,12 @@ public abstract class TopoStore implements TopoStoreInterface {
         return null;
 
     }
+
+    /**
+     * Checks existence of a host based on its IPv4 address.
+     * @param ip4Address IPv4 address of a host.
+     * @return a boolean
+     */
 
     public boolean checkHostExistenceWithIP(Ip4Address ip4Address) {
         for (TopoHost topoHost : topoHosts) {
@@ -176,6 +187,11 @@ public abstract class TopoStore implements TopoStoreInterface {
 
     }
 
+    /**
+     * Checks existence of a host based on its MAC address.
+     * @param macAddress MAC address of a given host.
+     * @return a boolean
+     */
     public boolean checkHostExistenceWithMac(MacAddress macAddress) {
         for (TopoHost topoHost : topoHosts) {
 
@@ -192,6 +208,11 @@ public abstract class TopoStore implements TopoStoreInterface {
 
     }
 
+    /**
+     * Finds a host in the network topology based on a given IPv4 address.
+     * @param ipAddress IPv4 address of a host.
+     * @return a TopoHost instance.
+     */
     public TopoHost getTopoHostByIP(Ip4Address ipAddress) {
         for (TopoHost topoHost : topoHosts) {
 
@@ -212,7 +233,7 @@ public abstract class TopoStore implements TopoStoreInterface {
     }
 
     /**
-     * Return topology graph.
+     * Returns topology graph.
      *
      * @return topology graph.
      */
@@ -225,7 +246,7 @@ public abstract class TopoStore implements TopoStoreInterface {
     }
 
     /**
-     * Return shortest path between two end-points.
+     * Returns shortest path between two end-points.
      *
      * @param srcDevice source end point.
      * @param dstDevice destination end point.
@@ -244,7 +265,7 @@ public abstract class TopoStore implements TopoStoreInterface {
     }
 
     /**
-     * Print an end-to-end path between two end points.
+     * Prints an end-to-end path between two end points.
      *
      * @param path a path.
      */
@@ -257,7 +278,7 @@ public abstract class TopoStore implements TopoStoreInterface {
     }
 
     /**
-     * Print topology information including list of devices, hosts, and links.
+     * Prints topology information including list of devices, hosts, and links.
      */
     public void printTopo() {
         log.info("List of Devices :\n");
@@ -282,6 +303,9 @@ public abstract class TopoStore implements TopoStoreInterface {
         }
     }
 
+    /**
+     * Prints list of topology links in the current network topology.
+     */
     public void printLinks() {
 
         log.info("List of Edges :\n");
@@ -292,6 +316,10 @@ public abstract class TopoStore implements TopoStoreInterface {
         }
 
     }
+
+    /**
+     * Prints list of topology hosts in the current network topology.
+     */
 
     public void printHosts() {
 
@@ -306,6 +334,9 @@ public abstract class TopoStore implements TopoStoreInterface {
 
     }
 
+    /**
+     * Prints list of network devices in the current network topology.
+     */
     public void printDevices() {
         log.info("List of Devices :\n");
         for (TopoSwitch topoSwitch : this.topoSwitches) {

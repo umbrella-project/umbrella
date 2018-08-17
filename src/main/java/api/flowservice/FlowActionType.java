@@ -20,7 +20,16 @@ package api.flowservice;
  * Flow action types.
  */
 public enum FlowActionType {
+    /**
+     * flow rule DROP action (i.e. drops a packet).
+     */
     DROP,
+    /**
+     * flow rule OUTPUT action (i.e. forwards a packet to an output port).
+     */
     OUTPUT,
+    /**
+     * flow rule controller action (i.e. forwards a packet to the controller).
+     */
     CONTROLLER;
 }

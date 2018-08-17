@@ -20,12 +20,17 @@ package api.topostore;
  * Host location attachment information.
  */
 public class HostLocation implements HostLocationInterface {
+    /**
+     * Host attachment device ID.
+     */
     private String elementID;
+    /**
+     * Host attachment device port.
+     */
     private String port;
 
     /**
      * Returns attachment port for a host.
-     *
      * @return port number.
      */
     public String getPort() {
@@ -33,8 +38,7 @@ public class HostLocation implements HostLocationInterface {
     }
 
     /**
-     * Set attachment port for a host.
-     *
+     * Sets attachment port for a host.
      * @param port port number.
      */
     public void setPort(String port) {
@@ -43,7 +47,6 @@ public class HostLocation implements HostLocationInterface {
 
     /**
      * Returns attachment device ID for a host.
-     *
      * @return device ID.
      */
 
@@ -52,8 +55,7 @@ public class HostLocation implements HostLocationInterface {
     }
 
     /**
-     * Set attachment device ID for a host.
-     *
+     * Sets attachment device ID for a host.
      * @param elementID device ID.
      */
 
