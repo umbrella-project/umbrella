@@ -48,7 +48,7 @@ public class OnosFlowService extends FlowService {
     }
 
     /**
-     * Add a flow to a network device.
+     * Adds a flow to a network device.
      *
      * @param flow flow object.
      * @return flow id.
@@ -60,7 +60,6 @@ public class OnosFlowService extends FlowService {
 
         String jsonFinalResult = toJsonString(flow);
 
-        //System.out.println(jsonFinalResult.toString());
 
         try {
             stringEntity = new StringEntity(jsonFinalResult);
@@ -79,7 +78,7 @@ public class OnosFlowService extends FlowService {
 
         String output = null;
         String flowId = null;
-        //log.debug("Output from Server .... \n");
+
         try {
             while ((output = br.readLine()) != null) {
                 JSONParser parser = new JSONParser();
@@ -89,11 +88,10 @@ public class OnosFlowService extends FlowService {
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
-                //log.debug(outputObject.toJSONString() + "\n");
+
 
 
                 JSONArray flows = (JSONArray) outputObject.get("flows");
-
 
                 JSONObject flowIdObj = (JSONObject) flows.get(0);
                 flowId = flowIdObj.get("flowId").toString();
@@ -117,7 +115,7 @@ public class OnosFlowService extends FlowService {
     }
 
     /**
-     * Delete a flow from a network device.
+     * Deletes a flow from a network device.
      *
      * @param deviceID device ID.
      * @param FlowId   flow id.

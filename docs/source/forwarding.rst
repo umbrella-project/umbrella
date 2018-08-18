@@ -91,10 +91,9 @@ Testing the Forwarding Application on ONOS controller
 
 2. Second, you need to download and install Mininet using the guidelines that have been posted on Mininet website: `Mininet`_
 
-3. Third, execute the following commands to run a Mininet simulation scenario that simulates a leaf-spine network topology with 6 hosts::
-   
-         $ cd mininet_examples
-         $ sudo python leaf_spine.py
+3. Third, execute the following commands to run a Mininet simulation scenario that simulates tree topology with 8 hosts::
+
+         $ sudo mn --topo tree,depth=2,fanout=8 --controller=remote,ip=127.0.0.1,port=6653
     
    
 4. Forth, run pingall to detect all of the hosts in the network topology. ONOS runs a reactive forwarding application by default. 
@@ -113,10 +112,9 @@ Testing the Forwarding Application on OpenDayLight controller
 
 2. Second, you need to download and install Mininet using the guidelines that have been posted on Mininet website: `Mininet`_
 
-3. Third, execute the following commands to run a Mininet simulation scenario that simulates a leaf-spine network topology with 6 hosts::
+3. Third, execute the following commands to run a Mininet simulation scenario that simulates a tree topology with 8 hosts::
    
-         $ cd mininet_examples
-         $ sudo python leaf_spine.py
+         $ sudo mn --topo tree,depth=2,fanout=8 --controller=remote,ip=127.0.0.1
     
    
 4. Forth, run pingall to detect all of the hosts in the network topology. ONOS runs a reactive forwarding application by default. 
