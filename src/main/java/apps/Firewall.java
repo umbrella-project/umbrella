@@ -40,7 +40,7 @@ public class Firewall {
         ConfigService configService = new ConfigService();
         controllerName = configService.getControllerName();
 
-        configService.init(controllerName);
+        controller= configService.init(controllerName);
 
 
         Set<TopoHost> srchosts = controller.topoStore.getHosts();
@@ -51,11 +51,9 @@ public class Firewall {
         List<TopoEdge> rvPath = null;
 
 
-        for (int i = 0; i < hosts.size(); i++) {
-            for (int j = i + 1; j < hosts.size(); j++) {
-                TopoHost srcHost = hosts.get(i);
-                TopoHost dstHost = hosts.get(j);
-
+        for (TopoHost srcHost: hosts) {
+            for (TopoHost dstHost: hosts) {
+                if(!srcHost.equals(dstHost)){
 
                 String srcMac = srcHost.getHostMac();
                 String dstMac = dstHost.getHostMac();
@@ -241,6 +239,7 @@ public class Firewall {
 
 
                 }
+             }
 
 
             }
