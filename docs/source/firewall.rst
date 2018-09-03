@@ -45,12 +45,10 @@ First, we need to create an instance of the controller that we would like to exe
         List<TopoEdge> rvPath = null;
 
 
-        for (int i = 0; i < hosts.size(); i++) {
-            for (int j = i + 1; j < hosts.size(); j++) {
-                TopoHost srcHost = hosts.get(i);
-                TopoHost dstHost = hosts.get(j);
-
-
+       for (TopoHost srcHost: hosts) {
+            for (TopoHost dstHost: hosts) {
+                       if(!srcHost.equals(dstHost)){
+            
                 String srcMac = srcHost.getHostMac();
                 String dstMac = dstHost.getHostMac();
 
