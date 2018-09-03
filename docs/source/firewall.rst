@@ -14,7 +14,7 @@ Firewall Application
 +--------------+-----------------+-----------------+-----------------+-----------------+
 | H3(10.0.0.3) | WEB             | DENY            | NONE            | DENY            |
 +--------------+-----------------+-----------------+-----------------+-----------------+
-| H4(10.0.0.4) | DENY            | DENY            | PING            | NONE            | 
+| H4(10.0.0.4) | DENY            | DENY            | NONE           | NONE            | 
 +--------------+-----------------+-----------------+-----------------+-----------------+
 
 * To achieve that goal, we implement an application using Umbrella APIs to generate and install appropriate forwarding rules on the switches between each pair of hosts: (h1,h3) and (h2, h4). We explain step by step how to write the mentioned application:
