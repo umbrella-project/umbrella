@@ -232,6 +232,26 @@ public abstract class TopoStore implements TopoStoreInterface {
 
     }
 
+    public  TopoHost getTopoHostById(String topoHostId)
+    {
+
+        for(TopoHost topoHost: topoHosts)
+        {
+
+            String hostId = topoHost.getHostID();
+
+            if(hostId.equals(topoHostId))
+            {
+                return topoHost;
+            }
+
+
+        }
+
+        return null;
+
+    }
+
     /**
      * Returns topology graph.
      *
@@ -258,6 +278,7 @@ public abstract class TopoStore implements TopoStoreInterface {
 
         TopoSwitch src = new TopoSwitch(srcDevice);
         TopoSwitch dst = new TopoSwitch(dstDevice);
+
         ShortestPathAlgorithm.SingleSourcePaths<TopoVertex, TopoEdge> iPaths = dijkstraAlg.getPaths(src);
         List<TopoEdge> pathEdges = iPaths.getPath(dst).getEdgeList();
 

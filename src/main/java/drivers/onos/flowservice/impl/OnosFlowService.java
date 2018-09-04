@@ -21,6 +21,9 @@ import api.flowservice.FlowAction;
 import api.flowservice.FlowMatch;
 import api.flowservice.FlowService;
 import drivers.onos.OnosUrls;
+import org.apache.felix.scr.annotations.Activate;
+import org.apache.felix.scr.annotations.Component;
+import org.apache.felix.scr.annotations.Service;
 import org.apache.http.client.HttpClient;
 import org.apache.http.entity.StringEntity;
 import org.apache.log4j.Logger;
@@ -38,11 +41,22 @@ import java.util.List;
 /**
  * Class implementing ONOS flow service driver.
  */
+@Component(immediate = true)
+@Service
 public class OnosFlowService extends FlowService {
 
     private static Logger log = Logger.getLogger(OnosFlowService.class);
 
     private final String APP_ID = "?appId=";
+
+
+    @Activate
+    public void Activate()
+    {
+        log.info("ONOS Flow Service is Activated\n");
+
+    }
+
 
     public OnosFlowService() {
     }
@@ -130,7 +144,7 @@ public class OnosFlowService extends FlowService {
         httpClient = DefaultRestApiHelper.createHttpClient("onos", "rocks");
         DefaultRestApiHelper.httpDelRequest(httpClient,
                 OnosUrls.FLOWS.getUrl() + "/" + deviceID + "/" + FlowId);
-        return false;
+        return true;
     }
 
     @Override

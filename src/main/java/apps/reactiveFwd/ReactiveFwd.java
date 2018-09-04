@@ -32,6 +32,7 @@ import config.ConfigService;
 import drivers.controller.Controller;
 import drivers.controller.packetService.PacketInEvent;
 import drivers.controller.packetService.PacketInEventMonitor;
+import org.apache.felix.scr.annotations.Component;
 import org.apache.log4j.Logger;
 import org.jgrapht.alg.spanning.KruskalMinimumSpanningTree;
 import org.onlab.packet.ARP;
@@ -40,6 +41,7 @@ import org.onlab.packet.Ethernet;
 import org.onlab.packet.IPv4;
 import org.onlab.packet.Ip4Address;
 import org.onlab.packet.MacAddress;
+import org.onlab.packet.TCP;
 import org.projectfloodlight.openflow.protocol.OFFactories;
 import org.projectfloodlight.openflow.protocol.OFFactory;
 import org.projectfloodlight.openflow.protocol.OFPacketIn;
@@ -57,7 +59,7 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * Reactive Forwarding Application.
+ * Reactive FwdWithFailureDetection Application.
  */
 
 public class ReactiveFwd {
@@ -166,7 +168,6 @@ public class ReactiveFwd {
                                 Set<TopoEdge> topoEdgeSetSpt = spanningTree.getSpanningTree().getEdges();
 
 
-
                                 return;
                             }
 
@@ -213,6 +214,8 @@ public class ReactiveFwd {
 
                             log.info("IP Packet\n");
                             IPv4 IPv4packet = (IPv4) eth.getPayload();
+                            byte ipv4Protocol = IPv4packet.getProtocol();
+
 
                             if (!finalController.topoStore.checkHostExistenceWithMac(eth.getSourceMAC())
                                     || !finalController.topoStore.checkHostExistenceWithMac(eth.getDestinationMAC())) {
@@ -221,8 +224,12 @@ public class ReactiveFwd {
 
                             }
 
+
+
                             TopoHost srcHost = finalController.topoStore.getTopoHostByMac(eth.getSourceMAC());
                             TopoHost dstHost = finalController.topoStore.getTopoHostByMac(eth.getDestinationMAC());
+                            FlowMatch flowMatchFwd;
+                            FlowMatch flowMatchRev;
 
 
 
@@ -241,7 +248,7 @@ public class ReactiveFwd {
                                     continue;
                                 }
 
-                                FlowMatch flowMatch = FlowMatch.builder()
+                                 flowMatchFwd = FlowMatch.builder()
                                         .ethSrc(srcHost.getHostMac())
                                         .ethDst(dstHost.getHostMac())
                                         .ipv4Src(srcHost.getHostIPAddresses().get(0) + "/32")
@@ -258,7 +265,7 @@ public class ReactiveFwd {
                                 Flow flow = Flow.builder()
                                         .deviceID(edge.getSrc())
                                         .tableID(TABLE_ID)
-                                        .flowMatch(flowMatch)
+                                        .flowMatch(flowMatchFwd)
                                         .flowActions(flowActions)
                                         .priority(1000)
                                         .appId("ReactiveFwd")
@@ -283,7 +290,7 @@ public class ReactiveFwd {
                                     continue;
                                 }
 
-                                FlowMatch flowMatch = FlowMatch.builder()
+                                flowMatchRev = FlowMatch.builder()
                                         .ethSrc(dstHost.getHostMac())
                                         .ethDst(srcHost.getHostMac())
                                         .ipv4Src(dstHost.getHostIPAddresses().get(0) + "/32")
@@ -300,7 +307,7 @@ public class ReactiveFwd {
                                 Flow flow = Flow.builder()
                                         .deviceID(edge.getSrc())
                                         .tableID(TABLE_ID)
-                                        .flowMatch(flowMatch)
+                                        .flowMatch(flowMatchRev)
                                         .flowActions(flowActions)
                                         .priority(1000)
                                         .appId("ReactiveFwd")

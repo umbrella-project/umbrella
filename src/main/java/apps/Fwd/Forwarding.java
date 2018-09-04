@@ -14,7 +14,7 @@
  *    limitations under the License.
  */
 
-package apps;
+package apps.Fwd;
 
 import api.flowservice.Flow;
 import api.flowservice.FlowAction;
