@@ -69,7 +69,7 @@ public class FwdWithFailureDetection {
                     case LINK_UP:
                         log.info("LINK UP " + topologyEvent.getEdge().getSrc() + " -> "
                                 + topologyEvent.getEdge().getDst() + "\n");
-                        flowRuleManager.updateRules(topologyEvent.getEdge());
+
                         break;
 
                     case LINK_DOWN:
