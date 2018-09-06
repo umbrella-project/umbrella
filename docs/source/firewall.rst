@@ -251,7 +251,7 @@ Testing the Forwarding Application on ONOS controller
 3. Third, execute the following commands to run a Mininet simulation scenario that simulates a leaf-spine network topology with 6 hosts::
    
          $ cd mininet_examples
-         $ sudo python leaf_spine.py
+         $ sudo mn --topo tree,depth=2,fanout=2 --controller=remote,ip=127.0.0.1,port=6653
     
    
 4. Forth, run pingall to detect all of the hosts in the network topology. ONOS runs a reactive forwarding application by default. 
