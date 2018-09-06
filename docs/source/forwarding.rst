@@ -93,7 +93,7 @@ Testing the Forwarding Application on ONOS controller
 
 3. Third, execute the following commands to run a Mininet simulation scenario that simulates tree topology with 8 hosts::
 
-         $ sudo mn --topo tree,depth=2,fanout=8 --controller=remote,ip=127.0.0.1,port=6653
+         $ sudo mn --topo tree,depth=2,fanout=2 --controller=remote,ip=127.0.0.1,port=6653
     
    
 4. Forth, run pingall to detect all of the hosts in the network topology. ONOS runs a reactive forwarding application by default. 
