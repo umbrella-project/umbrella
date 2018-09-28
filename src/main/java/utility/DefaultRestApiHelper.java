@@ -103,7 +103,9 @@ public class DefaultRestApiHelper extends RestApiHelper {
             e.printStackTrace();
         }
 
-        if (httpResponse.getStatusLine().getStatusCode() != 200) {
+        int statusCode = httpResponse.getStatusLine().getStatusCode();
+
+        if (statusCode / 100 != 2) {
             throw new RuntimeException("Failed : HTTP error code : "
                     + httpResponse.getStatusLine().getStatusCode());
         }
@@ -228,7 +230,10 @@ public class DefaultRestApiHelper extends RestApiHelper {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        if (response.getStatusLine().getStatusCode() != 204) {
+
+        int statusCode = response.getStatusLine().getStatusCode();
+
+        if (statusCode / 100 != 2) {
             throw new RuntimeException("Failed : HTTP error code : "
                     + response.getStatusLine().getStatusCode());
         }
