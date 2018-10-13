@@ -5,6 +5,7 @@ import api.topostore.TopoEdgeType;
 import api.topostore.TopoHost;
 import api.topostore.TopoStore;
 import api.topostore.TopoSwitch;
+import api.topostore.TopoVertex;
 import drivers.ryu.RyuUrls;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -15,7 +16,11 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Set;
 
+/**
+ * Ryu topology store API driver.
+ */
 public class RyuTopoStore extends TopoStore {
 
 
@@ -146,6 +151,9 @@ public class RyuTopoStore extends TopoStore {
 
     }
 
+    /**
+     * Extract hosts information and store them in topology store.
+     */
 
     public void addHosts() {
 
@@ -199,6 +207,29 @@ public class RyuTopoStore extends TopoStore {
                 this.addHost(topoHost);
 
 
+                Set<TopoVertex> topoVertices = this.getGraph().vertexSet();
+
+                TopoEdge topoEdge = new TopoEdge();
+                topoEdge.setSrcPort("0");
+                topoEdge.setDstPort(topoHost.getHostLocation().getPort());
+                topoEdge.setSrc(topoHost.getHostID());
+                topoEdge.setDst(topoHost.getHostLocation().getElementID());
+                topoEdge.setWeight(1);
+                //topoEdge.setLabel(srcDeviceName + ":" + srcPort + "," + dstDeviceName + ":" + dstPort);
+                topoEdge.setType(TopoEdgeType.HOST_SWITCH);
+                this.addEdge(topoEdge);
+
+                TopoEdge topoEdgeRev = new TopoEdge();
+                topoEdgeRev.setSrcPort(topoHost.getHostLocation().getPort());
+                topoEdgeRev.setDstPort("0");
+                topoEdgeRev.setSrc(topoHost.getHostLocation().getElementID());
+                topoEdgeRev.setDst(topoHost.getHostID());
+                topoEdgeRev.setWeight(1);
+                //topoEdge.setLabel(srcDeviceName + ":" + srcPort + "," + dstDeviceName + ":" + dstPort);
+                topoEdgeRev.setType(TopoEdgeType.SWITCH_HOST);
+                this.addEdge(topoEdgeRev);
+
+
             }
 
         }
@@ -206,6 +237,9 @@ public class RyuTopoStore extends TopoStore {
     }
 
 
+    /**
+     * Update topology store.
+     */
     @Override
     public void updateTopo() {
         this.clear();

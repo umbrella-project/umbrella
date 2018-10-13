@@ -19,6 +19,7 @@ package config;
 import drivers.controller.Controller;
 import drivers.odl.OdlController;
 import drivers.onos.OnosController;
+import drivers.ryu.RyuController;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -102,7 +103,12 @@ public class ConfigService {
             return controller = new OnosController();
         } else if (controllerName.equalsIgnoreCase("odl")) {
             return controller = new OdlController();
-        } else {
+
+        } else if(controllerName.equalsIgnoreCase("ryu"))
+        {
+            return controller = new RyuController();
+        }
+        else {
 
             return controller;
         }
