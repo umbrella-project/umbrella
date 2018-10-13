@@ -26,6 +26,7 @@ public class TestOnosTopology {
         OnosController onosController = new OnosController();
         onosController.printTopology();
 
+
         //List<TopoEdge> path = onosController.getShortestPath("of:0000000000000191","of:0000000000000192");
         //onosController.printPath(path);
     }
