@@ -32,16 +32,13 @@ import config.ConfigService;
 import drivers.controller.Controller;
 import drivers.controller.packetService.PacketInEvent;
 import drivers.controller.packetService.PacketInEventMonitor;
-import org.apache.felix.scr.annotations.Component;
 import org.apache.log4j.Logger;
 import org.jgrapht.alg.spanning.KruskalMinimumSpanningTree;
 import org.onlab.packet.ARP;
-import org.onlab.packet.EthType;
 import org.onlab.packet.Ethernet;
 import org.onlab.packet.IPv4;
 import org.onlab.packet.Ip4Address;
 import org.onlab.packet.MacAddress;
-import org.onlab.packet.TCP;
 import org.projectfloodlight.openflow.protocol.OFFactories;
 import org.projectfloodlight.openflow.protocol.OFFactory;
 import org.projectfloodlight.openflow.protocol.OFPacketIn;
@@ -62,7 +59,7 @@ import java.util.Set;
  * Reactive FwdWithFailureDetection Application.
  */
 
-public class ReactiveFwd {
+public class ReactiveFwdRyu {
 
     private static Logger log = Logger.getLogger(TestPacketIn.class);
     ConfigService configService = new ConfigService();
@@ -100,6 +97,8 @@ public class ReactiveFwd {
                     .priority(100)
                     .appId("ReactiveFwd")
                     .isPermanent(true)
+                    .timeOut(0)
+                    .cookie(1)
                     .build();
 
             finalController.flowService.addFlow(flow);
@@ -116,6 +115,8 @@ public class ReactiveFwd {
                     .priority(100)
                     .appId("ReactiveFwd")
                     .isPermanent(true)
+                    .timeOut(0)
+                    .cookie(1)
                     .build();
 
 	    finalController.flowService.addFlow(flow);
@@ -253,8 +254,8 @@ public class ReactiveFwd {
                                  flowMatchFwd = FlowMatch.builder()
                                         .ethSrc(srcHost.getHostMac())
                                         .ethDst(dstHost.getHostMac())
-                                        .ipv4Src(srcHost.getHostIPAddresses().get(0) + "/32")
-                                        .ipv4Dst(dstHost.getHostIPAddresses().get(0) + "/32")
+                                        .ipv4Src(srcHost.getHostIPAddresses().get(0))
+                                        .ipv4Dst(dstHost.getHostIPAddresses().get(0))
                                         .ethType(2048)
                                         .build();
 
@@ -272,6 +273,7 @@ public class ReactiveFwd {
                                         .priority(1000)
                                         .appId("ReactiveFwd")
                                         .timeOut(50)
+                                        .cookie(1)
                                         .build();
 
                                 finalController.flowService.addFlow(flow);
@@ -295,8 +297,8 @@ public class ReactiveFwd {
                                 flowMatchRev = FlowMatch.builder()
                                         .ethSrc(dstHost.getHostMac())
                                         .ethDst(srcHost.getHostMac())
-                                        .ipv4Src(dstHost.getHostIPAddresses().get(0) + "/32")
-                                        .ipv4Dst(srcHost.getHostIPAddresses().get(0) + "/32")
+                                        .ipv4Src(dstHost.getHostIPAddresses().get(0))
+                                        .ipv4Dst(srcHost.getHostIPAddresses().get(0))
                                         .ethType(2048)
                                         .build();
 
@@ -314,6 +316,7 @@ public class ReactiveFwd {
                                         .priority(1000)
                                         .appId("ReactiveFwd")
                                         .timeOut(50)
+                                        .cookie(1)
                                         .build();
 
                                 finalController.flowService.addFlow(flow);
