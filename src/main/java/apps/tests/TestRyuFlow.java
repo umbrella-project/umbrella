@@ -31,40 +31,57 @@ public class TestRyuFlow {
 
         RyuController ryuController = new RyuController();
 
+	/*-------------------------------------------*/
+	/* This part is to delete all previous flows */
+	FlowMatch delFlowMatch = FlowMatch.builder().build();
 
-        FlowMatch flowMatch = FlowMatch.builder()
-                .ethSrc("00:00:00:00:00:00")
-                .ethDst("88:11:11:11:11:11")
-                .inPort(5)
-                .ethType(2048)
-                .build();
+	ArrayList<FlowAction> delFlowActions = new ArrayList<>();
 
-        FlowAction flowAction = new FlowAction(FlowActionType.OUTPUT, 2);
+	Flow delFlow = Flow.builder()
+		.deviceID("738997584569600")
+		.flowMatch(delFlowMatch)
+		.flowActions(delFlowActions)
+		.tableID(0)
+		.appId("delFlows")
+		.build();
+
+	System.out.println(delFlow);
+	ArrayList<Flow> delFlows = new ArrayList<>();
+	delFlows.add(delFlow);
+
+	ryuController.flowService.deleteFlows(delFlows);
+
+	/*-------------------------------------------*/
+
+	/*-------------------------------------------*/
+	/* Now, add the basic flows needed for HP switches */
+        FlowMatch flowMatch = FlowMatch.builder().build();
+
+        FlowAction flowAction = new FlowAction(FlowActionType.GOTO_TABLE, 100);
 
         ArrayList<FlowAction> flowActions = new ArrayList<>();
         flowActions.add(flowAction);
 
 
         Flow flow = Flow.builder()
-                .deviceID("0000000000000001")
+                .deviceID("738997584569600")
                 .tableID(0)
                 .flowMatch(flowMatch)
                 .flowActions(flowActions)
-                .timeOut(20)
                 .appId("testApp")
-                .priority(1000)
-                .cookie(1)
+                .priority(0)
+                //.cookie(1)
                 .isPermanent(false)
                 .build();
 
         ArrayList<Flow> flowArrayList = new ArrayList<>();
         ryuController.flowService.addFlow(flow);
         flowArrayList.add(flow);
-        try {
-            Thread.sleep(20000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        //try {
+        //    Thread.sleep(20000);
+        //} catch (InterruptedException e) {
+        //    e.printStackTrace();
+        //}
         //ryuController.flowService.deleteFlow(flow.getDeviceID(), flowId);
 
         //ryuController.flowService.deleteFlows(flowArrayList);

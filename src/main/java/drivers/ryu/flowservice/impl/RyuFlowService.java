@@ -65,9 +65,34 @@ public class RyuFlowService extends FlowService {
         return new String[0];
     }
 
+    public boolean deleteFlow(Flow flow) {
+        StringEntity stringEntity = null;
+
+        String jsonFinalResult = toJsonString(flow);
+
+        try {
+            stringEntity = new StringEntity(jsonFinalResult);
+            stringEntity.setContentType("Application/json");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+
+        DefaultRestApiHelper restApiHelper = new DefaultRestApiHelper();
+        HttpClient httpClient;
+
+        httpClient = DefaultRestApiHelper.createHttpClient(" ", " ");
+
+        BufferedReader br = restApiHelper.httpPostRequest(httpClient,
+                RyuUrls.DELETE_MATCHED_FLOWS.getUrl(), stringEntity);
+
+        restApiHelper.httpClientShutDown(httpClient);
+
+        return true;
+    }
+
     @Override
     public boolean deleteFlow(String deviceID, String FlowId) {
-        return false;
+	    return false;
     }
 
     @Override
@@ -95,7 +120,7 @@ public class RyuFlowService extends FlowService {
             httpClient = DefaultRestApiHelper.createHttpClient(" ", " ");
 
             BufferedReader br = restApiHelper.httpPostRequest(httpClient,
-                    RyuUrls.DELETE_MATCHED_RESTRIC_FLOWS.getUrl(), stringEntity);
+                    RyuUrls.DELETE_MATCHED_FLOWS.getUrl(), stringEntity);
 
 
             String flowId = null;
@@ -123,9 +148,9 @@ public class RyuFlowService extends FlowService {
         }
 
         List<FlowAction> flowActions = flow.getFlowActions();
-        if (flowActions.size() == 0) {
-            return null;
-        }
+        //if (flowActions.size() == 0) {
+        //    return null;
+        //}
 
         Integer tableID = flow.getTableID();
         if (tableID == null) {
@@ -159,14 +184,13 @@ public class RyuFlowService extends FlowService {
 
         JSONObject jsonResult = new JSONObject();
 
-        jsonResult.put("dpid", Integer.parseInt(flow.getDeviceID()));
-        jsonResult.put("cookie", flow.getCookie());
+	jsonResult.put("dpid", flow.getDeviceID());
+
         if (!flow.isPermanent()) {
-            jsonResult.put("idle_timeout", flow.getTimeOut());
-
-
+            if(flow.getTimeOut() != null) {
+                jsonResult.put("idle_timeout", flow.getTimeOut());
+            }
         } else if (flow.isPermanent()) {
-
             jsonResult.put("hard_timeout", flow.getTimeOut());
         }
 
@@ -289,6 +313,15 @@ public class RyuFlowService extends FlowService {
 
                 case DROP:
                     break;
+
+		case GOTO_TABLE:
+		    Integer gotoTableId = (Integer) action.getActionData();
+		    actionObjects[actionCounter].put("type", "GOTO_TABLE");
+		    actionObjects[actionCounter].put("table_id", gotoTableId);
+
+		    actionArrays.add(actionObjects[actionCounter]);
+		    actionCounter++;
+		    break;
             }
         }
 

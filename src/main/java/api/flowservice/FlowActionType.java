@@ -31,5 +31,9 @@ public enum FlowActionType {
     /**
      * flow rule controller action (i.e. forwards a packet to the controller).
      */
-    CONTROLLER;
+    CONTROLLER,
+    /**
+     * flow rule GOTO_TABLE action (i.e. processing goes to specified table).
+     */
+    GOTO_TABLE;
 }
