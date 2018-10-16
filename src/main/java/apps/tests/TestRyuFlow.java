@@ -37,17 +37,38 @@ public class TestRyuFlow {
 
 	ArrayList<FlowAction> delFlowActions = new ArrayList<>();
 
-	Flow delFlow = Flow.builder()
-		.deviceID("738997584569600")
+	Flow delFlow1 = Flow.builder()
+		//.deviceID("738997584569600")
+		.deviceID("738997585356800")
 		.flowMatch(delFlowMatch)
 		.flowActions(delFlowActions)
 		.tableID(0)
+		.priority(0)
+		.appId("delFlows")
+		.build();
+	Flow delFlow2 = Flow.builder()
+		//.deviceID("738997584569600")
+		.deviceID("738997585356800")
+		.flowMatch(delFlowMatch)
+		.flowActions(delFlowActions)
+		.tableID(100)
+		.priority(0)
+		.appId("delFlows")
+		.build();
+	Flow delFlow3 = Flow.builder()
+		//.deviceID("738997584569600")
+		.deviceID("738997585356800")
+		.flowMatch(delFlowMatch)
+		.flowActions(delFlowActions)
+		.tableID(200)
+		.priority(0)
 		.appId("delFlows")
 		.build();
 
-	System.out.println(delFlow);
 	ArrayList<Flow> delFlows = new ArrayList<>();
-	delFlows.add(delFlow);
+	delFlows.add(delFlow1);
+	delFlows.add(delFlow2);
+	delFlows.add(delFlow3);
 
 	ryuController.flowService.deleteFlows(delFlows);
 
@@ -55,7 +76,7 @@ public class TestRyuFlow {
 
 	/*-------------------------------------------*/
 	/* Now, add the basic flows needed for HP switches */
-        FlowMatch flowMatch = FlowMatch.builder().build();
+        /*FlowMatch flowMatch = FlowMatch.builder().build();
 
         FlowAction flowAction = new FlowAction(FlowActionType.GOTO_TABLE, 100);
 
@@ -76,7 +97,7 @@ public class TestRyuFlow {
 
         ArrayList<Flow> flowArrayList = new ArrayList<>();
         ryuController.flowService.addFlow(flow);
-        flowArrayList.add(flow);
+        flowArrayList.add(flow);*/
         //try {
         //    Thread.sleep(20000);
         //} catch (InterruptedException e) {

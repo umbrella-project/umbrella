@@ -195,7 +195,7 @@ public class RyuFlowService extends FlowService {
         }
 
         jsonResult.put("priority", priority);
-        jsonResult.put("tableId", tableID);
+        jsonResult.put("table_id", tableID);
 
 
         Integer inPort = flowMatch.getIN_PORT();
