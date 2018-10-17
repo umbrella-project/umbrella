@@ -264,8 +264,9 @@ public class ReactiveFwdRyu {
                                 ArrayList<FlowAction> flowActions = new ArrayList<FlowAction>();
                                 flowActions.add(flowAction);
 
+                                String deviceId = String.valueOf(Long.parseLong(edge.getSrc(), 16));
                                 Flow flow = Flow.builder()
-                                        .deviceID(edge.getSrc())
+                                        .deviceID(deviceId)
                                         .tableID(TABLE_ID)
                                         .flowMatch(flowMatchFwd)
                                         .flowActions(flowActions)
@@ -306,9 +307,10 @@ public class ReactiveFwdRyu {
 
                                 ArrayList<FlowAction> flowActions = new ArrayList<FlowAction>();
                                 flowActions.add(flowAction);
+                                String deviceId = String.valueOf(Long.parseLong(edge.getSrc(), 16));
 
                                 Flow flow = Flow.builder()
-                                        .deviceID(edge.getSrc())
+                                        .deviceID(deviceId)
                                         .tableID(TABLE_ID)
                                         .flowMatch(flowMatchRev)
                                         .flowActions(flowActions)
