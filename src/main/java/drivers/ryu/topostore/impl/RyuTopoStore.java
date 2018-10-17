@@ -16,6 +16,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Set;
 
 /**
@@ -37,9 +38,68 @@ public class RyuTopoStore extends TopoStore {
     public void fetchTopo() {
         addLinks();
         addHosts();
+        addDevices();
 
     }
 
+
+    public void addDevices()
+    {
+
+        BufferedReader bufferedReaderLinks = null;
+        HttpClient httpClient = null;
+
+
+        try {
+            httpClient = DefaultRestApiHelper
+                    .createHttpClient(" ", " ");
+            HttpGet getRequest = DefaultRestApiHelper
+                    .getRequest(httpClient, RyuUrls.DEVICES.getUrl());
+            HttpResponse response = DefaultRestApiHelper
+                    .getResponse(getRequest, httpClient);
+
+            bufferedReaderLinks = new BufferedReader(
+                    new InputStreamReader((response.getEntity().getContent())));
+
+
+        } catch (IOException e) {
+
+            e.printStackTrace();
+        }
+        StringBuilder sb = new StringBuilder();
+        String line;
+
+        try {
+            while ((line = bufferedReaderLinks.readLine()) != null) {
+
+                sb.append(line);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+        String jsonDevicesString = sb.toString();
+
+        org.json.JSONArray jsonArrayDevices = new org.json.JSONArray(jsonDevicesString);
+
+        //System.out.println(jsonArrayDevices);
+
+        for (int i = 0; i < jsonArrayDevices.length(); i++) {
+
+            String deviceName = (String) jsonArrayDevices.getJSONObject(i).get("dpid");
+            TopoSwitch topoSwitch = new TopoSwitch(deviceName);
+            this.addSwitch(topoSwitch);
+
+        }
+
+
+
+
+
+
+
+    }
 
     /**
      * Extract links info and store them in topo storage.
