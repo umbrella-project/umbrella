@@ -119,7 +119,7 @@ public class hpDriver {
                     .flowActions(flowActions)
                     .appId("Tran")
                     .priority(0)
-                    .isPermanent(false)
+                    .isPermanent(true)
                     .build();
 
             controller.flowService.addFlow(defaultTransitionRule100);
@@ -140,7 +140,7 @@ public class hpDriver {
                     .flowActions(flowActions2)
                     .appId("testApp")
                     .priority(0)
-                    .isPermanent(false)
+                    .isPermanent(true)
                     .build();
 
             controller.flowService.addFlow(defaultTransitionRule200);
@@ -163,7 +163,7 @@ public class hpDriver {
                     .flowActions(arpActionList)
                     .appId("arpDefaulttRule")
                     .priority(45000)
-                    .isPermanent(false)
+                    .isPermanent(true)
                     .build();
 
 
@@ -186,7 +186,7 @@ public class hpDriver {
                     .flowActions(lldpActionList)
                     .appId("lldpDefaultRule")
                     .priority(45000)
-                    .isPermanent(false)
+                    .isPermanent(true)
                     .build();
 
             controller.flowService.addFlow(lldpDefaultFlow);
