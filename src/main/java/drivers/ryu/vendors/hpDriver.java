@@ -55,12 +55,11 @@ public class hpDriver {
         ArrayList<FlowAction> delFlowActions = new ArrayList<>();
 
         Set<TopoSwitch> topoSwitchSet = controller.topoStore.getSwitches();
-        controller.topoStore.printDevices();
-
+        
 
         for (TopoSwitch topoSwitch : topoSwitchSet) {
 
-            String deviceId = String.valueOf(Integer.parseInt(topoSwitch.getSwitchID(), 16));
+            String deviceId = String.valueOf(Long.parseLong(topoSwitch.getSwitchID(), 16));
             System.out.println(deviceId);
             Flow delFlow1 = Flow.builder()
                     .deviceID(deviceId)
@@ -104,7 +103,7 @@ public class hpDriver {
         for(TopoSwitch topoSwitch:topoSwitchSet)
         {
 
-            String deviceId = String.valueOf(Integer.parseInt(topoSwitch.getSwitchID(), 16));
+            String deviceId = String.valueOf(Long.parseLong(topoSwitch.getSwitchID(), 16));
             FlowMatch flowMatch1 = FlowMatch.builder().build();
 
             FlowAction flowAction1 = new FlowAction(FlowActionType.GOTO_TABLE, 100);
@@ -163,7 +162,7 @@ public class hpDriver {
                     .flowMatch(arpMatch)
                     .flowActions(arpActionList)
                     .appId("arpDefaulttRule")
-                    .priority(40000)
+                    .priority(45000)
                     .isPermanent(false)
                     .build();
 
@@ -186,7 +185,7 @@ public class hpDriver {
                     .flowMatch(lldpMatch)
                     .flowActions(lldpActionList)
                     .appId("lldpDefaultRule")
-                    .priority(40000)
+                    .priority(45000)
                     .isPermanent(false)
                     .build();
 

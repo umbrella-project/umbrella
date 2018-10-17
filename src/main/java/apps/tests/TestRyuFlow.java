@@ -35,11 +35,12 @@ public class TestRyuFlow {
 	/* This part is to delete all previous flows */
 	FlowMatch delFlowMatch = FlowMatch.builder().build();
 
+	String deviceID = "2041419171046400";
 	ArrayList<FlowAction> delFlowActions = new ArrayList<>();
 
 	Flow delFlow1 = Flow.builder()
-		//.deviceID("738997584569600")
-		.deviceID("738997585356800")
+		.deviceID(deviceID)
+		//.deviceID("738997585356800")
 		.flowMatch(delFlowMatch)
 		.flowActions(delFlowActions)
 		.tableID(0)
@@ -47,8 +48,8 @@ public class TestRyuFlow {
 		.appId("delFlows")
 		.build();
 	Flow delFlow2 = Flow.builder()
-		//.deviceID("738997584569600")
-		.deviceID("738997585356800")
+		.deviceID(deviceID)
+		//.deviceID("738997585356800")
 		.flowMatch(delFlowMatch)
 		.flowActions(delFlowActions)
 		.tableID(100)
@@ -56,8 +57,8 @@ public class TestRyuFlow {
 		.appId("delFlows")
 		.build();
 	Flow delFlow3 = Flow.builder()
-		//.deviceID("738997584569600")
-		.deviceID("738997585356800")
+		.deviceID(deviceID)
+		//.deviceID("738997585356800")
 		.flowMatch(delFlowMatch)
 		.flowActions(delFlowActions)
 		.tableID(200)
