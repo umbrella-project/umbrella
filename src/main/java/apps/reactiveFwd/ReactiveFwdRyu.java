@@ -64,8 +64,8 @@ public class ReactiveFwdRyu {
     private static Logger log = Logger.getLogger(TestPacketIn.class);
     ConfigService configService = new ConfigService();
 
-    private static int TABLE_ID = 0;
-    private static int TABLE_ID_CTRL_PACKETS = 0;
+    private static int TABLE_ID = 100;
+    private static int TABLE_ID_CTRL_PACKETS = 200;
     public static void main(String[] args) {
 
 
@@ -79,6 +79,7 @@ public class ReactiveFwdRyu {
         Set<TopoSwitch> topoSwitches = finalController.topoStore.getSwitches();
 
         for (TopoSwitch topoSwitch : topoSwitches) {
+	    String deviceId = String.valueOf(Long.parseLong(topoSwitch.getSwitchID(), 16));
             FlowMatch flowMatch = FlowMatch.builder()
                     .ethType(2048)
                     .build();
@@ -90,7 +91,7 @@ public class ReactiveFwdRyu {
             flowActions.add(flowAction);
 
             Flow flow = Flow.builder()
-                    .deviceID(topoSwitch.getSwitchID())
+                    .deviceID(deviceId)
                     .tableID(TABLE_ID_CTRL_PACKETS)
                     .flowMatch(flowMatch)
                     .flowActions(flowActions)
@@ -98,7 +99,6 @@ public class ReactiveFwdRyu {
                     .appId("ReactiveFwd")
                     .isPermanent(true)
                     .timeOut(0)
-                    .cookie(1)
                     .build();
 
             finalController.flowService.addFlow(flow);
@@ -108,7 +108,7 @@ public class ReactiveFwdRyu {
 		    .build();
 
             flow = Flow.builder()
-                    .deviceID(topoSwitch.getSwitchID())
+                    .deviceID(deviceId)
                     .tableID(TABLE_ID_CTRL_PACKETS)
                     .flowMatch(flowMatch)
                     .flowActions(flowActions)
@@ -116,7 +116,6 @@ public class ReactiveFwdRyu {
                     .appId("ReactiveFwd")
                     .isPermanent(true)
                     .timeOut(0)
-                    .cookie(1)
                     .build();
 
 	    finalController.flowService.addFlow(flow);
@@ -273,7 +272,7 @@ public class ReactiveFwdRyu {
                                         .priority(1000)
                                         .appId("ReactiveFwd")
                                         .timeOut(50)
-                                        .cookie(1)
+					.isPermanent(false)
                                         .build();
 
                                 finalController.flowService.addFlow(flow);
@@ -316,7 +315,7 @@ public class ReactiveFwdRyu {
                                         .priority(1000)
                                         .appId("ReactiveFwd")
                                         .timeOut(50)
-                                        .cookie(1)
+					.isPermanent(false)
                                         .build();
 
                                 finalController.flowService.addFlow(flow);

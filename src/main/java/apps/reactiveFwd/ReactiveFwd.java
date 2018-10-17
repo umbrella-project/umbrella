@@ -67,8 +67,8 @@ public class ReactiveFwd {
     private static Logger log = Logger.getLogger(TestPacketIn.class);
     ConfigService configService = new ConfigService();
 
-    private static int TABLE_ID = 0;
-    private static int TABLE_ID_CTRL_PACKETS = 0;
+    private static int TABLE_ID = 100;
+    private static int TABLE_ID_CTRL_PACKETS = 200;
     public static void main(String[] args) {
 
 
@@ -100,6 +100,7 @@ public class ReactiveFwd {
                     .priority(100)
                     .appId("ReactiveFwd")
                     .isPermanent(true)
+		    .timeOut(0)
                     .build();
 
             finalController.flowService.addFlow(flow);
@@ -116,6 +117,7 @@ public class ReactiveFwd {
                     .priority(100)
                     .appId("ReactiveFwd")
                     .isPermanent(true)
+		    .timeOut(0)
                     .build();
 
 	    finalController.flowService.addFlow(flow);
