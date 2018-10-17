@@ -259,7 +259,7 @@ public class ReactiveFwdRyu {
                                         .build();
 
                                 FlowAction flowAction = new FlowAction(FlowActionType.OUTPUT,
-                                        Integer.parseInt(edge.getSrcPort()));
+                                        Math.toIntExact(Long.parseLong(edge.getSrcPort())));
 
                                 ArrayList<FlowAction> flowActions = new ArrayList<FlowAction>();
                                 flowActions.add(flowAction);
@@ -303,7 +303,7 @@ public class ReactiveFwdRyu {
                                         .build();
 
                                 FlowAction flowAction = new FlowAction(FlowActionType.OUTPUT,
-                                        Integer.parseInt(edge.getSrcPort()));
+                                        Math.toIntExact(Long.parseLong(edge.getSrcPort())));
 
                                 ArrayList<FlowAction> flowActions = new ArrayList<FlowAction>();
                                 flowActions.add(flowAction);
@@ -323,7 +323,7 @@ public class ReactiveFwdRyu {
                                 finalController.flowService.addFlow(flow);
                             }
 
-                            int packetOutPort = Integer.parseInt(firstEdge.getSrcPort());
+                            int packetOutPort = Math.toIntExact(Long.parseLong(firstEdge.getSrcPort()));
 
                             OFActionOutput output = myFactory.actions().buildOutput()
                                     .setPort(OFPort.ofInt(packetOutPort))
