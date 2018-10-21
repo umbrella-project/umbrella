@@ -35,6 +35,7 @@ import org.apache.http.impl.client.BasicCredentialsProvider;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.util.EntityUtils;
 import org.apache.log4j.Logger;
+import org.projectfloodlight.openflow.protocol.OFMessage;
 import org.projectfloodlight.openflow.protocol.OFPacketOut;
 
 import java.io.BufferedReader;
@@ -241,7 +242,7 @@ public class DefaultRestApiHelper extends RestApiHelper {
 
     }
 
-    public void httpPostRequest(int port, long dpid, OFPacketOut ofPacketOut) throws IOException {
+    public void httpPostRequest(int port, long dpid, OFMessage ofMessage) throws IOException {
 
 
         URL url = null;
@@ -256,12 +257,12 @@ public class DefaultRestApiHelper extends RestApiHelper {
         HttpClient client = HttpClientBuilder.create().build();
         HttpPost post = new HttpPost("http://127.0.0.1:" + port + "/oftee/" + String.format("0x%016X", dpid));
 
-        ByteBuf packetOutBuffer = Unpooled.buffer();
-        ofPacketOut.writeTo(packetOutBuffer);
-        byte packetOutBytes[] = new byte[packetOutBuffer.readableBytes()];
-        packetOutBuffer.readBytes(packetOutBytes);
+        ByteBuf OfMsgBuffer = Unpooled.buffer();
+        ofMessage.writeTo(OfMsgBuffer);
+        byte OfMsgBytes[] = new byte[OfMsgBuffer.readableBytes()];
+        OfMsgBuffer.readBytes(OfMsgBytes);
 
-        post.setEntity(new ByteArrayEntity(packetOutBytes, ContentType.APPLICATION_OCTET_STREAM));
+        post.setEntity(new ByteArrayEntity(OfMsgBytes, ContentType.APPLICATION_OCTET_STREAM));
         HttpResponse response = client.execute((HttpUriRequest) post);
 
         if (response == null) {
