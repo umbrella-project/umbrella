@@ -2,3 +2,5 @@ logs/
 .idea/
 *.iml
 target/
+bazel*
+.ijwb
