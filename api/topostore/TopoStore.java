@@ -105,7 +105,8 @@ public abstract class TopoStore implements TopoStoreInterface {
                 dstVertex = new TopoVertex(TopoVertexType.SWITCH, topoEdge.getDst());
         }
 
-        this.topoGraph.addEdge(srcVertex, dstVertex, topoEdge);
+        if(!srcVertex.equals(dstVertex))
+           this.topoGraph.addEdge(srcVertex, dstVertex, topoEdge);
     }
 
     /**
