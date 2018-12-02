@@ -26,9 +26,7 @@ public enum OnosUrls {
     PATHS("http://127.0.0.1:8181/onos/v1/paths/"),
     HOSTS("http://127.0.0.1:8181/onos/v1/hosts/"),
     FLOWS("http://127.0.0.1:8181/onos/v1/flows"),
-    LINKS("http://127.0.0.1:8181/onos/v1/links"),
-    KAFKA_REGISTER("http://127.0.0.1:8181/onos/kafka-integration/kafkaService/register"),
-    KAFKA_SUBSCRIBE("http://127.0.0.1:8181/onos/kafka-integration/kafkaService/subscribe");
+    LINKS("http://127.0.0.1:8181/onos/v1/links");
 
 
     private final String IP = "http://127.0.0.1:8181";

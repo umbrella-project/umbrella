@@ -64,6 +64,8 @@ public class ReactiveForwardingKafka {
     //private static Logger log = Logger.getLogger(ReactiveForwardingKafka.class);
     private static int TABLE_ID = 0;
     private static int TABLE_ID_CTRL_PACKETS = 0;
+    private static int CTRL_PACKET_PRIORITY = 100;
+    private static int IP_PACKET_PRIORITY = 1000;
     ConfigService configService = new ConfigService();
 
 
@@ -111,7 +113,7 @@ public class ReactiveForwardingKafka {
                     .tableID(TABLE_ID_CTRL_PACKETS)
                     .flowMatch(flowMatch)
                     .flowActions(flowActions)
-                    .priority(100)
+                    .priority(CTRL_PACKET_PRIORITY)
                     .appId("ReactiveFwd")
                     .isPermanent(true)
                     .timeOut(0)
@@ -128,7 +130,7 @@ public class ReactiveForwardingKafka {
                     .tableID(TABLE_ID_CTRL_PACKETS)
                     .flowMatch(flowMatch)
                     .flowActions(flowActions)
-                    .priority(100)
+                    .priority(CTRL_PACKET_PRIORITY)
                     .appId("ReactiveFwd")
                     .isPermanent(true)
                     .timeOut(0)
@@ -194,7 +196,7 @@ public class ReactiveForwardingKafka {
                     Ip4Address targetIpAddress = Ip4Address
                             .valueOf(arpPacket.getTargetProtocolAddress());
 
-                    System.out.println("ARP PACKET\n");
+
 
 
                     String dstMac = finalController.topoStore.getTopoHostByIP(targetIpAddress).getHostMac();
@@ -241,7 +243,6 @@ public class ReactiveForwardingKafka {
 
                 if (type == Ethernet.TYPE_IPV4) {
 
-                    System.out.println("IP Packet\n");
                     IPv4 IPv4packet = (IPv4) eth.getPayload();
                     byte ipv4Protocol = IPv4packet.getProtocol();
 
@@ -294,7 +295,7 @@ public class ReactiveForwardingKafka {
                                 .tableID(TABLE_ID)
                                 .flowMatch(flowMatchFwd)
                                 .flowActions(flowActions)
-                                .priority(1000)
+                                .priority(IP_PACKET_PRIORITY)
                                 .appId("ReactiveFwd")
                                 .timeOut(50)
                                 .build();
@@ -331,7 +332,7 @@ public class ReactiveForwardingKafka {
                                 .tableID(TABLE_ID)
                                 .flowMatch(flowMatchRev)
                                 .flowActions(flowActions)
-                                .priority(1000)
+                                .priority(IP_PACKET_PRIORITY)
                                 .appId("ReactiveFwd")
                                 .timeOut(50)
                                 .build();
