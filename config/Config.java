@@ -25,13 +25,11 @@ public class Config {
 
     }
 
-    public String getControllerName()
-    {
+    public String getControllerName() {
         return this.controllerName;
     }
 
-    public void setControllerName(String controllerName)
-    {
+    public void setControllerName(String controllerName) {
         this.controllerName = controllerName;
     }
 

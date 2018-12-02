@@ -25,22 +25,18 @@ import api.topostore.TopoEdge;
 import api.topostore.TopoEdgeType;
 import api.topostore.TopoHost;
 import api.topostore.TopoSwitch;
-
 import com.google.protobuf.ByteString;
 import config.ConfigService;
 import core.notificationService.eventConsumerService.EventConsumerService;
 import core.notificationService.packetService.PacketEventMonitor;
-
 import drivers.controller.Controller;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.common.utils.Bytes;
-//import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;
 import org.onlab.packet.*;
 import org.onosproject.grpc.net.flow.instructions.models.InstructionProtoOuterClass;
-
 import org.onosproject.grpc.net.flow.models.TrafficTreatmentProtoOuterClass;
 import org.onosproject.grpc.net.models.PortProtoOuterClass;
 import org.onosproject.grpc.net.packet.models.InboundPacketProtoOuterClass;
@@ -55,6 +51,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+//import org.apache.log4j.Logger;
+
 /**
  * Reactive FwdWithFailureDetection Application.
  */
@@ -67,7 +65,6 @@ public class ReactiveForwardingKafka {
     private static int CTRL_PACKET_PRIORITY = 100;
     private static int IP_PACKET_PRIORITY = 1000;
     ConfigService configService = new ConfigService();
-
 
 
     public ReactiveForwardingKafka() {
@@ -86,7 +83,6 @@ public class ReactiveForwardingKafka {
                 .build();
 
         packetOutServiceBlockingStub = PacketOutServiceGrpc.newBlockingStub(channel);
-
 
 
         String controllerName;
@@ -197,8 +193,6 @@ public class ReactiveForwardingKafka {
                             .valueOf(arpPacket.getTargetProtocolAddress());
 
 
-
-
                     String dstMac = finalController.topoStore.getTopoHostByIP(targetIpAddress).getHostMac();
 
                     if (dstMac == null) {
@@ -231,9 +225,8 @@ public class ReactiveForwardingKafka {
                             .build();
 
 
-                     OutboundPacketProtoOuterClass.PacketOutStatus packetOutStatus =
-                             packetOutServiceBlockingStub.emit(outboundPacketProto);
-
+                    OutboundPacketProtoOuterClass.PacketOutStatus packetOutStatus =
+                            packetOutServiceBlockingStub.emit(outboundPacketProto);
 
 
                     return;

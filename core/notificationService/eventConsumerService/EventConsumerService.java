@@ -11,7 +11,6 @@ import org.apache.kafka.common.utils.Bytes;
 import org.json.simple.JSONObject;
 import tools.utility.DefaultRestApiHelper;
 
-
 import java.io.*;
 import java.util.Collections;
 import java.util.Properties;

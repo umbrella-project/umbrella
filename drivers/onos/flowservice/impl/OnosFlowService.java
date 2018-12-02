@@ -30,7 +30,6 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import tools.utility.DefaultRestApiHelper;
 
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -45,9 +44,6 @@ public class OnosFlowService extends FlowService {
     private static Logger log = Logger.getLogger(OnosFlowService.class);
 
     private final String APP_ID = "?appId=";
-
-
-
 
 
     public OnosFlowService() {
@@ -94,7 +90,6 @@ public class OnosFlowService extends FlowService {
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
-
 
 
                 JSONArray flows = (JSONArray) outputObject.get("flows");
@@ -174,7 +169,6 @@ public class OnosFlowService extends FlowService {
         }
 
 
-
         Integer priority = flow.getPriority();
         if (priority == null) {
             priority = new Integer(100);
@@ -203,7 +197,7 @@ public class OnosFlowService extends FlowService {
         JSONObject jsonResult = new JSONObject();
 
         jsonResult.put("priority", priority.toString());
-	jsonResult.put("tableId", tableID);
+        jsonResult.put("tableId", tableID);
         if (!flow.isPermanent()) {
             jsonResult.put("timeout", flow.getTimeOut());
             jsonResult.put("isPermanent", false);

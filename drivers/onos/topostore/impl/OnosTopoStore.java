@@ -17,8 +17,6 @@
 package drivers.onos.topostore.impl;
 
 import api.topostore.*;
-
-
 import drivers.onos.onosurls.OnosUrls;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -27,7 +25,6 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import tools.utility.DefaultRestApiHelper;
 import tools.utility.JsonBuilder;
-
 
 import java.io.BufferedReader;
 import java.io.IOException;
