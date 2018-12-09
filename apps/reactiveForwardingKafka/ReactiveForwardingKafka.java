@@ -60,8 +60,8 @@ import java.util.Set;
 public class ReactiveForwardingKafka {
 
     //private static Logger log = Logger.getLogger(ReactiveForwardingKafka.class);
-    private static int TABLE_ID = 0;
-    private static int TABLE_ID_CTRL_PACKETS = 0;
+    private static int TABLE_ID = 100;
+    private static int TABLE_ID_CTRL_PACKETS = 200;
     private static int CTRL_PACKET_PRIORITY = 100;
     private static int IP_PACKET_PRIORITY = 1000;
     ConfigService configService = new ConfigService();
