@@ -411,17 +411,52 @@ public class ReactiveForwardingKafka {
                         finalController.flowService.addFlow(flow);
                     }
 
-                    int packetOutPort = Integer.parseInt(firstEdge.getSrcPort());
-                    PacketOutEmit packetOutEmit = new PacketOutEmit(inboundPacketProto
-                            ,packetOutServiceStub
-                            , firstEdge.getSrcPort());
-                    Thread t = new Thread(packetOutEmit);
-                    t.start();
 
+                    InstructionProtoOuterClass.InstructionProto instructionProto =
+                            InstructionProtoOuterClass.InstructionProto.newBuilder().setType(InstructionProtoOuterClass.TypeProto.OUTPUT)
+                                    .setPort(PortProtoOuterClass.PortProto
+                                            .newBuilder()
+                                            .setPortNumber(firstEdge.getSrcPort())
+                                            .build())
+                                    .build();
+
+                    TrafficTreatmentProtoOuterClass.TrafficTreatmentProto trafficTreatmentProto =
+                            TrafficTreatmentProtoOuterClass.TrafficTreatmentProto.newBuilder()
+                                    .addAllInstructions(instructionProto).build();
+
+                    OutboundPacketProtoOuterClass.OutboundPacketProto outboundPacketProto2 =
+                            OutboundPacketProtoOuterClass.OutboundPacketProto.newBuilder()
+                                    .setDeviceId(inboundPacketProto.getConnectPoint().getDeviceId())
+                                    .setTreatment(trafficTreatmentProto)
+                                    .setData(inboundPacketProto.getData())
+                                    .build();
+
+
+
+                    packetOutServiceStub.emit(outboundPacketProto2, new StreamObserver<OutboundPacketProtoOuterClass.PacketOutStatus>() {
+                        @Override
+                        public void onNext(OutboundPacketProtoOuterClass.PacketOutStatus value) {
+
+                        }
+
+                        @Override
+                        public void onError(Throwable t) {
+
+                        }
+
+                        @Override
+                        public void onCompleted() {
+
+                        }
+                    });
 
 
 
                 }
+
+
+
+
 
 
             }
