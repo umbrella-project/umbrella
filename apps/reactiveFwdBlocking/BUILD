@@ -33,6 +33,6 @@ COMPILE_DEPS = COMPILE + [
 java_binary(
     name = "reactiveFwdKafkaBlocking_deploy",
     srcs = glob(["*.java"]),
-    main_class = "apps.reactiveForwardingKafka.ReactiveForwardingKafka",
+    main_class = "apps.reactiveFwdBlocking.ReactiveForwardingKafka",
     deps = COMPILE_DEPS,
 )
