@@ -32,6 +32,7 @@ import core.notificationService.packetService.PacketEventMonitor;
 import drivers.controller.Controller;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
+import io.grpc.stub.StreamObserver;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.common.utils.Bytes;
 import org.json.simple.JSONObject;
@@ -77,12 +78,12 @@ public class ReactiveForwardingKafka {
 
         ManagedChannel channel;
 
-        PacketOutServiceGrpc.PacketOutServiceBlockingStub packetOutServiceBlockingStub;
+        PacketOutServiceGrpc.PacketOutServiceStub packetOutServiceStub;
         channel = ManagedChannelBuilder.forAddress("127.0.0.1", 50051)
                 .usePlaintext()
                 .build();
 
-        packetOutServiceBlockingStub = PacketOutServiceGrpc.newBlockingStub(channel);
+        packetOutServiceStub = PacketOutServiceGrpc.newStub(channel);
 
 
 
@@ -226,8 +227,23 @@ public class ReactiveForwardingKafka {
                             .build();
 
 
-                    OutboundPacketProtoOuterClass.PacketOutStatus packetOutStatus =
-                            packetOutServiceBlockingStub.emit(outboundPacketProto);
+
+                            packetOutServiceStub.emit(outboundPacketProto, new StreamObserver<OutboundPacketProtoOuterClass.PacketOutStatus>() {
+                                @Override
+                                public void onNext(OutboundPacketProtoOuterClass.PacketOutStatus value) {
+
+                                }
+
+                                @Override
+                                public void onError(Throwable t) {
+
+                                }
+
+                                @Override
+                                public void onCompleted() {
+
+                                }
+                            });
 
 
                     return;
@@ -356,8 +372,23 @@ public class ReactiveForwardingKafka {
                                     .setData(inboundPacketProto.getData())
                                     .build();
 
-                    OutboundPacketProtoOuterClass.PacketOutStatus packetOutStatus =
-                            packetOutServiceBlockingStub.emit(outboundPacketProto2);
+
+                            packetOutServiceStub.emit(outboundPacketProto2, new StreamObserver<OutboundPacketProtoOuterClass.PacketOutStatus>() {
+                                @Override
+                                public void onNext(OutboundPacketProtoOuterClass.PacketOutStatus value) {
+
+                                }
+
+                                @Override
+                                public void onError(Throwable t) {
+
+                                }
+
+                                @Override
+                                public void onCompleted() {
+
+                                }
+                            });
 
                 }
 
