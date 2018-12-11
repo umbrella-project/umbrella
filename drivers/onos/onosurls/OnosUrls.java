@@ -20,13 +20,13 @@ package drivers.onos.onosurls;
  * REST API URLs for ONOS controller
  */
 public enum OnosUrls {
-    DEVICES("http://127.0.0.1:8181/onos/v1/devices"),
-    CLUSTERS("http://127.0.0.1:8181/onos/v1/topology/clusters/"),
-    TOPOLOGY("http://127.0.0.1:8181/onos/v1/topology"),
-    PATHS("http://127.0.0.1:8181/onos/v1/paths/"),
-    HOSTS("http://127.0.0.1:8181/onos/v1/hosts/"),
-    FLOWS("http://127.0.0.1:8181/onos/v1/flows"),
-    LINKS("http://127.0.0.1:8181/onos/v1/links");
+    DEVICES("http://128.10.135.40:8181/onos/v1/devices"),
+    CLUSTERS("http://128.10.135.40:8181/onos/v1/topology/clusters/"),
+    TOPOLOGY("http://128.10.135.40:8181/onos/v1/topology"),
+    PATHS("http://128.10.135.40:8181/onos/v1/paths/"),
+    HOSTS("http://128.10.135.40:8181/onos/v1/hosts/"),
+    FLOWS("http://128.10.135.40:8181/onos/v1/flows"),
+    LINKS("http://128.10.135.40:8181/onos/v1/links");
 
 
     private final String IP = "http://127.0.0.1:8181";

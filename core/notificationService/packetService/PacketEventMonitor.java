@@ -34,13 +34,15 @@ public class PacketEventMonitor extends EventMonitor implements Runnable {
     public void run() {
 
         while (true) {
-            final ConsumerRecords<Long, Bytes> consumerRecords = consumer.poll(100);
-            consumerRecords.forEach(record -> {
-                for (EventListener eventListener : eventListeners) {
-                    eventListener.onEvent(record);
+            final ConsumerRecords<Long, Bytes> consumerRecords = consumer.poll(1);
 
-                }
-            });
+                consumerRecords.forEach(record -> {
+                    for (EventListener eventListener : eventListeners) {
+                        eventListener.onEvent(record);
+
+                    }
+                });
+
 
             consumer.commitAsync();
         }

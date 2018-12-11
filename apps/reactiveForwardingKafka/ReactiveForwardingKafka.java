@@ -22,7 +22,6 @@ import api.flowservice.FlowAction;
 import api.flowservice.FlowActionType;
 import api.flowservice.FlowMatch;
 import api.topostore.TopoEdge;
-import api.topostore.TopoEdgeType;
 import api.topostore.TopoHost;
 import api.topostore.TopoSwitch;
 import com.google.protobuf.ByteString;
@@ -72,67 +71,6 @@ public class ReactiveForwardingKafka {
 
     }
 
-    public static class PacketOutEmit implements Runnable
-    {
-        protected  String port;
-        protected InboundPacketProtoOuterClass.InboundPacketProto inboundPacketProto;
-        PacketOutServiceGrpc.PacketOutServiceStub packetOutServiceStub;
-        public PacketOutEmit (InboundPacketProtoOuterClass.InboundPacketProto inboundPacketProto,
-                              PacketOutServiceGrpc.PacketOutServiceStub packetOutServiceStub,
-                              String port) {
-
-            this.inboundPacketProto = inboundPacketProto;
-            this.packetOutServiceStub = packetOutServiceStub;
-            this.port = port;
-        }
-
-        @Override
-        public void run() {
-
-
-            InstructionProtoOuterClass.InstructionProto instructionProto =
-                    InstructionProtoOuterClass.InstructionProto.newBuilder().setType(InstructionProtoOuterClass.TypeProto.OUTPUT)
-                            .setPort(PortProtoOuterClass.PortProto
-                                    .newBuilder()
-                                    .setPortNumber(port)
-                                    .build())
-                            .build();
-
-            TrafficTreatmentProtoOuterClass.TrafficTreatmentProto trafficTreatmentProto =
-                    TrafficTreatmentProtoOuterClass.TrafficTreatmentProto.newBuilder()
-                            .addAllInstructions(instructionProto).build();
-
-            OutboundPacketProtoOuterClass.OutboundPacketProto outboundPacketProto2 =
-                    OutboundPacketProtoOuterClass.OutboundPacketProto.newBuilder()
-                            .setDeviceId(inboundPacketProto.getConnectPoint().getDeviceId())
-                            .setTreatment(trafficTreatmentProto)
-                            .setData(inboundPacketProto.getData())
-                            .build();
-
-
-
-            packetOutServiceStub.emit(outboundPacketProto2, new StreamObserver<OutboundPacketProtoOuterClass.PacketOutStatus>() {
-                @Override
-                public void onNext(OutboundPacketProtoOuterClass.PacketOutStatus value) {
-
-                }
-
-                @Override
-                public void onError(Throwable t) {
-
-                }
-
-                @Override
-                public void onCompleted() {
-
-                }
-            });
-
-
-
-        }
-    }
-
 
     public static void main(String[] args) {
 
@@ -140,12 +78,11 @@ public class ReactiveForwardingKafka {
         ManagedChannel channel;
 
         PacketOutServiceGrpc.PacketOutServiceStub packetOutServiceStub;
-        channel = ManagedChannelBuilder.forAddress("127.0.0.1", 50051)
+        channel = ManagedChannelBuilder.forAddress("128.10.135.40", 50051)
                 .usePlaintext()
                 .build();
 
         packetOutServiceStub = PacketOutServiceGrpc.newStub(channel);
-
 
 
         String controllerName;
@@ -238,8 +175,6 @@ public class ReactiveForwardingKafka {
                     e.printStackTrace();
                 }
 
-                Set<TopoHost> topoHosts = finalController.topoStore.getHosts();
-
 
                 if (eth == null) {
                     return;
@@ -259,8 +194,6 @@ public class ReactiveForwardingKafka {
                     String dstMac = finalController.topoStore.getTopoHostByIP(targetIpAddress).getHostMac();
 
                     if (dstMac == null) {
-
-
                         return;
                     }
 
@@ -288,23 +221,22 @@ public class ReactiveForwardingKafka {
                             .build();
 
 
+                    packetOutServiceStub.emit(outboundPacketProto, new StreamObserver<OutboundPacketProtoOuterClass.PacketOutStatus>() {
+                        @Override
+                        public void onNext(OutboundPacketProtoOuterClass.PacketOutStatus value) {
 
-                            packetOutServiceStub.emit(outboundPacketProto, new StreamObserver<OutboundPacketProtoOuterClass.PacketOutStatus>() {
-                                @Override
-                                public void onNext(OutboundPacketProtoOuterClass.PacketOutStatus value) {
+                        }
 
-                                }
+                        @Override
+                        public void onError(Throwable t) {
 
-                                @Override
-                                public void onError(Throwable t) {
+                        }
 
-                                }
+                        @Override
+                        public void onCompleted() {
 
-                                @Override
-                                public void onCompleted() {
-
-                                }
-                            });
+                        }
+                    });
 
 
                     return;
@@ -329,40 +261,33 @@ public class ReactiveForwardingKafka {
                     TopoHost srcHost = finalController.topoStore.getTopoHostByMac(eth.getSourceMAC());
                     TopoHost dstHost = finalController.topoStore.getTopoHostByMac(eth.getDestinationMAC());
                     FlowMatch flowMatchFwd;
-                    FlowMatch flowMatchRev;
+
 
 
                     if (srcHost == null || dstHost == null) {
                         return;
                     }
 
+                    if (inboundPacketProto.getConnectPoint().getDeviceId()
+                            .equals(dstHost.getHostLocation().getElementID())) {
 
-                    List<TopoEdge> path = null;
-                    // Forward Path
-                    path = finalController.topoStore.getShortestPath(srcHost.getHostID(), dstHost.getHostID());
-                    TopoEdge firstEdge = path.get(1);
-                    for (TopoEdge edge : path) {
-
-                        if (edge.getType() == TopoEdgeType.HOST_SWITCH) {
-                            continue;
-                        }
 
                         flowMatchFwd = FlowMatch.builder()
                                 .ethSrc(srcHost.getHostMac())
                                 .ethDst(dstHost.getHostMac())
-                                .ipv4Src(srcHost.getHostIPAddresses().get(0) + "/32")
-                                .ipv4Dst(dstHost.getHostIPAddresses().get(0) + "/32")
+                                //.ipv4Src(srcHost.getHostIPAddresses().get(0) + "/32")
+                                //.ipv4Dst(dstHost.getHostIPAddresses().get(0) + "/32")
                                 .ethType(2048)
                                 .build();
 
                         FlowAction flowAction = new FlowAction(FlowActionType.OUTPUT,
-                                Integer.parseInt(edge.getSrcPort()));
+                                Integer.parseInt(dstHost.getHostLocation().getPort()));
 
                         ArrayList<FlowAction> flowActions = new ArrayList<FlowAction>();
                         flowActions.add(flowAction);
 
                         Flow flow = Flow.builder()
-                                .deviceID(edge.getSrc())
+                                .deviceID(dstHost.getHostLocation().getElementID())
                                 .tableID(TABLE_ID)
                                 .flowMatch(flowMatchFwd)
                                 .flowActions(flowActions)
@@ -372,44 +297,82 @@ public class ReactiveForwardingKafka {
                                 .build();
 
                         finalController.flowService.addFlow(flow);
-                    }
 
 
-                    // Reverse Path
-                    path = finalController.topoStore.getShortestPath(dstHost.getHostID(), srcHost.getHostID());
+                        InstructionProtoOuterClass.InstructionProto instructionProto =
+                                InstructionProtoOuterClass.InstructionProto.newBuilder().setType(InstructionProtoOuterClass.TypeProto.OUTPUT)
+                                        .setPort(PortProtoOuterClass.PortProto
+                                                .newBuilder()
+                                                .setPortNumber(dstHost.getHostLocation().getPort())
+                                                .build())
+                                        .build();
 
-                    for (TopoEdge edge : path) {
+                        TrafficTreatmentProtoOuterClass.TrafficTreatmentProto trafficTreatmentProto =
+                                TrafficTreatmentProtoOuterClass.TrafficTreatmentProto.newBuilder()
+                                        .addAllInstructions(instructionProto).build();
 
-                        if (edge.getType() == TopoEdgeType.HOST_SWITCH) {
-                            continue;
+                        OutboundPacketProtoOuterClass.OutboundPacketProto outboundPacketProto2 =
+                                OutboundPacketProtoOuterClass.OutboundPacketProto.newBuilder()
+                                        .setDeviceId(inboundPacketProto.getConnectPoint().getDeviceId())
+                                        .setTreatment(trafficTreatmentProto)
+                                        .setData(inboundPacketProto.getData())
+                                        .build();
+
+
+                    packetOutServiceStub.emit(outboundPacketProto2, new StreamObserver<OutboundPacketProtoOuterClass.PacketOutStatus>() {
+                        @Override
+                        public void onNext(OutboundPacketProtoOuterClass.PacketOutStatus value) {
+
                         }
 
-                        flowMatchRev = FlowMatch.builder()
-                                .ethSrc(dstHost.getHostMac())
-                                .ethDst(srcHost.getHostMac())
-                                .ipv4Src(dstHost.getHostIPAddresses().get(0) + "/32")
-                                .ipv4Dst(srcHost.getHostIPAddresses().get(0) + "/32")
-                                .ethType(2048)
-                                .build();
+                        @Override
+                        public void onError(Throwable t) {
 
-                        FlowAction flowAction = new FlowAction(FlowActionType.OUTPUT,
-                                Integer.parseInt(edge.getSrcPort()));
+                        }
 
-                        ArrayList<FlowAction> flowActions = new ArrayList<FlowAction>();
-                        flowActions.add(flowAction);
+                        @Override
+                        public void onCompleted() {
 
-                        Flow flow = Flow.builder()
-                                .deviceID(edge.getSrc())
-                                .tableID(TABLE_ID)
-                                .flowMatch(flowMatchRev)
-                                .flowActions(flowActions)
-                                .priority(IP_PACKET_PRIORITY)
-                                .appId("ReactiveFwd")
-                                .timeOut(10)
-                                .build();
+                        }
+                    });
 
-                        finalController.flowService.addFlow(flow);
+                        return;
                     }
+
+
+                    List<TopoEdge> path = null;
+                    path = finalController.topoStore.getShortestPath(inboundPacketProto.getConnectPoint().getDeviceId()
+                            , dstHost.getHostLocation().getElementID());
+
+
+                    TopoEdge firstEdge = path.get(0);
+
+
+                    flowMatchFwd = FlowMatch.builder()
+                            .ethSrc(srcHost.getHostMac())
+                            .ethDst(dstHost.getHostMac())
+                            //.ipv4Src(srcHost.getHostIPAddresses().get(0) + "/32")
+                            //.ipv4Dst(dstHost.getHostIPAddresses().get(0) + "/32")
+                            .ethType(2048)
+                            .build();
+
+                    FlowAction flowAction = new FlowAction(FlowActionType.OUTPUT,
+                            Integer.parseInt(firstEdge.getSrcPort()));
+
+                    ArrayList<FlowAction> flowActions = new ArrayList<FlowAction>();
+                    flowActions.add(flowAction);
+
+                    Flow flow = Flow.builder()
+                            .deviceID(firstEdge.getSrc())
+                            .tableID(TABLE_ID)
+                            .flowMatch(flowMatchFwd)
+                            .flowActions(flowActions)
+                            .priority(IP_PACKET_PRIORITY)
+                            .appId("ReactiveFwd")
+                            .timeOut(10)
+                            .build();
+
+                    finalController.flowService.addFlow(flow);
 
 
                     InstructionProtoOuterClass.InstructionProto instructionProto =
@@ -432,7 +395,6 @@ public class ReactiveForwardingKafka {
                                     .build();
 
 
-
                     packetOutServiceStub.emit(outboundPacketProto2, new StreamObserver<OutboundPacketProtoOuterClass.PacketOutStatus>() {
                         @Override
                         public void onNext(OutboundPacketProtoOuterClass.PacketOutStatus value) {
@@ -451,12 +413,7 @@ public class ReactiveForwardingKafka {
                     });
 
 
-
                 }
-
-
-
-
 
 
             }
