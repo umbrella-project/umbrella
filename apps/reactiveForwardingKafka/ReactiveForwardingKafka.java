@@ -24,7 +24,6 @@ import api.flowservice.FlowMatch;
 import api.topostore.TopoEdge;
 import api.topostore.TopoHost;
 import api.topostore.TopoSwitch;
-import com.google.protobuf.ByteString;
 import config.ConfigService;
 import core.notificationService.eventConsumerService.EventConsumerService;
 import core.notificationService.packetService.PacketEventMonitor;
@@ -34,8 +33,13 @@ import io.grpc.ManagedChannelBuilder;
 import io.grpc.stub.StreamObserver;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.common.utils.Bytes;
+import org.apache.log4j.BasicConfigurator;
+import org.apache.log4j.Logger;
+import org.apache.log4j.PropertyConfigurator;
 import org.json.simple.JSONObject;
-import org.onlab.packet.*;
+import org.onlab.packet.DeserializationException;
+import org.onlab.packet.Ethernet;
+import org.onlab.packet.IPv4;
 import org.onosproject.grpc.net.flow.instructions.models.InstructionProtoOuterClass;
 import org.onosproject.grpc.net.flow.models.TrafficTreatmentProtoOuterClass;
 import org.onosproject.grpc.net.models.PortProtoOuterClass;
@@ -50,8 +54,9 @@ import java.io.BufferedReader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
-//import org.apache.log4j.Logger;
 
 /**
  * Reactive FwdWithFailureDetection Application.
@@ -59,7 +64,7 @@ import java.util.Set;
 
 public class ReactiveForwardingKafka {
 
-    //private static Logger log = Logger.getLogger(ReactiveForwardingKafka.class);
+    private static Logger log = Logger.getLogger(ReactiveForwardingKafka.class);
     private static int TABLE_ID = 100;
     private static int TABLE_ID_CTRL_PACKETS = 200;
     private static int CTRL_PACKET_PRIORITY = 100;
@@ -71,8 +76,9 @@ public class ReactiveForwardingKafka {
 
     }
 
-
     public static void main(String[] args) {
+
+
 
 
         ManagedChannel channel;
@@ -83,6 +89,7 @@ public class ReactiveForwardingKafka {
                 .build();
 
         packetOutServiceStub = PacketOutServiceGrpc.newStub(channel);
+
 
 
         String controllerName;
@@ -148,10 +155,13 @@ public class ReactiveForwardingKafka {
         class PacketInEventListener extends EventListener {
 
             DefaultRestApiHelper restApiHelper = new DefaultRestApiHelper();
+            PacketEmit packetEmit = new PacketEmit();
+            ExecutorService executorService = Executors.newFixedThreadPool(1);
+
+            int flag = 0;
 
             @Override
             public void onEvent(ConsumerRecord<Long, Bytes> record) {
-
 
                 PacketContextProtoOuterClass.PacketContextProto packetContextProto = null;
 
@@ -186,7 +196,7 @@ public class ReactiveForwardingKafka {
                 // Handle ARP packets
 
                 if (type == Ethernet.TYPE_ARP) {
-                    ARP arpPacket = (ARP) eth.getPayload();
+                    /*ARP arpPacket = (ARP) eth.getPayload();
                     Ip4Address targetIpAddress = Ip4Address
                             .valueOf(arpPacket.getTargetProtocolAddress());
 
@@ -218,10 +228,10 @@ public class ReactiveForwardingKafka {
                             .setDeviceId(inboundPacketProto.getConnectPoint().getDeviceId())
                             .setTreatment(trafficTreatmentProto)
                             .setData(ByteString.copyFrom(ethReply.serialize()))
-                            .build();
+                            .build();*/
 
 
-                    packetOutServiceStub.emit(outboundPacketProto, new StreamObserver<OutboundPacketProtoOuterClass.PacketOutStatus>() {
+                    /*packetOutServiceStub.emit(outboundPacketProto, new StreamObserver<OutboundPacketProtoOuterClass.PacketOutStatus>() {
                         @Override
                         public void onNext(OutboundPacketProtoOuterClass.PacketOutStatus value) {
 
@@ -236,7 +246,7 @@ public class ReactiveForwardingKafka {
                         public void onCompleted() {
 
                         }
-                    });
+                    });*/
 
 
                     return;
@@ -244,7 +254,11 @@ public class ReactiveForwardingKafka {
                 }
 
 
+
                 if (type == Ethernet.TYPE_IPV4) {
+
+
+                    log.info(System.currentTimeMillis());
 
                     IPv4 IPv4packet = (IPv4) eth.getPayload();
                     byte ipv4Protocol = IPv4packet.getProtocol();
@@ -263,7 +277,6 @@ public class ReactiveForwardingKafka {
                     FlowMatch flowMatchFwd;
 
 
-
                     if (srcHost == null || dstHost == null) {
                         return;
                     }
@@ -272,7 +285,7 @@ public class ReactiveForwardingKafka {
                             .equals(dstHost.getHostLocation().getElementID())) {
 
 
-                        flowMatchFwd = FlowMatch.builder()
+                        /*flowMatchFwd = FlowMatch.builder()
                                 .ethSrc(srcHost.getHostMac())
                                 .ethDst(dstHost.getHostMac())
                                 //.ipv4Src(srcHost.getHostIPAddresses().get(0) + "/32")
@@ -296,45 +309,21 @@ public class ReactiveForwardingKafka {
                                 .timeOut(10)
                                 .build();
 
-                        finalController.flowService.addFlow(flow);
+                        finalController.flowService.addFlow(flow);*/
+
+                        executorService.execute(new Runnable() {
+                            @Override
+                            public void run() {
+
+                                packetEmit.emit(dstHost.getHostLocation().getPort(),
+                                        inboundPacketProto,
+                                        packetOutServiceStub);
+
+                            }
+                        });
 
 
-                        InstructionProtoOuterClass.InstructionProto instructionProto =
-                                InstructionProtoOuterClass.InstructionProto.newBuilder().setType(InstructionProtoOuterClass.TypeProto.OUTPUT)
-                                        .setPort(PortProtoOuterClass.PortProto
-                                                .newBuilder()
-                                                .setPortNumber(dstHost.getHostLocation().getPort())
-                                                .build())
-                                        .build();
 
-                        TrafficTreatmentProtoOuterClass.TrafficTreatmentProto trafficTreatmentProto =
-                                TrafficTreatmentProtoOuterClass.TrafficTreatmentProto.newBuilder()
-                                        .addAllInstructions(instructionProto).build();
-
-                        OutboundPacketProtoOuterClass.OutboundPacketProto outboundPacketProto2 =
-                                OutboundPacketProtoOuterClass.OutboundPacketProto.newBuilder()
-                                        .setDeviceId(inboundPacketProto.getConnectPoint().getDeviceId())
-                                        .setTreatment(trafficTreatmentProto)
-                                        .setData(inboundPacketProto.getData())
-                                        .build();
-
-
-                    packetOutServiceStub.emit(outboundPacketProto2, new StreamObserver<OutboundPacketProtoOuterClass.PacketOutStatus>() {
-                        @Override
-                        public void onNext(OutboundPacketProtoOuterClass.PacketOutStatus value) {
-
-                        }
-
-                        @Override
-                        public void onError(Throwable t) {
-
-                        }
-
-                        @Override
-                        public void onCompleted() {
-
-                        }
-                    });
 
                         return;
                     }
@@ -348,7 +337,7 @@ public class ReactiveForwardingKafka {
                     TopoEdge firstEdge = path.get(0);
 
 
-                    flowMatchFwd = FlowMatch.builder()
+                    /*flowMatchFwd = FlowMatch.builder()
                             .ethSrc(srcHost.getHostMac())
                             .ethDst(dstHost.getHostMac())
                             //.ipv4Src(srcHost.getHostIPAddresses().get(0) + "/32")
@@ -372,45 +361,19 @@ public class ReactiveForwardingKafka {
                             .timeOut(10)
                             .build();
 
-                    finalController.flowService.addFlow(flow);
+                    finalController.flowService.addFlow(flow);*/
 
-
-                    InstructionProtoOuterClass.InstructionProto instructionProto =
-                            InstructionProtoOuterClass.InstructionProto.newBuilder().setType(InstructionProtoOuterClass.TypeProto.OUTPUT)
-                                    .setPort(PortProtoOuterClass.PortProto
-                                            .newBuilder()
-                                            .setPortNumber(firstEdge.getSrcPort())
-                                            .build())
-                                    .build();
-
-                    TrafficTreatmentProtoOuterClass.TrafficTreatmentProto trafficTreatmentProto =
-                            TrafficTreatmentProtoOuterClass.TrafficTreatmentProto.newBuilder()
-                                    .addAllInstructions(instructionProto).build();
-
-                    OutboundPacketProtoOuterClass.OutboundPacketProto outboundPacketProto2 =
-                            OutboundPacketProtoOuterClass.OutboundPacketProto.newBuilder()
-                                    .setDeviceId(inboundPacketProto.getConnectPoint().getDeviceId())
-                                    .setTreatment(trafficTreatmentProto)
-                                    .setData(inboundPacketProto.getData())
-                                    .build();
-
-
-                    packetOutServiceStub.emit(outboundPacketProto2, new StreamObserver<OutboundPacketProtoOuterClass.PacketOutStatus>() {
+                    executorService.execute(new Runnable() {
                         @Override
-                        public void onNext(OutboundPacketProtoOuterClass.PacketOutStatus value) {
-
-                        }
-
-                        @Override
-                        public void onError(Throwable t) {
-
-                        }
-
-                        @Override
-                        public void onCompleted() {
+                        public void run() {
+                            packetEmit.emit(firstEdge.getSrcPort(),
+                                    inboundPacketProto,
+                                    packetOutServiceStub);
 
                         }
                     });
+
+
 
 
                 }
@@ -422,8 +385,74 @@ public class ReactiveForwardingKafka {
 
         PacketInEventListener packetInEventListener = new PacketInEventListener();
         packetInEventMonitor.addEventListener(packetInEventListener);
-        Thread t = new Thread(packetInEventMonitor);
-        t.start();
+        ExecutorService executorService = Executors.newFixedThreadPool(4);
+        executorService.execute(packetInEventMonitor);
+
+
+    }
+
+    public static class PacketEmit {
+
+        String port;
+        InboundPacketProtoOuterClass.InboundPacketProto inboundPacketProto;
+        PacketOutServiceGrpc.PacketOutServiceStub packetOutServiceStub;
+
+        PacketEmit(String port,
+                   InboundPacketProtoOuterClass.InboundPacketProto inboundPacketProto,
+                   PacketOutServiceGrpc.PacketOutServiceStub packetOutServiceStub) {
+            this.port = port;
+            this.inboundPacketProto = inboundPacketProto;
+            this.packetOutServiceStub = packetOutServiceStub;
+        }
+
+        PacketEmit() {
+
+        }
+
+        public void emit(String port,
+                         InboundPacketProtoOuterClass.InboundPacketProto inboundPacketProto,
+                         PacketOutServiceGrpc.PacketOutServiceStub packetOutServiceStub) {
+
+            InstructionProtoOuterClass.InstructionProto instructionProto =
+                    InstructionProtoOuterClass.InstructionProto.newBuilder().setType(InstructionProtoOuterClass.TypeProto.OUTPUT)
+                            .setPort(PortProtoOuterClass.PortProto
+                                    .newBuilder()
+                                    .setPortNumber(port)
+                                    .build())
+                            .build();
+
+            TrafficTreatmentProtoOuterClass.TrafficTreatmentProto trafficTreatmentProto =
+                    TrafficTreatmentProtoOuterClass.TrafficTreatmentProto.newBuilder()
+                            .addAllInstructions(instructionProto).build();
+
+            OutboundPacketProtoOuterClass.OutboundPacketProto outboundPacketProto =
+                    OutboundPacketProtoOuterClass.OutboundPacketProto.newBuilder()
+                            .setDeviceId(inboundPacketProto.getConnectPoint().getDeviceId())
+                            .setTreatment(trafficTreatmentProto)
+                            .setData(inboundPacketProto.getData())
+                            .build();
+
+
+            packetOutServiceStub.emit(outboundPacketProto, new StreamObserver<OutboundPacketProtoOuterClass.PacketOutStatus>() {
+
+
+                @Override
+                public void onNext(OutboundPacketProtoOuterClass.PacketOutStatus value) {
+
+                    log.info(System.currentTimeMillis());
+                }
+
+                @Override
+                public void onError(Throwable t) {
+
+                }
+
+                @Override
+                public void onCompleted() {
+
+                }
+            });
+        }
 
 
     }

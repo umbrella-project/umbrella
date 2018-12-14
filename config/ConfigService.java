@@ -18,6 +18,7 @@ package config;
 
 import drivers.controller.Controller;
 import drivers.onos.OnosController;
+import org.apache.log4j.PropertyConfigurator;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -94,6 +95,7 @@ public class ConfigService {
 
 
     public Controller init(String controllerName) {
+        PropertyConfigurator.configure("resources/log4j.properties");
         Controller controller = null;
         if (controllerName.equalsIgnoreCase("onos")) {
             return controller = new OnosController();

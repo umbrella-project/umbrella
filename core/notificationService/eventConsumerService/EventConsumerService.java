@@ -60,6 +60,7 @@ public class EventConsumerService {
         props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG,
                 BytesDeserializer.class.getName());
 
+
         final Consumer<Long, Bytes> consumer =
                 new KafkaConsumer<>(props);
 
