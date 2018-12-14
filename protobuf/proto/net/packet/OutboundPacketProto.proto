@@ -21,7 +21,7 @@ package net.packet;
 import "protobuf/proto/net/flow/TrafficTreatmentProto.proto";
 
 service PacketOutService {
-    rpc emit (OutboundPacketProto) returns (PacketOutStatus);
+    rpc emit (stream OutboundPacketProto) returns (stream PacketOutStatus);
 }
 
 // Corresponds to org.onosproject.net.packet.OutboundPacket.

@@ -433,7 +433,7 @@ public class ReactiveForwardingKafka {
                             .build();
 
 
-            packetOutServiceStub.emit(outboundPacketProto, new StreamObserver<OutboundPacketProtoOuterClass.PacketOutStatus>() {
+            packetOutServiceStub.emit(new StreamObserver<OutboundPacketProtoOuterClass.PacketOutStatus>() {
 
 
                 @Override
