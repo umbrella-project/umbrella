@@ -56,6 +56,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.stream.Stream;
 
 
 /**
@@ -258,7 +259,7 @@ public class ReactiveForwardingKafka {
                 if (type == Ethernet.TYPE_IPV4) {
 
 
-                    log.info(System.currentTimeMillis());
+                    //log.info(System.currentTimeMillis());
 
                     IPv4 IPv4packet = (IPv4) eth.getPayload();
                     byte ipv4Protocol = IPv4packet.getProtocol();
@@ -433,13 +434,18 @@ public class ReactiveForwardingKafka {
                             .build();
 
 
-            packetOutServiceStub.emit(new StreamObserver<OutboundPacketProtoOuterClass.PacketOutStatus>() {
+
+
+
+
+            StreamObserver<OutboundPacketProtoOuterClass.OutboundPacketProto> requestStream
+                    = packetOutServiceStub.emit(new StreamObserver<OutboundPacketProtoOuterClass.PacketOutStatus>() {
 
 
                 @Override
                 public void onNext(OutboundPacketProtoOuterClass.PacketOutStatus value) {
 
-                    log.info(System.currentTimeMillis());
+                    //log.info(System.currentTimeMillis());
                 }
 
                 @Override
@@ -452,6 +458,17 @@ public class ReactiveForwardingKafka {
 
                 }
             });
+
+
+
+            requestStream.onNext(outboundPacketProto);
+            requestStream.onCompleted();
+
+
+
+
+
+
         }
 
 
