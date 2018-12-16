@@ -51,7 +51,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-//import org.apache.log4j.Logger;
+import org.apache.log4j.Logger;
 
 /**
  * Reactive FwdWithFailureDetection Application.
@@ -59,7 +59,7 @@ import java.util.Set;
 
 public class ReactiveForwardingKafka {
 
-    //private static Logger log = Logger.getLogger(ReactiveForwardingKafka.class);
+    private static Logger log = Logger.getLogger(ReactiveForwardingKafka.class);
     private static int TABLE_ID = 100;
     private static int TABLE_ID_CTRL_PACKETS = 200;
     private static int CTRL_PACKET_PRIORITY = 100;
@@ -246,6 +246,8 @@ public class ReactiveForwardingKafka {
 
                 if (type == Ethernet.TYPE_IPV4) {
 
+
+                    log.info("IP packet");
                     IPv4 IPv4packet = (IPv4) eth.getPayload();
                     byte ipv4Protocol = IPv4packet.getProtocol();
 
@@ -272,7 +274,7 @@ public class ReactiveForwardingKafka {
                             .equals(dstHost.getHostLocation().getElementID())) {
 
 
-                        flowMatchFwd = FlowMatch.builder()
+                        /*flowMatchFwd = FlowMatch.builder()
                                 .ethSrc(srcHost.getHostMac())
                                 .ethDst(dstHost.getHostMac())
                                 //.ipv4Src(srcHost.getHostIPAddresses().get(0) + "/32")
@@ -296,7 +298,7 @@ public class ReactiveForwardingKafka {
                                 .timeOut(10)
                                 .build();
 
-                        finalController.flowService.addFlow(flow);
+                        finalController.flowService.addFlow(flow);*/
 
 
                         InstructionProtoOuterClass.InstructionProto instructionProto =
@@ -348,7 +350,7 @@ public class ReactiveForwardingKafka {
                     TopoEdge firstEdge = path.get(0);
 
 
-                    flowMatchFwd = FlowMatch.builder()
+                    /*flowMatchFwd = FlowMatch.builder()
                             .ethSrc(srcHost.getHostMac())
                             .ethDst(dstHost.getHostMac())
                             //.ipv4Src(srcHost.getHostIPAddresses().get(0) + "/32")
@@ -372,7 +374,7 @@ public class ReactiveForwardingKafka {
                             .timeOut(10)
                             .build();
 
-                    finalController.flowService.addFlow(flow);
+                    finalController.flowService.addFlow(flow);*/
 
 
                     InstructionProtoOuterClass.InstructionProto instructionProto =
