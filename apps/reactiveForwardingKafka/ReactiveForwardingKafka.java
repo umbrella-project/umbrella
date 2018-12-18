@@ -147,7 +147,7 @@ public class ReactiveForwardingKafka {
 
         class PacketInEventListener extends EventListener {
 
-            DefaultRestApiHelper restApiHelper = new DefaultRestApiHelper();
+            //DefaultRestApiHelper restApiHelper = new DefaultRestApiHelper();
 
             @Override
             public void onEvent(ConsumerRecord<Long, Bytes> record) {
@@ -246,10 +246,11 @@ public class ReactiveForwardingKafka {
 
                 if (type == Ethernet.TYPE_IPV4) {
 
-
-                    log.info("IP packet");
                     IPv4 IPv4packet = (IPv4) eth.getPayload();
                     byte ipv4Protocol = IPv4packet.getProtocol();
+
+                    /*log.info(inboundPacketProto.getConnectPoint().getDeviceId() + ":" +
+                    inboundPacketProto.getConnectPoint().getPortNumber());*/
 
 
                     if (!finalController.topoStore.checkHostExistenceWithMac(eth.getSourceMAC())
@@ -274,7 +275,7 @@ public class ReactiveForwardingKafka {
                             .equals(dstHost.getHostLocation().getElementID())) {
 
 
-                        /*flowMatchFwd = FlowMatch.builder()
+                        flowMatchFwd = FlowMatch.builder()
                                 .ethSrc(srcHost.getHostMac())
                                 .ethDst(dstHost.getHostMac())
                                 //.ipv4Src(srcHost.getHostIPAddresses().get(0) + "/32")
@@ -298,7 +299,7 @@ public class ReactiveForwardingKafka {
                                 .timeOut(10)
                                 .build();
 
-                        finalController.flowService.addFlow(flow);*/
+                        finalController.flowService.addFlow(flow);
 
 
                         InstructionProtoOuterClass.InstructionProto instructionProto =
@@ -321,9 +322,12 @@ public class ReactiveForwardingKafka {
                                         .build();
 
 
+
                     packetOutServiceStub.emit(outboundPacketProto2, new StreamObserver<OutboundPacketProtoOuterClass.PacketOutStatus>() {
                         @Override
                         public void onNext(OutboundPacketProtoOuterClass.PacketOutStatus value) {
+
+
 
                         }
 
@@ -334,6 +338,7 @@ public class ReactiveForwardingKafka {
 
                         @Override
                         public void onCompleted() {
+
 
                         }
                     });
@@ -350,7 +355,7 @@ public class ReactiveForwardingKafka {
                     TopoEdge firstEdge = path.get(0);
 
 
-                    /*flowMatchFwd = FlowMatch.builder()
+                    flowMatchFwd = FlowMatch.builder()
                             .ethSrc(srcHost.getHostMac())
                             .ethDst(dstHost.getHostMac())
                             //.ipv4Src(srcHost.getHostIPAddresses().get(0) + "/32")
@@ -374,7 +379,7 @@ public class ReactiveForwardingKafka {
                             .timeOut(10)
                             .build();
 
-                    finalController.flowService.addFlow(flow);*/
+                    finalController.flowService.addFlow(flow);
 
 
                     InstructionProtoOuterClass.InstructionProto instructionProto =
@@ -397,9 +402,11 @@ public class ReactiveForwardingKafka {
                                     .build();
 
 
+
                     packetOutServiceStub.emit(outboundPacketProto2, new StreamObserver<OutboundPacketProtoOuterClass.PacketOutStatus>() {
                         @Override
                         public void onNext(OutboundPacketProtoOuterClass.PacketOutStatus value) {
+
 
                         }
 
@@ -410,6 +417,7 @@ public class ReactiveForwardingKafka {
 
                         @Override
                         public void onCompleted() {
+
 
                         }
                     });
